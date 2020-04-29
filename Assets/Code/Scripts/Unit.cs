@@ -6,7 +6,7 @@ using Enums;
 public class Unit : MonoBehaviour
 {
     [SerializeField]
-    private float Speed;
+    private float AnimationSpeed;
     private Animator animator;
     public bool IsMoving = false;
 
@@ -32,7 +32,7 @@ public class Unit : MonoBehaviour
             SetMovementAnimation(tile.transform.position);
             do
             {
-                transform.position = Vector3.MoveTowards(transform.position, tile.transform.position, Speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, tile.transform.position, AnimationSpeed * Time.deltaTime);
                 if (transform.position!=tile.transform.position)
                 {
                     yield return new WaitForEndOfFrame();

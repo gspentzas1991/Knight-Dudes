@@ -5,7 +5,7 @@ using Enums;
 
 public class Tile : MonoBehaviour
 {
-    public TerrainType Type;
+    public TerrainType TerrainType;
     public Unit CurrentUnit;
 
 }

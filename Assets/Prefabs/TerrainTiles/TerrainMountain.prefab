@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecc494f6bcb9de46888b53969f40dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 2
+  TerrainType: 2
   CurrentUnit: {fileID: 0}
 --- !u!65 &1000569866307963981
 BoxCollider:

@@ -1930,7 +1930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectedUnit: {fileID: 1989579951}
-  GridManager: {fileID: 593352158}
+  _GridManager: {fileID: 593352158}
 --- !u!4 &1548520753
 Transform:
   m_ObjectHideFlags: 0
@@ -2311,7 +2311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82fde64bdc5228940ab18109e0569943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 3
+  AnimationSpeed: 3
   IsMoving: 0
 --- !u!1001 &2009436297
 PrefabInstance:

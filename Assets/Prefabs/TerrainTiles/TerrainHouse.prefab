@@ -106,5 +106,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecc494f6bcb9de46888b53969f40dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 3
+  TerrainType: 3
   CurrentUnit: {fileID: 0}

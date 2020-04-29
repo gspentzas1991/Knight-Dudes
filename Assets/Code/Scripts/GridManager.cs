@@ -8,8 +8,7 @@ namespace Scripts
 {
     public class GridManager : MonoBehaviour
     {
-        [SerializeField]
-        private Vector2 GridSize;
+        public Vector2 GridSize;
         [SerializeField]
         private GameObject GridOutlinePrefab;
         [SerializeField]
@@ -62,21 +61,12 @@ namespace Scripts
                     if(!TileGrid.TryGetValue((i, j),out Tile existingTile))
                     {
                         var newTile = Instantiate(GridOutlinePrefab, new Vector3(i, j, 0), new Quaternion()).GetComponent<Tile>();
+                        newTile.TerrainType = TerrainType.Normal;
                         TileGrid.Add((i, j), newTile);
                     }
 
                 }
             }
-        }
-
-        /// <summary>
-        /// Shows on the grid the available moves of the unit on the selectedTile
-        /// </summary>
-        /// <param name="selectedTile"></param>
-        private void ShowUnitMovementOnGrid(Unit selectedUnit)
-        {
-            Debug.Log(SelectedTile.CurrentUnit.name);
-            Debug.Log(SelectedTile.CurrentUnit.transform);
         }
     }
 }
