@@ -95,8 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecc494f6bcb9de46888b53969f40dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 1
+  TerrainType: 0
   CurrentUnit: {fileID: 0}
+  PositionInGrid: {x: 0, y: 0, z: 0}
+  gridSpriteRenderer: {fileID: 3733197953646096910}
 --- !u!65 &7266863682427559907
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour
     private float AnimationSpeed;
     private Animator animator;
     public bool IsMoving = false;
+    public int MovementSpeed;
 
     private MovementDirection direction = MovementDirection.Up; 
     // Start is called before the first frame update

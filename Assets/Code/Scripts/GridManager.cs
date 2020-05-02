@@ -51,6 +51,7 @@ namespace Scripts
             foreach(Tile specialTile in SpecialTilesList)
             {
                 Vector3 tilePosition = specialTile.transform.position;
+                specialTile.PositionInGrid = tilePosition;
                 TileGrid.Add((tilePosition.x, tilePosition.y), specialTile);
             }
 
@@ -62,6 +63,7 @@ namespace Scripts
                     {
                         var newTile = Instantiate(GridOutlinePrefab, new Vector3(i, j, 0), new Quaternion()).GetComponent<Tile>();
                         newTile.TerrainType = TerrainType.Normal;
+                        newTile.PositionInGrid = newTile.transform.position;
                         TileGrid.Add((i, j), newTile);
                     }
 

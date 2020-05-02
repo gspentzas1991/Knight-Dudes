@@ -3,12 +3,20 @@ using Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 public class UnitManager : MonoBehaviour
 {
     public Unit SelectedUnit;
     public GridManager _GridManager;
+    private List<TilePathfindingData> SelectedUnitPathfindingData;
+    [SerializeField]
+    private Sprite SelectedGridTileSprite;
+    [SerializeField]
+    private Sprite DefaultGridTileSprite;
+    [SerializeField]
+    private Sprite UnitPathGridTileSprite;
 
     //The cost of movement through difficult terrain
     public Dictionary<TerrainType, int> TerrainMoveCost = new Dictionary<TerrainType, int>()
@@ -17,15 +25,9 @@ public class UnitManager : MonoBehaviour
             { TerrainType.Difficult,4 }
         };
 
-    void Start()
-    {
-        var tileGrid = _GridManager.GetTileGrid();
-        //Tile selectedTile = tileGrid.Where(x=>x.transform.position == new Vector3(7,4,0)).FirstOrDefault();
-
-    }
-
     void Update()
     {
+        //click gameobject detection
         if (Input.GetMouseButtonDown(0) && SelectedUnit.IsMoving == false)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -33,47 +35,86 @@ public class UnitManager : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.transform.gameObject.tag=="Tile")
+                if (hit.transform.gameObject.tag=="Tile" && hit.transform.position!=SelectedUnit.transform.position)
                 {
-                    Debug.Log("This is a Player");
                     Tile selectedTile = hit.transform.gameObject.GetComponent<Tile>(); 
-                    if (selectedTile.TerrainType != TerrainType.Impassable)
+                    if (selectedTile.TerrainType != TerrainType.Impassable && SelectedUnitPathfindingData!=null && SelectedUnit.IsMoving != true)
                     {
-                        List<Tile> tilePath = CreateTilePathFromSelectedTile(selectedTile);
-                        StartCoroutine(SelectedUnit.FollowTilePath(tilePath));
+                        var selectedTilePathfindingData = SelectedUnitPathfindingData.FirstOrDefault(x => x.DestinationTile.gameObject == hit.transform.gameObject);
+                        if (selectedTilePathfindingData!=null && selectedTilePathfindingData.MoveCost <= SelectedUnit.MovementSpeed)
+                        {
+                            var pathfindingDataList = GetTilePathToTile(SelectedUnitPathfindingData, selectedTile).Select(x => x.DestinationTile).ToList();
+                            ChangeTileListSprites(SelectedUnitPathfindingData.Select(x=>x.DestinationTile).ToList(), DefaultGridTileSprite);
+                            SelectedUnitPathfindingData = null;
+                            StartCoroutine(SelectedUnit.FollowTilePath(pathfindingDataList));
+                        }
+
                     }
                 }
-                else
+                else if (hit.transform.position == SelectedUnit.transform.position)
                 {
-                    Debug.Log("This isn't a Player");
+                    StartCoroutine(CalculatePossibleMovements(SelectedUnit));
                 }
             }
+        }
+        //hover gameobject detection
+        else if(SelectedUnitPathfindingData != null)
+        {
+            ChangeTileListSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile).ToList(), SelectedGridTileSprite);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                var selectedTilePathfindingData = SelectedUnitPathfindingData.FirstOrDefault(x => x.DestinationTile.gameObject == hit.transform.gameObject);
+                if (selectedTilePathfindingData!=null)
+                {
+                    var pathfindingDataList = GetTilePathToTile(SelectedUnitPathfindingData, selectedTilePathfindingData.DestinationTile).Select(x => x.DestinationTile).ToList();
+                    ChangeTileListSprites(pathfindingDataList, UnitPathGridTileSprite);
+                }
+            }
+
         }
 
     }
 
+    /// <summary>
+    /// Calculates the paths to all available tiles for the unit and fills the SelectedUnitPathfindingData list
+    /// </summary>
+    private IEnumerator CalculatePossibleMovements(Unit selectedUnit)
+    {
+        Vector3 selectedUnitPosition = selectedUnit.transform.position;
+        Thread newThread = new Thread(() => SelectedUnitPathfindingData = CreateTilePathFromSelectedTile(selectedUnitPosition, selectedUnit.MovementSpeed));
+        newThread.Start();
+        while (newThread.IsAlive)
+        {
+            yield return null;
+        }
+        ChangeTileListSprites(SelectedUnitPathfindingData.Select(x=>x.DestinationTile).ToList(), SelectedGridTileSprite);
+
+    }
 
     /// <summary>
-    /// Shows on the grid the available moves of the unit on the selectedTile
+    /// Changes the sprite of every tile in the list
     /// </summary>
-    /// <param name="selectedTile"></param>
-    private void ShowUnitMovementOnGrid()
+    private void ChangeTileListSprites(List<Tile> tileList, Sprite newSprite)
     {
-        Debug.Log(SelectedUnit.name);
-        Debug.Log(SelectedUnit.transform);
+        foreach (var tile in tileList)
+        {
+            tile.ChangeGridSprite(newSprite);
+        }
     }
 
     /// <summary>
     /// Calculates the pathfinding data for a tile
     /// </summary>
-    private TilePathfindingData CalculatePathfingingData(Tile destinationTile,Vector3 goalPosition,TilePathfindingData closestSourceTile,int moveCost)
+    private TilePathfindingData CalculatePathfingingDataForTile(Tile destinationTile,TilePathfindingData closestSourceTile,int moveCost)
     {
         TilePathfindingData nextTilePathfindingData = new TilePathfindingData();
         nextTilePathfindingData.DestinationTile = destinationTile;
         nextTilePathfindingData.ClosestSourceTilePathfindingData = closestSourceTile;
         nextTilePathfindingData.MoveCost = moveCost;
-        nextTilePathfindingData.TransformDistanceFromGoal = Mathf.Abs(destinationTile.transform.position.x - goalPosition.x)
-                                                + Mathf.Abs(destinationTile.transform.position.y - goalPosition.y);
+        //commented out because we don't need the heuturistic value anymore
+        //nextTilePathfindingData.TransformDistanceFromGoal = Mathf.Abs(destinationTile.PositionInGrid.x - goalPosition.x) + Mathf.Abs(destinationTile.PositionInGrid.y - goalPosition.y);
         return nextTilePathfindingData;
     }
 
@@ -82,7 +123,7 @@ public class UnitManager : MonoBehaviour
     /// </summary>
     /// <param name="sourceTilePathfindingData"></param>
     /// <param name="goalTile"></param>
-    private List<TilePathfindingData> CalculateAdjustentTilePathfindingData(TilePathfindingData sourceTilePathfindingData,Tile goalTile,List<TilePathfindingData> analyzedTileList)
+    private List<TilePathfindingData> CalculateAdjustentTilePathfindingData(TilePathfindingData sourceTilePathfindingData,List<TilePathfindingData> analyzedTileList)
     {
         var tileGrid = _GridManager.GetTileGrid();
         List<TilePathfindingData> adjustentTilePathfindingDataList = new List<TilePathfindingData>();
@@ -93,8 +134,8 @@ public class UnitManager : MonoBehaviour
         AdjustentTilesCoordinates.Add((0, 1));
         for (var i = 0; i < AdjustentTilesCoordinates.Count; i++)
         {
-            var adjustenTileXCoordinate = sourceTilePathfindingData.DestinationTile.transform.position.x + AdjustentTilesCoordinates[i].x;
-            var adjustenTileYCoordinate = sourceTilePathfindingData.DestinationTile.transform.position.y + AdjustentTilesCoordinates[i].y;
+            var adjustenTileXCoordinate = sourceTilePathfindingData.DestinationTile.PositionInGrid.x + AdjustentTilesCoordinates[i].x;
+            var adjustenTileYCoordinate = sourceTilePathfindingData.DestinationTile.PositionInGrid.y + AdjustentTilesCoordinates[i].y;
             //we make sure the tile we are checking is inside the grid
             if (Mathf.Abs(adjustenTileXCoordinate)<=Mathf.Abs(_GridManager.GridSize.x) && Mathf.Abs(adjustenTileYCoordinate) <= Mathf.Abs(_GridManager.GridSize.y))
             {
@@ -102,7 +143,7 @@ public class UnitManager : MonoBehaviour
                 //we ignore impassable tiles, and tiles that we have already analyzed
                 if (nextTile.TerrainType != TerrainType.Impassable && !analyzedTileList.Any(x=>x.DestinationTile==nextTile))
                 {
-                    adjustentTilePathfindingDataList.Add(CalculatePathfingingData(nextTile, goalTile.transform.position, sourceTilePathfindingData, sourceTilePathfindingData.MoveCost + TerrainMoveCost[nextTile.TerrainType]));
+                    adjustentTilePathfindingDataList.Add(CalculatePathfingingDataForTile(nextTile, sourceTilePathfindingData, sourceTilePathfindingData.MoveCost + TerrainMoveCost[nextTile.TerrainType]));
                 }
             }
         }
@@ -112,16 +153,20 @@ public class UnitManager : MonoBehaviour
     /// <summary>
     /// Calculates the tilepath to reach the selected tile with the A* pathfinding alogirthm
     /// </summary>
-    public List<Tile> CreateTilePathFromSelectedTile(Tile selectedTile)
+    private List<TilePathfindingData> CreateTilePathFromSelectedTile(Vector3 selectedUnitPosition, int selectedUnitMovementSpeed)
     {
         var tileGrid = _GridManager.GetTileGrid();
-        Tile startingTile = tileGrid[(SelectedUnit.transform.position.x, SelectedUnit.transform.position.y)];
+        Tile startingTile = tileGrid[(selectedUnitPosition.x, selectedUnitPosition.y)];
 
         List<TilePathfindingData> pathfindingList = new List<TilePathfindingData>();
         List<TilePathfindingData> analyzedTileList = new List<TilePathfindingData>();
 
         //initialization of the startingTilePathfindingData
-        var startPathfingingData = CalculatePathfingingData(startingTile,selectedTile.transform.position, null, 0);
+        var startPathfingingData = new TilePathfindingData();
+        startPathfingingData.DestinationTile = startingTile;
+        startPathfingingData.ClosestSourceTilePathfindingData = null;
+        startPathfingingData.MoveCost = 0;
+        startPathfingingData.TransformDistanceFromGoal = 0;
         pathfindingList.Add(startPathfingingData);
         TilePathfindingData tileToCalculate = null;
 
@@ -129,7 +174,7 @@ public class UnitManager : MonoBehaviour
         do
         {
             tileToCalculate = pathfindingList[0];
-            var adjustentTilesPathfindingData = CalculateAdjustentTilePathfindingData(tileToCalculate, selectedTile, analyzedTileList);
+            var adjustentTilesPathfindingData = CalculateAdjustentTilePathfindingData(tileToCalculate, analyzedTileList);
             foreach (var tilePathfindingData in adjustentTilesPathfindingData)
             {
                 var existingTilePathfindingData = pathfindingList.FirstOrDefault(x=>x.DestinationTile == tilePathfindingData.DestinationTile);
@@ -149,18 +194,35 @@ public class UnitManager : MonoBehaviour
             analyzedTileList.Add(tileToCalculate);
             pathfindingList.Remove(tileToCalculate);
             pathfindingList = pathfindingList.OrderBy(x => x.TotalTilePathCost).ToList();
-        } while (pathfindingList[0].DestinationTile != selectedTile);
+        } while (pathfindingList.Any(x=>x.MoveCost<= selectedUnitMovementSpeed)); //we stop the pathfinding when all our moves cost more than the unit's movementSpeed
+        return analyzedTileList;
+    }
 
-        //We resolve the tilePath, going backwards from the destination TilePathfindingData, until we reach the start
-        List<Tile> tilePath = new List<Tile>();
-        TilePathfindingData tileCursorInPathfindingList = pathfindingList[0];
-        do
+    /// <summary>
+    /// Returns a list with the tiles of the fastest path a unit must go through to reach the selectedTile
+    /// </summary>
+    /// <param name="pathfindingList"></param>
+    /// <param name="selectedTile"></param>
+    /// <returns></returns>
+    public List<TilePathfindingData> GetTilePathToTile (List<TilePathfindingData> pathfindingList, Tile selectedTile)
+    {
+        var tileCursorInPathfindingList = pathfindingList.FirstOrDefault(x => x.DestinationTile == selectedTile);
+        if (tileCursorInPathfindingList != null)
         {
-            tilePath.Add(tileCursorInPathfindingList.DestinationTile);
-            tileCursorInPathfindingList = tileCursorInPathfindingList.ClosestSourceTilePathfindingData;
-        } while (tileCursorInPathfindingList != null);
+            //We resolve the tilePath, going backwards from the destination TilePathfindingData, until we reach the start
+            List<TilePathfindingData> tilePath = new List<TilePathfindingData>();
+            do
+            {
+                tilePath.Add(tileCursorInPathfindingList);
+                tileCursorInPathfindingList = tileCursorInPathfindingList.ClosestSourceTilePathfindingData;
+            } while (tileCursorInPathfindingList != null);
 
-        tilePath.Reverse();
-        return tilePath;
+            tilePath.Reverse();
+            return tilePath;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

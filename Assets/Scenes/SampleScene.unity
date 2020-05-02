@@ -639,7 +639,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 2.197e-42, y: 1.01e-43, z: 980710.94, w: 0}
+  m_BoundingSphereOverride: {x: 0.0000008142067, y: 6.323129e-19, z: 6337696, w: NaN}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -1187,13 +1187,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0.05, y: -12.06, z: -7.65}
+  m_LocalRotation: {x: -0.21848382, y: 0, z: 0, w: 0.9758406}
+  m_LocalPosition: {x: 0.05, y: -7.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -25.24, y: 0, z: 0}
 --- !u!1001 &1084848453
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1931,6 +1931,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SelectedUnit: {fileID: 1989579951}
   _GridManager: {fileID: 593352158}
+  SelectedGridTileSprite: {fileID: 21300000, guid: 13f54d74d3a56a04db45b05e6d111b71,
+    type: 3}
+  DefaultGridTileSprite: {fileID: 21300000, guid: 3f55535a369ed6447af7478a8d82000d,
+    type: 3}
+  UnitPathGridTileSprite: {fileID: 21300000, guid: 3f2bbd35785a5cc4f96d926ac2056394,
+    type: 3}
 --- !u!4 &1548520753
 Transform:
   m_ObjectHideFlags: 0
@@ -2272,7 +2278,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 200
+  m_SortingOrder: 300
   m_Sprite: {fileID: 8562990695827833421, guid: 8b7deb6b50edc884a8e09219fa82f17c,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2313,6 +2319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnimationSpeed: 3
   IsMoving: 0
+  MovementSpeed: 6
 --- !u!1001 &2009436297
 PrefabInstance:
   m_ObjectHideFlags: 0
