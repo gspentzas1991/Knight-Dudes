@@ -21,4 +21,13 @@ public class TilePathfindingData
     /// The Sum of the MoveCost and DistanceFromGoal of the DestinationTile
     /// </summary>
     public float TotalTilePathCost { get { return MoveCost+TransformDistanceFromGoal; } }
+
+    public TilePathfindingData(Tile _destinationTile,TilePathfindingData _closestSourceTilePathfindingData, int _moveCost, float _transforDistanceFromGoal)
+    {
+        DestinationTile = _destinationTile;
+        ClosestSourceTilePathfindingData = _closestSourceTilePathfindingData;
+        MoveCost = _moveCost;
+        TransformDistanceFromGoal = _transforDistanceFromGoal;
+    }
+
 }

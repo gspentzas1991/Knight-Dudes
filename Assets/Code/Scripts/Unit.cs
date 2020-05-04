@@ -19,12 +19,9 @@ public class Unit : MonoBehaviour
         animator.SetInteger("Direction", (int)MovementDirection.Up);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Moves the unit along every tile on the tilePath list
+    /// </summary>
     public IEnumerator FollowTilePath(List<Tile> tilePath)
     {
         IsMoving = true;

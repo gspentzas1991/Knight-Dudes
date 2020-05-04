@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244827184f566f9469ac7ea4c1e995eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSize: {x: 10, y: 7}
+  GridSize: {x: 20, y: 14}
   GridOutlinePrefab: {fileID: 6668036854654392178, guid: 3a4fb040342e2da4592f75ba4df54a1b,
     type: 3}
   GridStartTransform: {fileID: 1161503864}
@@ -639,7 +639,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0.0000008142067, y: 6.323129e-19, z: 6337696, w: NaN}
+  m_BoundingSphereOverride: {x: 7.41e-43, y: 6.99e-43, z: 0, w: 9.808003e-10}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0

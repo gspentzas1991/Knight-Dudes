@@ -8,39 +8,27 @@ namespace Scripts
 {
     public class GridManager : MonoBehaviour
     {
-        public Vector2 GridSize;
+        [SerializeField]
+        private Vector2 GridSize;
         [SerializeField]
         private GameObject GridOutlinePrefab;
         [SerializeField]
         private Transform GridStartTransform;
         [SerializeField]
         private List<Tile> SpecialTilesList;
+        public Dictionary<(float x, float y), Tile> TileGrid { get; private set; } = new  Dictionary<(float x, float y), Tile>();
 
-        private Dictionary<(float x, float y ), Tile> TileGrid = new Dictionary<(float x, float y), Tile>();
+        //private Dictionary<(float x, float y ), Tile> TileGrid = new Dictionary<(float x, float y), Tile>();
         private Tile SelectedTile;
 
         //placeholder for selecting units, to be deleted
         public Unit KnightGameObject;
 
-        public Dictionary<(float x, float y), Tile> GetTileGrid()
-        {
-            return TileGrid;
-        }
 
         // Start is called before the first frame update
         void Start()
         {
             GenerateGrid();
-            //placeholder for selecting a unit with cursor
-            //SelectedTile = TileGrid.Where(x => x.transform.position.x == -1 && x.transform.position.y == -6).FirstOrDefault();
-            //SelectedTile.CurrentUnit = KnightGameObject;
-            //ShowUnitMovementOnGrid(SelectedTile);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         /// <summary>
@@ -55,19 +43,31 @@ namespace Scripts
                 TileGrid.Add((tilePosition.x, tilePosition.y), specialTile);
             }
 
-            for (float i = GridStartTransform.position.x; i <= GridSize.x; i++)
+            for (float i = 0; i <= GridSize.x; i++)
             {
-                for (float j = GridStartTransform.position.y; j <= GridSize.y; j++)
+                for (float j = 0; j <= GridSize.y; j++)
                 {
-                    if(!TileGrid.TryGetValue((i, j),out Tile existingTile))
+                    Vector3 nextTilePosition = GridStartTransform.position + new Vector3(i,j,0);
+                    if(!TileGrid.TryGetValue((nextTilePosition.x, nextTilePosition.y),out Tile existingTile))
                     {
-                        var newTile = Instantiate(GridOutlinePrefab, new Vector3(i, j, 0), new Quaternion()).GetComponent<Tile>();
+                        var newTile = Instantiate(GridOutlinePrefab, nextTilePosition, new Quaternion()).GetComponent<Tile>();
                         newTile.TerrainType = TerrainType.Normal;
                         newTile.PositionInGrid = newTile.transform.position;
-                        TileGrid.Add((i, j), newTile);
+                        TileGrid.Add((nextTilePosition.x, nextTilePosition.y), newTile);
                     }
 
                 }
+            }
+        }
+
+        /// <summary>
+        /// Changes the sprite of every tile in the list
+        /// </summary>
+        public void ChangeTileListSprites(List<Tile> tileList, Sprite newSprite)
+        {
+            foreach (var tile in tileList)
+            {
+                tile.ChangeGridSprite(newSprite);
             }
         }
     }
