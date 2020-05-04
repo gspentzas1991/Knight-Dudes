@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
     public Unit CurrentUnit;
     public Vector3 PositionInGrid;
     [SerializeField]
-    private SpriteRenderer gridSpriteRenderer;
+    private SpriteRenderer gridSpriteRenderer = null;
 
     public void Start()
     {

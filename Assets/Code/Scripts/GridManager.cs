@@ -9,21 +9,14 @@ namespace Scripts
     public class GridManager : MonoBehaviour
     {
         [SerializeField]
-        private Vector2 GridSize;
+        private Vector2 GridSize = new Vector2();
         [SerializeField]
-        private GameObject GridOutlinePrefab;
+        private GameObject GridOutlinePrefab = null;
         [SerializeField]
-        private Transform GridStartTransform;
+        private Transform GridStartTransform = null;
         [SerializeField]
-        private List<Tile> SpecialTilesList;
+        private List<Tile> SpecialTilesList = null;
         public Dictionary<(float x, float y), Tile> TileGrid { get; private set; } = new  Dictionary<(float x, float y), Tile>();
-
-        //private Dictionary<(float x, float y ), Tile> TileGrid = new Dictionary<(float x, float y), Tile>();
-        private Tile SelectedTile;
-
-        //placeholder for selecting units, to be deleted
-        public Unit KnightGameObject;
-
 
         // Start is called before the first frame update
         void Start()
@@ -63,7 +56,7 @@ namespace Scripts
         /// <summary>
         /// Changes the sprite of every tile in the list
         /// </summary>
-        public void ChangeTileListSprites(List<Tile> tileList, Sprite newSprite)
+        public void ChangeTileListSprites(IEnumerable<Tile> tileList, Sprite newSprite)
         {
             foreach (var tile in tileList)
             {

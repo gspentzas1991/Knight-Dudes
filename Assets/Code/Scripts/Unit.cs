@@ -6,10 +6,10 @@ using Enums;
 public class Unit : MonoBehaviour
 {
     [SerializeField]
-    private float AnimationSpeed;
+    private float AnimationSpeed=0;
     private Animator animator;
-    public bool IsMoving = false;
     public int MovementSpeed;
+    public UnitState State = UnitState.Idle;
 
     private MovementDirection direction = MovementDirection.Up; 
     // Start is called before the first frame update
@@ -22,9 +22,9 @@ public class Unit : MonoBehaviour
     /// <summary>
     /// Moves the unit along every tile on the tilePath list
     /// </summary>
-    public IEnumerator FollowTilePath(List<Tile> tilePath)
+    public IEnumerator FollowTilePath(IEnumerable<Tile> tilePath)
     {
-        IsMoving = true;
+        State = UnitState.Moving;
         foreach (var tile in tilePath)
         {
             SetMovementAnimation(tile.transform.position);
@@ -37,8 +37,7 @@ public class Unit : MonoBehaviour
                 }
             } while (transform.position != tile.transform.position);
         }
-        IsMoving = false;
-       
+        State = UnitState.Idle;
     }
 
     /// <summary>

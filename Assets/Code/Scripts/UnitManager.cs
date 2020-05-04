@@ -11,66 +11,102 @@ using UnityEngine;
 /// </summary>
 public class UnitManager : MonoBehaviour
 {
-    public Unit SelectedUnit;
+    private Unit SelectedUnit;
     public GridManager _GridManager;
     private List<TilePathfindingData> SelectedUnitPathfindingData;
     [SerializeField]
-    private Sprite SelectedGridTileSprite;
+    private Sprite SelectedGridTileSprite = null;
     [SerializeField]
-    private Sprite DefaultGridTileSprite;
+    private Sprite DefaultGridTileSprite = null;
     [SerializeField]
-    private Sprite UnitPathGridTileSprite;
+    private Sprite UnitPathGridTileSprite = null;
+    private GameObject CurrentHoveredTile;
 
     void Update()
     {
         //click gameobject detection
-        if (Input.GetMouseButtonDown(0) && SelectedUnit.IsMoving == false)
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.transform.gameObject.tag=="Tile" && hit.transform.position!=SelectedUnit.transform.position)
+                if (SelectedUnit == null && hit.transform.gameObject.tag == "Unit")
                 {
-                    Tile selectedTile = hit.transform.gameObject.GetComponent<Tile>(); 
-                    if (selectedTile.TerrainType != TerrainType.Impassable && SelectedUnitPathfindingData!=null && SelectedUnit.IsMoving != true)
-                    {
-                        var selectedTilePathfindingData = SelectedUnitPathfindingData.FirstOrDefault(x => x.DestinationTile.gameObject == hit.transform.gameObject);
-                        if (selectedTilePathfindingData!=null && selectedTilePathfindingData.MoveCost <= SelectedUnit.MovementSpeed)
-                        {
-                            var pathfindingDataList = PathfindingHelper.GetTilepathToTile(SelectedUnitPathfindingData, selectedTile).Select(x => x.DestinationTile).ToList();
-                            _GridManager.ChangeTileListSprites(SelectedUnitPathfindingData.Select(x=>x.DestinationTile).ToList(), DefaultGridTileSprite);
-                            SelectedUnitPathfindingData = null;
-                            StartCoroutine(SelectedUnit.FollowTilePath(pathfindingDataList));
-                        }
-
-                    }
+                    SelectUnit(hit.transform.gameObject.GetComponent<Unit>());
                 }
-                else if (hit.transform.position == SelectedUnit.transform.position)
+                else if (SelectedUnit.State == UnitState.Selected && hit.transform.gameObject.tag == "Tile" && hit.transform.position != SelectedUnit.transform.position)
                 {
-                    StartCoroutine(CalculatePossibleMovementsForUnit(SelectedUnit));
+                    MoveUnitToTile(hit.transform.gameObject.GetComponent<Tile>());
                 }
             }
         }
         //hover gameobject detection
-        else if(SelectedUnitPathfindingData != null)
+        else if(SelectedUnit !=null && SelectedUnit.State == UnitState.Selected)
         {
-            _GridManager.ChangeTileListSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile).ToList(), SelectedGridTileSprite);
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                var selectedTilePathfindingData = SelectedUnitPathfindingData.FirstOrDefault(x => x.DestinationTile.gameObject == hit.transform.gameObject);
-                if (selectedTilePathfindingData!=null)
+                //we run path rendering on hover, when not hovering over the selected unit, and when the hoveredTile changes
+                if (hit.transform.position != SelectedUnit.transform.position && hit.transform.gameObject != CurrentHoveredTile)
                 {
-                    var pathfindingDataList = PathfindingHelper.GetTilepathToTile(SelectedUnitPathfindingData, selectedTilePathfindingData.DestinationTile).Select(x => x.DestinationTile).ToList();
-                    _GridManager.ChangeTileListSprites(pathfindingDataList, UnitPathGridTileSprite);
+                    HoverOverUnitMoveTileHandler(hit.transform.gameObject);
                 }
+
             }
 
         }
 
+    }
+
+    private void HoverOverUnitMoveTileHandler(GameObject hoveredTile)
+    {
+        _GridManager.ChangeTileListSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), SelectedGridTileSprite);
+        CurrentHoveredTile = hoveredTile;
+        var selectedTilePathfindingData = SelectedUnitPathfindingData.FirstOrDefault(x => x.DestinationTile.gameObject == hoveredTile);
+        if (selectedTilePathfindingData != null)
+        {
+            var pathfindingDataList = PathfindingHelper.GetTilepathToTile(SelectedUnitPathfindingData, selectedTilePathfindingData.DestinationTile).Select(x => x.DestinationTile);
+            _GridManager.ChangeTileListSprites(pathfindingDataList, UnitPathGridTileSprite);
+        }
+    }
+
+    /// <summary>
+    /// Deselects the previous unit, and selects a new one
+    /// </summary>
+    private void SelectUnit(Unit unitToSelect)
+    {
+        Unit previousSelectedUnit = SelectedUnit;
+        //reset the state of the previous selected unit
+        if (previousSelectedUnit != null)
+        {
+            previousSelectedUnit.State = UnitState.Idle;
+        }
+        SelectedUnit = unitToSelect;
+        SelectedUnit.State = UnitState.Selected;
+        StartCoroutine(CalculatePossibleMovementsForUnit(SelectedUnit));
+    }
+
+    /// <summary>
+    /// Moves the selectedUnit to the selectedTile
+    /// </summary>
+    private void MoveUnitToTile(Tile selectedTile)
+    {
+        if (selectedTile.TerrainType != TerrainType.Impassable && SelectedUnitPathfindingData != null && SelectedUnit.State != UnitState.Moving)
+        {
+            var selectedTilePathfindingData = SelectedUnitPathfindingData.FirstOrDefault(x => x.DestinationTile.gameObject == selectedTile.gameObject);
+            if (selectedTilePathfindingData != null && selectedTilePathfindingData.MoveCost <= SelectedUnit.MovementSpeed)
+            {
+                var pathfindingDataList = PathfindingHelper.GetTilepathToTile(SelectedUnitPathfindingData, selectedTile).Select(x => x.DestinationTile);
+                _GridManager.ChangeTileListSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), DefaultGridTileSprite);
+                StartCoroutine(SelectedUnit.FollowTilePath(pathfindingDataList));
+                SelectedUnitPathfindingData = null;
+                SelectedUnit = null;
+            }
+
+        }
     }
 
     /// <summary>
@@ -85,6 +121,6 @@ public class UnitManager : MonoBehaviour
         {
             yield return null;
         }
-        _GridManager.ChangeTileListSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile).ToList(), SelectedGridTileSprite);
+        _GridManager.ChangeTileListSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), SelectedGridTileSprite);
     }
 }

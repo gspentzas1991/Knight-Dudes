@@ -538,7 +538,6 @@ MonoBehaviour:
   - {fileID: 2023990806}
   - {fileID: 2087355126}
   - {fileID: 621204210}
-  KnightGameObject: {fileID: 1989579951}
 --- !u!4 &593352159
 Transform:
   m_ObjectHideFlags: 0
@@ -639,7 +638,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 7.41e-43, y: 6.99e-43, z: 0, w: 9.808003e-10}
+  m_BoundingSphereOverride: {x: 2.007e-42, y: 1.01e-43, z: 980710.94, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -1929,7 +1928,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881bb89f04f1a664ca71640ae8ef706a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectedUnit: {fileID: 1989579951}
   _GridManager: {fileID: 593352158}
   SelectedGridTileSprite: {fileID: 21300000, guid: 13f54d74d3a56a04db45b05e6d111b71,
     type: 3}
@@ -2214,9 +2212,10 @@ GameObject:
   - component: {fileID: 1989579949}
   - component: {fileID: 1989579948}
   - component: {fileID: 1989579951}
+  - component: {fileID: 1989579952}
   m_Layer: 0
   m_Name: Knight
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2318,8 +2317,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnimationSpeed: 3
-  IsMoving: 0
   MovementSpeed: 6
+  State: 0
+--- !u!65 &1989579952
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989579947}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.25, z: 0.24}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2009436297
 PrefabInstance:
   m_ObjectHideFlags: 0

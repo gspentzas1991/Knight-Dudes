@@ -18,4 +18,11 @@ namespace Enums
         Down=3,
         Left=4
     }
+
+    public enum UnitState
+    {
+        Idle=0,
+        Selected=1,
+        Moving=2
+    }
 }
