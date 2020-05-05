@@ -6,17 +6,20 @@ using Enums;
 public class Unit : MonoBehaviour
 {
     [SerializeField]
-    private float AnimationSpeed=0;
+    private float MovementSpeed=0;
     private Animator animator;
-    public int MovementSpeed;
+    public int Movement;
     public UnitState State = UnitState.Idle;
+    private MovementDirection direction = MovementDirection.Up;
+    private Color DefaultSpriteColor = Color.white;
+    private Color OutOfActionsSpriteColor = Color.grey;
+    private SpriteRenderer _spriteRenderer = null;
 
-    private MovementDirection direction = MovementDirection.Up; 
-    // Start is called before the first frame update
     void Awake()
     {
         animator = GetComponent<Animator>();
-        animator.SetInteger("Direction", (int)MovementDirection.Up);
+        animator.SetInteger("Direction", (int)direction);
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     /// <summary>
@@ -30,14 +33,16 @@ public class Unit : MonoBehaviour
             SetMovementAnimation(tile.transform.position);
             do
             {
-                transform.position = Vector3.MoveTowards(transform.position, tile.transform.position, AnimationSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, tile.transform.position, MovementSpeed * Time.deltaTime);
                 if (transform.position!=tile.transform.position)
                 {
                     yield return new WaitForEndOfFrame();
                 }
             } while (transform.position != tile.transform.position);
         }
-        State = UnitState.Idle;
+        State = UnitState.OutOfActions;
+        SetMovementAnimation(transform.position);
+        _spriteRenderer.color = OutOfActionsSpriteColor;
     }
 
     /// <summary>
@@ -65,5 +70,16 @@ public class Unit : MonoBehaviour
             direction = MovementDirection.Up;
         }
         animator.SetInteger("Direction", (int)direction);
+        animator.speed = State == UnitState.OutOfActions ? 0 : 1;
+    }
+
+    /// <summary>
+    /// Resets a units turn values to their defaults 
+    /// </summary>
+    public void ResetUnitTurnValues()
+    {
+        State = UnitState.Idle;
+        SetMovementAnimation(transform.position);
+        _spriteRenderer.color = DefaultSpriteColor;
     }
 }

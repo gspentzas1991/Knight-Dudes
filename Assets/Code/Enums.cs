@@ -23,6 +23,7 @@ namespace Enums
     {
         Idle=0,
         Selected=1,
-        Moving=2
+        Moving=2,
+        OutOfActions=3
     }
 }

@@ -12,7 +12,8 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     private Unit SelectedUnit;
-    public GridManager _GridManager;
+    [SerializeField]
+    private GridManager _GridManager;
     private List<TilePathfindingData> SelectedUnitPathfindingData;
     [SerializeField]
     private Sprite SelectedGridTileSprite = null;
@@ -21,7 +22,8 @@ public class UnitManager : MonoBehaviour
     [SerializeField]
     private Sprite UnitPathGridTileSprite = null;
     private GameObject CurrentHoveredTile;
-
+    [SerializeField]
+    private List<Unit> PlayerUnits = new List<Unit>();
     void Update()
     {
         //click gameobject detection
@@ -32,15 +34,27 @@ public class UnitManager : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (SelectedUnit == null && hit.transform.gameObject.tag == "Unit")
+                if (SelectedUnit == null)
                 {
-                    SelectUnit(hit.transform.gameObject.GetComponent<Unit>());
+                    if (hit.transform.gameObject.tag == "Unit")
+                    {
+                        Unit clickedUnit = hit.transform.gameObject.GetComponent<Unit>();
+                        if (clickedUnit.State==UnitState.Idle)
+                        {
+                            SelectUnit(clickedUnit);
+                        }
+                    }
                 }
                 else if (SelectedUnit.State == UnitState.Selected && hit.transform.gameObject.tag == "Tile" && hit.transform.position != SelectedUnit.transform.position)
                 {
                     MoveUnitToTile(hit.transform.gameObject.GetComponent<Tile>());
                 }
             }
+        }
+        //right click detection
+        else if (Input.GetMouseButtonDown(1))
+        {
+            EndTurn();
         }
         //hover gameobject detection
         else if(SelectedUnit !=null && SelectedUnit.State == UnitState.Selected)
@@ -97,7 +111,7 @@ public class UnitManager : MonoBehaviour
         if (selectedTile.TerrainType != TerrainType.Impassable && SelectedUnitPathfindingData != null && SelectedUnit.State != UnitState.Moving)
         {
             var selectedTilePathfindingData = SelectedUnitPathfindingData.FirstOrDefault(x => x.DestinationTile.gameObject == selectedTile.gameObject);
-            if (selectedTilePathfindingData != null && selectedTilePathfindingData.MoveCost <= SelectedUnit.MovementSpeed)
+            if (selectedTilePathfindingData != null && selectedTilePathfindingData.MoveCost <= SelectedUnit.Movement)
             {
                 var pathfindingDataList = PathfindingHelper.GetTilepathToTile(SelectedUnitPathfindingData, selectedTile).Select(x => x.DestinationTile);
                 _GridManager.ChangeTileListSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), DefaultGridTileSprite);
@@ -115,12 +129,20 @@ public class UnitManager : MonoBehaviour
     private IEnumerator CalculatePossibleMovementsForUnit(Unit selectedUnit)
     {
         Vector3 selectedUnitPosition = selectedUnit.transform.position;
-        Thread newThread = new Thread(() => SelectedUnitPathfindingData = PathfindingHelper.CalculatePathfindingForAvailableMoves(_GridManager.TileGrid,selectedUnitPosition, selectedUnit.MovementSpeed));
+        Thread newThread = new Thread(() => SelectedUnitPathfindingData = PathfindingHelper.CalculatePathfindingForAvailableMoves(_GridManager.TileGrid,selectedUnitPosition, selectedUnit.Movement));
         newThread.Start();
         while (newThread.IsAlive)
         {
             yield return null;
         }
         _GridManager.ChangeTileListSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), SelectedGridTileSprite);
+    }
+
+    private void EndTurn()
+    {
+        foreach(Unit unit in PlayerUnits)
+        {
+            unit.ResetUnitTurnValues();
+        }
     }
 }
