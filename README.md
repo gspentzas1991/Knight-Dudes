@@ -1,2 +1,2 @@
-# Turn Based Strategy Game
+# Knight Dudes
  A turn based strategy game developed on Unity
