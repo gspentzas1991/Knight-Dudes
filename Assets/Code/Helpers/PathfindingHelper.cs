@@ -101,7 +101,7 @@ public static class PathfindingHelper
             {
                 tilePath.Add(tileCursorInPathfindingList);
                 tileCursorInPathfindingList = tileCursorInPathfindingList.ClosestSourceTilePathfindingData;
-            } while (tileCursorInPathfindingList.ClosestSourceTilePathfindingData != null); //we stop when the next tileCursorInPathfindingList would be the starting tile
+            } while (tileCursorInPathfindingList != null); 
             tilePath.Reverse();
             return tilePath;
         }

@@ -14,6 +14,10 @@ public class Unit : MonoBehaviour
     private Color DefaultSpriteColor = Color.white;
     private Color OutOfActionsSpriteColor = Color.grey;
     private SpriteRenderer _spriteRenderer = null;
+    public Sprite ProfileImage = null;
+    public string Name = null;
+    public int CurrentHealth;
+    public int MaxHealth;
 
     void Awake()
     {
@@ -53,24 +57,23 @@ public class Unit : MonoBehaviour
         if (transform.position.x > movementTarget.x)
         {
             direction = MovementDirection.Left;
+            _spriteRenderer.flipX = true;
         }
         else if (transform.position.x < movementTarget.x)
         {
-
             direction = MovementDirection.Right;
+            _spriteRenderer.flipX = false;
         }
         else if (transform.position.y > movementTarget.y)
         {
-
             direction = MovementDirection.Down;
         }
         else if (transform.position.y < movementTarget.y)
         {
-
             direction = MovementDirection.Up;
         }
         animator.SetInteger("Direction", (int)direction);
-        animator.speed = State == UnitState.OutOfActions ? 0 : 1;
+        animator.SetBool("IsMoving", State == UnitState.Moving);
     }
 
     /// <summary>
