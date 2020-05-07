@@ -14,7 +14,7 @@ public static class PathfindingHelper
             { TerrainType.Difficult,4 }
         };
     //The relative x-y coordinates for the 4 adjustent tiles of any tile
-    private static List<(float x, float y)> AdjustentTilesCoordinates = new List<(float x, float y)>()
+    private static List<(int x, int y)> AdjustentTilesCoordinates = new List<(int x, int y)>()
     {
         (-1,0),
         (1,0),
@@ -25,16 +25,18 @@ public static class PathfindingHelper
     /// <summary>
     /// Takes a tile's pathfinding data, and calculates the 4 adjustent's tiles pathfinding data
     /// </summary>
-    public static List<TilePathfindingData> CalculateAdjustentTilePathfindingData(Dictionary<(float x, float y), Tile> tileGrid,TilePathfindingData sourceTilePathfindingData, List<TilePathfindingData> analyzedTileList)
+    public static List<TilePathfindingData> CalculateAdjustentTilePathfindingData(Tile[,] tileGrid,TilePathfindingData sourceTilePathfindingData, List<TilePathfindingData> analyzedTileList)
     {
         List<TilePathfindingData> adjustentTilePathfindingDataList = new List<TilePathfindingData>();
         for (var i = 0; i < AdjustentTilesCoordinates.Count; i++)
         {
-            var adjustenTileXCoordinate = sourceTilePathfindingData.DestinationTile.PositionInGrid.x + AdjustentTilesCoordinates[i].x;
-            var adjustenTileYCoordinate = sourceTilePathfindingData.DestinationTile.PositionInGrid.y + AdjustentTilesCoordinates[i].y;
+            int adjustenTileXCoordinate = (int)sourceTilePathfindingData.DestinationTile.PositionInGrid.x + AdjustentTilesCoordinates[i].x;
+            int adjustenTileYCoordinate = (int)sourceTilePathfindingData.DestinationTile.PositionInGrid.y + AdjustentTilesCoordinates[i].y;
             //we make sure the tile we are checking is inside the grid
-            if (tileGrid.TryGetValue((adjustenTileXCoordinate, adjustenTileYCoordinate), out Tile tileToCheck))
+            if (adjustenTileXCoordinate>0 && adjustenTileXCoordinate< tileGrid.GetLength(0)
+                && adjustenTileYCoordinate>0 && adjustenTileYCoordinate< tileGrid.GetLength(1))
             {
+                Tile tileToCheck = tileGrid[adjustenTileXCoordinate, adjustenTileYCoordinate];
                 //we ignore impassable tiles, and tiles that we have already analyzed
                 if (tileToCheck.TerrainType != TerrainType.Impassable && !analyzedTileList.Any(x => x.DestinationTile == tileToCheck))
                 {
@@ -48,9 +50,9 @@ public static class PathfindingHelper
     /// <summary>
     /// Calculates and returns the tilePathfindingData of every available move for the selected unit in the grid, using Dijkstra pathfinding alogirthm
     /// </summary>
-    public static List<TilePathfindingData> CalculatePathfindingForAvailableMoves(Dictionary<(float x, float y), Tile> tileGrid, Vector3 selectedUnitPosition, int selectedUnitMovementSpeed)
+    public static List<TilePathfindingData> CalculatePathfindingForAvailableMoves(Tile[,] tileGrid, Vector3 selectedUnitPosition, int selectedUnitMovementSpeed)
     {
-        Tile startingTile = tileGrid[(selectedUnitPosition.x, selectedUnitPosition.y)];
+        Tile startingTile = tileGrid[(int)selectedUnitPosition.x, (int)selectedUnitPosition.y];
 
         List<TilePathfindingData> remainingTilesToAnalyze = new List<TilePathfindingData>();
         List<TilePathfindingData> analyzedTiles = new List<TilePathfindingData>();

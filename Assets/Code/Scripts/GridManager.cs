@@ -9,7 +9,7 @@ namespace Scripts
     public class GridManager : MonoBehaviour
     {
         [SerializeField]
-        private Vector2 GridSize = new Vector2();
+        private Vector2Int GridSize = new Vector2Int();
         [SerializeField]
         private GameObject GridOutlinePrefab = null;
         [SerializeField]
@@ -18,11 +18,12 @@ namespace Scripts
         private List<Transform> DifficultTerrainTransforms = null;
         [SerializeField]
         private List<Transform> ImpassableTerrainTransforms = null;
-        public Dictionary<(float x, float y), Tile> TileGrid { get; private set; } = new  Dictionary<(float x, float y), Tile>();
+        public Tile[,] TileGrid { get; private set; }
 
         // Start is called before the first frame update
         void Start()
         {
+            TileGrid = new Tile[GridSize.x, GridSize.y];
             GenerateGrid();
         }
 
@@ -42,12 +43,12 @@ namespace Scripts
             }
 
 
-            for (float i = 0; i <= GridSize.x; i++)
+            for (int i = 0; i < GridSize.x; i++)
             {
-                for (float j = 0; j <= GridSize.y; j++)
+                for (int j = 0; j < GridSize.y; j++)
                 {
                     Vector3 nextTilePosition = GridStartTransform.position + new Vector3(i,j,0);
-                    if(!TileGrid.TryGetValue((nextTilePosition.x, nextTilePosition.y),out Tile existingTile))
+                    if(TileGrid[i,j]==null)
                     {
                         AddTileInGridList(nextTilePosition, TerrainType.Normal);
                     }
@@ -64,7 +65,7 @@ namespace Scripts
             var newTile = Instantiate(GridOutlinePrefab, tilePosition, new Quaternion()).GetComponent<Tile>();
             newTile.TerrainType = tileType;
             newTile.PositionInGrid = newTile.transform.position;
-            TileGrid.Add((tilePosition.x, tilePosition.y), newTile);
+            TileGrid[(int)tilePosition.x, (int)tilePosition.y] = newTile;
         }
 
         /// <summary>
