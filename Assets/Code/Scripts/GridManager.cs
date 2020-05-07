@@ -15,7 +15,9 @@ namespace Scripts
         [SerializeField]
         private Transform GridStartTransform = null;
         [SerializeField]
-        private List<Tile> SpecialTilesList = null;
+        private List<Transform> DifficultTerrainTransforms = null;
+        [SerializeField]
+        private List<Transform> ImpassableTerrainTransforms = null;
         public Dictionary<(float x, float y), Tile> TileGrid { get; private set; } = new  Dictionary<(float x, float y), Tile>();
 
         // Start is called before the first frame update
@@ -29,12 +31,16 @@ namespace Scripts
         /// </summary>
         private void GenerateGrid()
         {
-            foreach(Tile specialTile in SpecialTilesList)
+            foreach(Transform specialTileTransform in DifficultTerrainTransforms)
             {
-                Vector3 tilePosition = specialTile.transform.position;
-                specialTile.PositionInGrid = tilePosition;
-                TileGrid.Add((tilePosition.x, tilePosition.y), specialTile);
+                AddTileInGridList(specialTileTransform.position, TerrainType.Difficult);
             }
+
+            foreach (Transform specialTileTransform in ImpassableTerrainTransforms)
+            {
+                AddTileInGridList(specialTileTransform.position, TerrainType.Impassable);
+            }
+
 
             for (float i = 0; i <= GridSize.x; i++)
             {
@@ -43,14 +49,22 @@ namespace Scripts
                     Vector3 nextTilePosition = GridStartTransform.position + new Vector3(i,j,0);
                     if(!TileGrid.TryGetValue((nextTilePosition.x, nextTilePosition.y),out Tile existingTile))
                     {
-                        var newTile = Instantiate(GridOutlinePrefab, nextTilePosition, new Quaternion()).GetComponent<Tile>();
-                        newTile.TerrainType = TerrainType.Normal;
-                        newTile.PositionInGrid = newTile.transform.position;
-                        TileGrid.Add((nextTilePosition.x, nextTilePosition.y), newTile);
+                        AddTileInGridList(nextTilePosition, TerrainType.Normal);
                     }
 
                 }
             }
+        }
+
+        /// <summary>
+        /// Instantiates a grid gameobject and it adds the tile to the tileGrid
+        /// </summary>
+        public void AddTileInGridList(Vector3 tilePosition, TerrainType tileType)
+        {
+            var newTile = Instantiate(GridOutlinePrefab, tilePosition, new Quaternion()).GetComponent<Tile>();
+            newTile.TerrainType = tileType;
+            newTile.PositionInGrid = newTile.transform.position;
+            TileGrid.Add((tilePosition.x, tilePosition.y), newTile);
         }
 
         /// <summary>

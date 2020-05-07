@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 3832969465688673878}
   - component: {fileID: 4435508859571747129}
   - component: {fileID: 782426632978234259}
-  - component: {fileID: 6630915026215387741}
-  - component: {fileID: 5095207432519884556}
   m_Layer: 0
   m_Name: TerrainHouse
   m_TagString: Tile
@@ -82,35 +80,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &6630915026215387741
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7409227076241541559}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5095207432519884556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7409227076241541559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ecc494f6bcb9de46888b53969f40dbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TerrainType: 3
-  CurrentUnit: {fileID: 0}
-  PositionInGrid: {x: 0, y: 0, z: 0}
-  gridSpriteRenderer: {fileID: 5922833164565302085}
 --- !u!1001 &7060758712018483531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -204,12 +173,6 @@ PrefabInstance:
 --- !u!4 &5561792826742435523 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3230118563148158856, guid: 3a4fb040342e2da4592f75ba4df54a1b,
-    type: 3}
-  m_PrefabInstance: {fileID: 7060758712018483531}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &5922833164565302085 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 3733197953646096910, guid: 3a4fb040342e2da4592f75ba4df54a1b,
     type: 3}
   m_PrefabInstance: {fileID: 7060758712018483531}
   m_PrefabAsset: {fileID: 0}
