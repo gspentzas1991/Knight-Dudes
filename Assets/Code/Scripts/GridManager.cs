@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Enums;
+using UnityEngine.Tilemaps;
 
 namespace Scripts
 {
@@ -13,11 +14,9 @@ namespace Scripts
         [SerializeField]
         private GameObject GridOutlinePrefab = null;
         [SerializeField]
-        private Transform GridStartTransform = null;
+        private Tilemap ImpassableTerrainTilemap = null;
         [SerializeField]
-        private List<Transform> DifficultTerrainTransforms = null;
-        [SerializeField]
-        private List<Transform> ImpassableTerrainTransforms = null;
+        private Tilemap DifficultTerrainTilemap = null;
         public Tile[,] TileGrid { get; private set; }
 
         // Start is called before the first frame update
@@ -32,22 +31,16 @@ namespace Scripts
         /// </summary>
         private void GenerateGrid()
         {
-            foreach(Transform specialTileTransform in DifficultTerrainTransforms)
-            {
-                AddTileInGridList(specialTileTransform.position, TerrainType.Difficult);
-            }
 
-            foreach (Transform specialTileTransform in ImpassableTerrainTransforms)
-            {
-                AddTileInGridList(specialTileTransform.position, TerrainType.Impassable);
-            }
+            AddTileInGridListFromTilemap(DifficultTerrainTilemap,TerrainType.Difficult);
+            AddTileInGridListFromTilemap(ImpassableTerrainTilemap, TerrainType.Impassable);
 
 
             for (int i = 0; i < GridSize.x; i++)
             {
                 for (int j = 0; j < GridSize.y; j++)
                 {
-                    Vector3 nextTilePosition = GridStartTransform.position + new Vector3(i,j,0);
+                    Vector3 nextTilePosition = new Vector3(i,j,0);
                     if(TileGrid[i,j]==null)
                     {
                         AddTileInGridList(nextTilePosition, TerrainType.Normal);
@@ -56,6 +49,23 @@ namespace Scripts
                 }
             }
         }
+
+        /// <summary>
+        /// For every tile of the tilemap, adds a tile in the grid with the selected type
+        /// </summary>
+        public void AddTileInGridListFromTilemap(Tilemap tilemap, TerrainType tilesType)
+        {
+            foreach (var position in tilemap.cellBounds.allPositionsWithin)
+            {
+                Vector3 place = tilemap.GetCellCenterWorld(position);
+                if (tilemap.HasTile(position))
+                {
+                    AddTileInGridList(place, tilesType);
+                }
+            }
+        }
+
+
 
         /// <summary>
         /// Instantiates a grid gameobject and it adds the tile to the tileGrid
