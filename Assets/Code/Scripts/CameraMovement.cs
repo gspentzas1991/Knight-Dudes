@@ -16,7 +16,7 @@ public class CameraMovement : MonoBehaviour
     private Vector3 MinimumPosition = new Vector3();
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         Vector3 newPositionOffset = new Vector3();
         if ((Input.GetKey(KeyCode.W) || Input.mousePosition.y>Screen.height+ EdgeScrollingOffset ) && transform.position.y<MaximumPosition.y)

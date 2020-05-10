@@ -10,6 +10,8 @@ public class Tile : MonoBehaviour
     public Vector3 PositionInGrid;
     [SerializeField]
     private SpriteRenderer gridSpriteRenderer = null;
+    [SerializeField]
+    private SpriteRenderer gridCursorSpriteRenderer = null;
 
     public void Start()
     {
@@ -18,5 +20,10 @@ public class Tile : MonoBehaviour
     public void ChangeGridSprite(Sprite newGridSprite)
     {
         gridSpriteRenderer.sprite = newGridSprite;
+    }
+
+    public void ChangeCursorRendererState(bool rendererState)
+    {
+        gridCursorSpriteRenderer.enabled = rendererState;
     }
 }
