@@ -140,16 +140,27 @@ public class UserInteractionManager : MonoBehaviour
         UnitProfile.SetUnitToDisplay(hoveredUnit);
     }
 
+    /// <summary>
+    /// Hides the unit profile on the UI
+    /// </summary>
     private void HideUnitProfile()
     {
         HoveredUnit = null;
         UnitProfile.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Calculates asyncronously the unit's pathfinding data
+    /// </summary>
     private async Task<List<TilePathfindingData>> CalculateUnitAvailablePathsAsync(Unit selectedUnit)
     {
         Vector3 selectedUnitPosition = selectedUnit.transform.position;
-        var unitPathfindingData = await Task.Run(() => PathfindingHelper.CalculatePathfindingForAvailableMoves(_GridManager.TileGrid, selectedUnitPosition, selectedUnit.Movement));
+
+        #if UNITY_WEBGL
+            var unitPathfindingData = PathfindingHelper.CalculatePathfindingForAvailableMoves(_GridManager.TileGrid, selectedUnitPosition, selectedUnit.Movement);
+        #else
+            var unitPathfindingData = await Task.Run(() => PathfindingHelper.CalculatePathfindingForAvailableMoves(_GridManager.TileGrid, selectedUnitPosition, selectedUnit.Movement));
+        #endif
         return unitPathfindingData;
     }
 
@@ -177,6 +188,10 @@ public class UserInteractionManager : MonoBehaviour
         {
             unit.ResetUnitTurnValues();
         }
+        foreach (Unit unit in EnemyUnits)
+        {
+            unit.ResetUnitTurnValues();
+        }
         TurnCounter++;
         Debug.Log("Round " + TurnCounter + " ended!");
     }
@@ -189,9 +204,11 @@ public class UserInteractionManager : MonoBehaviour
         Debug.Log("Enemy Turn for round" + TurnCounter + " started!");
         foreach (Unit enemy in EnemyUnits)
         {
+            SelectUnit(enemy);
             SelectedUnitPathfindingData=await CalculateUnitAvailablePathsAsync(enemy);
             var randomTile = SelectedUnitPathfindingData[Random.Range(0, SelectedUnitPathfindingData.Count)].DestinationTile;
             MoveUnitToTile(randomTile,enemy, SelectedUnitPathfindingData);
+            ResetSelectedUnit();
         }
         EndTurn();
     }
