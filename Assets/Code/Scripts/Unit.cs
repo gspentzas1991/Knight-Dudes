@@ -10,7 +10,6 @@ public class Unit : MonoBehaviour
     private Animator animator;
     public int Movement;
     public UnitState State = UnitState.Idle;
-    private MovementDirection direction = MovementDirection.Up;
     private Color DefaultSpriteColor = Color.white;
     private Color OutOfActionsSpriteColor = Color.grey;
     private SpriteRenderer _spriteRenderer = null;
@@ -22,7 +21,6 @@ public class Unit : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
-        animator.SetInteger("Direction", (int)direction);
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -50,29 +48,18 @@ public class Unit : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the animator's values depending on the unit's direction
+    /// Sets the animator's values and flips the sprite depending on the movement direction
     /// </summary>
     private void SetMovementAnimation(Vector3 movementTarget)
     {
         if (transform.position.x > movementTarget.x)
         {
-            direction = MovementDirection.Left;
             _spriteRenderer.flipX = true;
         }
         else if (transform.position.x < movementTarget.x)
         {
-            direction = MovementDirection.Right;
             _spriteRenderer.flipX = false;
         }
-        else if (transform.position.y > movementTarget.y)
-        {
-            direction = MovementDirection.Down;
-        }
-        else if (transform.position.y < movementTarget.y)
-        {
-            direction = MovementDirection.Up;
-        }
-        animator.SetInteger("Direction", (int)direction);
         animator.SetBool("IsMoving", State == UnitState.Moving);
     }
 

@@ -4,11 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
-/// <summary>
-/// Keeps track of 
-/// </summary>
 public class UserInteractionManager : MonoBehaviour
 {
     private Unit SelectedUnit;
@@ -24,13 +22,15 @@ public class UserInteractionManager : MonoBehaviour
     private GameObject CurrentHoveredTile;
     [SerializeField]
     private List<Unit> PlayerUnits = new List<Unit>();
+    [SerializeField]
+    private List<Unit> EnemyUnits = new List<Unit>();
     private int TurnCounter = 1;
     [SerializeField]
     private UnitProfileUI UnitProfile = null;
     private Unit HoveredUnit = null;
 
 
-    void Update()
+    async void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -41,35 +41,39 @@ public class UserInteractionManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 //clicked on a new unit
-                if (SelectedUnit == null)
+                if (hit.transform.gameObject.tag == "Unit")
                 {
-                    if (hit.transform.gameObject.tag == "Unit")
+                    Unit clickedUnit = hit.transform.gameObject.GetComponent<Unit>();
+                    if (clickedUnit.State==UnitState.Idle && PlayerUnits.Any(x=>x==clickedUnit))
                     {
-                        Unit clickedUnit = hit.transform.gameObject.GetComponent<Unit>();
-                        if (clickedUnit.State==UnitState.Idle)
+                        if (SelectedUnit!=null)
                         {
-                            SelectUnit(clickedUnit);
+                            ResetSelectedUnit();
                         }
+                        SelectUnit(clickedUnit);
+                        SelectedUnitPathfindingData = await CalculateUnitAvailablePathsAsync(SelectedUnit);
+                        _GridManager.ChangeTileListSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), SelectedGridTileSprite);
                     }
                 }
                 //clicked on a tile to move selected unit
-                else if (SelectedUnit.State == UnitState.Selected && hit.transform.gameObject.tag == "Tile" && hit.transform.position != SelectedUnit.transform.position)
+                else if (SelectedUnit!=null && SelectedUnit.State == UnitState.Selected && hit.transform.gameObject.tag == "Tile" && hit.transform.position != SelectedUnit.transform.position)
                 {
-                    MoveUnitToTile(hit.transform.gameObject.GetComponent<Tile>());
+                    MoveUnitToTile(hit.transform.gameObject.GetComponent<Tile>(),SelectedUnit,SelectedUnitPathfindingData);
+                    ResetSelectedUnit();
                 }
             }
             //right click detection
             else if (Input.GetMouseButtonDown(1))
             {
-                EndTurn();
+                StartEnemyTurnAsync();
             }
             //hover on tile within selectedUnit's available movement
-            else if(SelectedUnitPathfindingData != null && SelectedUnit.State == UnitState.Selected)
+            else if(SelectedUnit != null && SelectedUnit.State == UnitState.Selected && SelectedUnitPathfindingData!=null)
             {
-                //we run path rendering on hover, when not hovering over the selected unit, and when the hoveredTile changes
+                //we run path rendering on hover when the hoveredTile changes
                 if (hit.transform.gameObject != CurrentHoveredTile)
                 {
-                    RenderPathForUnitToTile(hit.transform.gameObject);
+                    RenderPathForUnitToTile(hit.transform.gameObject,SelectedUnitPathfindingData);
                 }
 
             }
@@ -79,88 +83,92 @@ public class UserInteractionManager : MonoBehaviour
                 Unit CurrentHoveredUnit = hit.transform.gameObject.GetComponent<Unit>();
                 if (CurrentHoveredUnit != HoveredUnit)
                 {
-                    HoveredUnit = CurrentHoveredUnit;
-                    UnitProfile.gameObject.SetActive(true);
-                    UnitProfile.SetUnitToDisplay(HoveredUnit);
+                    ShowUnitProfile(CurrentHoveredUnit);
                 }
             }
-            else  //stopped hovering over a unit
+            //stopped hovering over a unit
+            else if (HoveredUnit!=null)
             {
-                if (HoveredUnit!=null)
-                {
-                    HoveredUnit = null;
-                    UnitProfile.gameObject.SetActive(false);
-                }
-
+                HideUnitProfile();
             }
         }
 
     }
 
-    private void RenderPathForUnitToTile(GameObject hoveredTile)
+    private void RenderPathForUnitToTile(GameObject hoveredTile, List<TilePathfindingData> unitPathfindingdata)
     {
         CurrentHoveredTile = hoveredTile;
-        _GridManager.ChangeTileListSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), SelectedGridTileSprite);
-        if (hoveredTile.transform.position!=SelectedUnit.transform.position)
+        _GridManager.ChangeTileListSprites(unitPathfindingdata.Select(x => x.DestinationTile), SelectedGridTileSprite);
+        var selectedTilePathfindingData = unitPathfindingdata.FirstOrDefault(x => x.DestinationTile.gameObject == hoveredTile);
+        if (selectedTilePathfindingData != null)
         {
-            var selectedTilePathfindingData = SelectedUnitPathfindingData.FirstOrDefault(x => x.DestinationTile.gameObject == hoveredTile);
-            if (selectedTilePathfindingData != null)
-            {
-                var pathfindingDataList = PathfindingHelper.GetTilepathToTile(SelectedUnitPathfindingData, selectedTilePathfindingData.DestinationTile).Select(x => x.DestinationTile);
-                _GridManager.ChangeTileListSprites(pathfindingDataList, UnitPathGridTileSprite);
-            }
+            var pathfindingDataList = PathfindingHelper.GetTilepathToTile(unitPathfindingdata, selectedTilePathfindingData.DestinationTile).Select(x => x.DestinationTile);
+            _GridManager.ChangeTileListSprites(pathfindingDataList, UnitPathGridTileSprite);
         }
     }
 
     /// <summary>
-    /// Deselects the previous unit, and selects a new one
+    /// Deselects the previous unit, selects a new one and renders its possible movements
     /// </summary>
     private void SelectUnit(Unit unitToSelect)
     {
-        Unit previousSelectedUnit = SelectedUnit;
-        //reset the state of the previous selected unit
-        if (previousSelectedUnit != null)
-        {
-            previousSelectedUnit.State = UnitState.Idle;
-        }
         SelectedUnit = unitToSelect;
-        SelectedUnit.State = UnitState.Selected;
-        StartCoroutine(CalculatePossibleMovementsForUnit(SelectedUnit));
+        SelectedUnit.State = UnitState.Selected; 
+    }
+
+    /// <summary>
+    /// Deselects the selectedUnit and renders the default grid on its movement path
+    /// </summary>
+    private void ResetSelectedUnit()
+    {
+        if (SelectedUnit.State==UnitState.Selected)
+        {
+            SelectedUnit.State = UnitState.Idle;
+            _GridManager.ChangeTileListSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), DefaultGridTileSprite);
+        }
+        SelectedUnit = null;
+        SelectedUnitPathfindingData = null;
+    }
+
+    /// <summary>
+    /// Displays the unit profile on the UI
+    /// </summary>
+    private void ShowUnitProfile(Unit hoveredUnit)
+    {
+        HoveredUnit = hoveredUnit;
+        UnitProfile.gameObject.SetActive(true);
+        UnitProfile.SetUnitToDisplay(hoveredUnit);
+    }
+
+    private void HideUnitProfile()
+    {
+        HoveredUnit = null;
+        UnitProfile.gameObject.SetActive(false);
+    }
+
+    private async Task<List<TilePathfindingData>> CalculateUnitAvailablePathsAsync(Unit selectedUnit)
+    {
+        Vector3 selectedUnitPosition = selectedUnit.transform.position;
+        var unitPathfindingData = await Task.Run(() => PathfindingHelper.CalculatePathfindingForAvailableMoves(_GridManager.TileGrid, selectedUnitPosition, selectedUnit.Movement));
+        return unitPathfindingData;
     }
 
     /// <summary>
     /// Moves the selectedUnit to the selectedTile
     /// </summary>
-    private void MoveUnitToTile(Tile selectedTile)
+    private void MoveUnitToTile(Tile selectedTile,Unit selectedUnit, List<TilePathfindingData> unitPathfindingData)
     {
-        if (selectedTile.TerrainType != TerrainType.Impassable && SelectedUnitPathfindingData != null && SelectedUnit.State != UnitState.Moving)
+        if (selectedTile.TerrainType != TerrainType.Impassable && unitPathfindingData != null)
         {
-            var selectedTilePathfindingData = SelectedUnitPathfindingData.FirstOrDefault(x => x.DestinationTile.gameObject == selectedTile.gameObject);
-            if (selectedTilePathfindingData != null && selectedTilePathfindingData.MoveCost <= SelectedUnit.Movement)
+            var selectedTilePathfindingData = unitPathfindingData.FirstOrDefault(x => x.DestinationTile.gameObject == selectedTile.gameObject);
+            if (selectedTilePathfindingData != null && selectedTilePathfindingData.MoveCost <= selectedUnit.Movement)
             {
-                var pathfindingDataList = PathfindingHelper.GetTilepathToTile(SelectedUnitPathfindingData, selectedTile).Select(x => x.DestinationTile);
-                _GridManager.ChangeTileListSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), DefaultGridTileSprite);
-                StartCoroutine(SelectedUnit.FollowTilePath(pathfindingDataList));
-                SelectedUnitPathfindingData = null;
-                SelectedUnit = null;
+                var pathfindingDataList = PathfindingHelper.GetTilepathToTile(unitPathfindingData, selectedTile).Select(x => x.DestinationTile);
+                _GridManager.ChangeTileListSprites(unitPathfindingData.Select(x => x.DestinationTile), DefaultGridTileSprite);
+                StartCoroutine(selectedUnit.FollowTilePath(pathfindingDataList));
             }
 
         }
-    }
-
-    /// <summary>
-    /// Calculates the paths to all available tiles for the unit in a new thread, fills the SelectedUnitPathfindingData list and renders the available tile moves on the grid
-    /// </summary>
-    private IEnumerator CalculatePossibleMovementsForUnit(Unit selectedUnit)
-    {
-        Vector3 selectedUnitPosition = selectedUnit.transform.position;
-        Thread newThread = new Thread(() => SelectedUnitPathfindingData = PathfindingHelper.CalculatePathfindingForAvailableMoves(_GridManager.TileGrid,selectedUnitPosition, selectedUnit.Movement));
-        newThread.Start();
-        while (newThread.IsAlive)
-        {
-            yield return null;
-        }
-        _GridManager.ChangeTileListSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), SelectedGridTileSprite);
     }
 
     private void EndTurn()
@@ -170,5 +178,21 @@ public class UserInteractionManager : MonoBehaviour
             unit.ResetUnitTurnValues();
         }
         TurnCounter++;
+        Debug.Log("Round " + TurnCounter + " ended!");
+    }
+
+    /// <summary>
+    /// Makes actions with all the units in the EnemyUnits list
+    /// </summary>
+    private async void StartEnemyTurnAsync()
+    {
+        Debug.Log("Enemy Turn for round" + TurnCounter + " started!");
+        foreach (Unit enemy in EnemyUnits)
+        {
+            SelectedUnitPathfindingData=await CalculateUnitAvailablePathsAsync(enemy);
+            var randomTile = SelectedUnitPathfindingData[Random.Range(0, SelectedUnitPathfindingData.Count)].DestinationTile;
+            MoveUnitToTile(randomTile,enemy, SelectedUnitPathfindingData);
+        }
+        EndTurn();
     }
 }

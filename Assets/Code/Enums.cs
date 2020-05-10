@@ -11,14 +11,6 @@ namespace Enums
         Impassable = 3
     }
 
-    public enum MovementDirection
-    {
-        Up=1,
-        Right=2,
-        Down=3,
-        Left=4
-    }
-
     public enum UnitState
     {
         Idle=0,
