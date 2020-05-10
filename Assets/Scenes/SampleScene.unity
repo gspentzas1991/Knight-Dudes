@@ -2102,13 +2102,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.21848382, y: 0, z: 0, w: 0.9758406}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10.13, y: 3.66, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -25.24, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10751,7 +10751,7 @@ MonoBehaviour:
   MovementSpeed: 3
   Movement: 5
   State: 0
-  ProfileImage: {fileID: 21300000, guid: 4ae724b723016a2458a643a77dfac25c, type: 3}
+  ProfileImage: {fileID: 21300000, guid: 4f0c815e6eee2484db450404319ee9d9, type: 3}
   Name: Gremlin 2
   CurrentHealth: 15
   MaxHealth: 20
@@ -10936,8 +10936,7 @@ MonoBehaviour:
   _GridManager: {fileID: 593352158}
   SelectedGridTileSprite: {fileID: 21300000, guid: 13f54d74d3a56a04db45b05e6d111b71,
     type: 3}
-  DefaultGridTileSprite: {fileID: 21300000, guid: 3f55535a369ed6447af7478a8d82000d,
-    type: 3}
+  GridCursorSprite: {fileID: 21300000, guid: 3f55535a369ed6447af7478a8d82000d, type: 3}
   UnitPathGridTileSprite: {fileID: 21300000, guid: 3f2bbd35785a5cc4f96d926ac2056394,
     type: 3}
   PlayerUnits:
@@ -11516,7 +11515,7 @@ MonoBehaviour:
   MovementSpeed: 3
   Movement: 5
   State: 0
-  ProfileImage: {fileID: 21300000, guid: 4ae724b723016a2458a643a77dfac25c, type: 3}
+  ProfileImage: {fileID: 21300000, guid: 4f0c815e6eee2484db450404319ee9d9, type: 3}
   Name: Gremlin 1
   CurrentHealth: 20
   MaxHealth: 20
