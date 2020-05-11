@@ -1,29 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Enums;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 
-public class Tile : MonoBehaviour
+namespace Code.Scripts
 {
-    public TerrainType TerrainType;
-    public Unit CurrentUnit;
-    public Vector3 PositionInGrid;
-    [SerializeField]
-    private SpriteRenderer gridSpriteRenderer = null;
-    [SerializeField]
-    private SpriteRenderer gridCursorSpriteRenderer = null;
-
-    public void Start()
+    public class Tile : MonoBehaviour
     {
-    }
+        public TerrainType terrainType;
+        public Unit currentUnit;
+        public Vector3 positionInGrid;
+        [SerializeField]
+        private SpriteRenderer gridSpriteRenderer = null;
+        [SerializeField]
+        private SpriteRenderer gridCursorSpriteRenderer = null;
 
-    public void ChangeGridSprite(Sprite newGridSprite)
-    {
-        gridSpriteRenderer.sprite = newGridSprite;
-    }
+        public void ChangeGridSprite(Sprite newGridSprite)
+        {
+            gridSpriteRenderer.sprite = newGridSprite;
+        }
 
-    public void ChangeCursorRendererState(bool rendererState)
-    {
-        gridCursorSpriteRenderer.enabled = rendererState;
+        public void ChangeCursorRendererState(bool rendererState)
+        {
+            gridCursorSpriteRenderer.enabled = rendererState;
+        }
     }
 }

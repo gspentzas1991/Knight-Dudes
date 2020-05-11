@@ -1,33 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Code.Scripts;
 
-public class TilePathfindingData
+namespace Code.Models
 {
-    public Tile DestinationTile { get; set; }
-    /// <summary>
-    /// The pathfinding data of the connected tile with the lowest MoveCost
-    /// </summary>
-    public TilePathfindingData ClosestSourceTilePathfindingData { get; set; }
-    /// <summary>
-    /// The lowest cost we must pay to move to reach the DestinationTile from the begining of the path
-    /// </summary>
-    public int MoveCost { get; set; }
-    /// <summary>
-    /// The DestinationTile's transform distance from the goal
-    /// </summary>
-    public float TransformDistanceFromGoal { get; set; }
-    /// <summary>
-    /// The Sum of the MoveCost and DistanceFromGoal of the DestinationTile
-    /// </summary>
-    public float TotalTilePathCost { get { return MoveCost+TransformDistanceFromGoal; } }
-
-    public TilePathfindingData(Tile _destinationTile,TilePathfindingData _closestSourceTilePathfindingData, int _moveCost, float _transforDistanceFromGoal)
+    public class TilePathfindingData
     {
-        DestinationTile = _destinationTile;
-        ClosestSourceTilePathfindingData = _closestSourceTilePathfindingData;
-        MoveCost = _moveCost;
-        TransformDistanceFromGoal = _transforDistanceFromGoal;
-    }
+        public Tile DestinationTile { get; }
+        /// <summary>
+        /// The pathfinding data of the connected tile with the lowest MoveCost
+        /// </summary>
+        public TilePathfindingData ClosestSourceTilePathfindingData { get; }
+        /// <summary>
+        /// The lowest cost we must pay to move to reach the DestinationTile from the beginning of the path
+        /// </summary>
+        public int MoveCost { get; }
+        /// <summary>
+        /// The DestinationTile's transform distance from the goal
+        /// </summary>
+        private float TransformDistanceFromGoal { get; }
+        /// <summary>
+        /// The Sum of the MoveCost and DistanceFromGoal of the DestinationTile
+        /// </summary>
+        public float TotalTilePathCost => MoveCost+TransformDistanceFromGoal;
 
+        public TilePathfindingData(Tile destinationTile,TilePathfindingData closestSourceTilePathfindingData, int moveCost, float transformDistanceFromGoal)
+        {
+            DestinationTile = destinationTile;
+            ClosestSourceTilePathfindingData = closestSourceTilePathfindingData;
+            MoveCost = moveCost;
+            TransformDistanceFromGoal = transformDistanceFromGoal;
+        }
+
+    }
 }

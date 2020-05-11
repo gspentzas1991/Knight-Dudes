@@ -1,75 +1,78 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Enums;
+using UnityEngine.Serialization;
 
-public class Unit : MonoBehaviour
+namespace Code.Scripts
 {
-    [SerializeField]
-    private float MovementSpeed=0;
-    private Animator animator;
-    public int Movement;
-    public UnitState State = UnitState.Idle;
-    private Color DefaultSpriteColor = Color.white;
-    private Color OutOfActionsSpriteColor = Color.grey;
-    private SpriteRenderer _spriteRenderer = null;
-    public Sprite ProfileImage = null;
-    public string Name = null;
-    public int CurrentHealth;
-    public int MaxHealth;
-
-    void Awake()
+    public class Unit : MonoBehaviour
     {
-        animator = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+        [SerializeField]
+        private float movementSpeed=0;
+        private Animator Animator;
+        [SerializeField]public int movement;
+        public UnitState state = UnitState.Idle;
+        private readonly Color DefaultSpriteColor = Color.white;
+        private readonly Color OutOfActionsSpriteColor = Color.grey;
+        private SpriteRenderer SpriteRenderer = null;
+        [SerializeField] public Sprite profileImage = null;
+        [SerializeField]public string unitName = null;
+        [SerializeField] public int currentHealth;
+        [SerializeField] public int maxHealth;
+        private static readonly int IsMoving = Animator.StringToHash("IsMoving");
 
-    /// <summary>
-    /// Moves the unit along every tile on the tilePath list
-    /// </summary>
-    public IEnumerator FollowTilePath(IEnumerable<Tile> tilePath)
-    {
-        State = UnitState.Moving;
-        foreach (var tile in tilePath)
+        private void Awake()
         {
-            SetMovementAnimation(tile.transform.position);
-            do
+            Animator = GetComponent<Animator>();
+            SpriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        /// <summary>
+        /// Moves the unit along every tile on the tilePath list
+        /// </summary>
+        public IEnumerator FollowTilePath(IEnumerable<Tile> tilePath)
+        {
+            state = UnitState.Moving;
+            Animator.SetBool(IsMoving,true);
+            foreach (var tile in tilePath)
             {
-                transform.position = Vector3.MoveTowards(transform.position, tile.transform.position, MovementSpeed * Time.deltaTime);
-                if (transform.position!=tile.transform.position)
+                SetSpriteDirection(tile.transform.position);
+                do
                 {
-                    yield return new WaitForEndOfFrame();
-                }
-            } while (transform.position != tile.transform.position);
+                    transform.position = Vector3.MoveTowards(transform.position, tile.transform.position, movementSpeed * Time.deltaTime);
+                    if (transform.position!=tile.transform.position)
+                    {
+                        yield return new WaitForEndOfFrame();
+                    }
+                } while (transform.position != tile.transform.position);
+            }
+            state = UnitState.OutOfActions;
+            Animator.SetBool(IsMoving,false);
+            SpriteRenderer.color = OutOfActionsSpriteColor;
         }
-        State = UnitState.OutOfActions;
-        SetMovementAnimation(transform.position);
-        _spriteRenderer.color = OutOfActionsSpriteColor;
-    }
 
-    /// <summary>
-    /// Sets the animator's values and flips the sprite depending on the movement direction
-    /// </summary>
-    private void SetMovementAnimation(Vector3 movementTarget)
-    {
-        if (transform.position.x > movementTarget.x)
+        /// <summary>
+        /// Flips the sprite depending on the direction the unit is heading
+        /// </summary>
+        private void SetSpriteDirection(Vector3 movementTarget)
         {
-            _spriteRenderer.flipX = true;
+            if (transform.position.x > movementTarget.x)
+            {
+                SpriteRenderer.flipX = true;
+            }
+            else if (transform.position.x < movementTarget.x)
+            {
+                SpriteRenderer.flipX = false;
+            }
         }
-        else if (transform.position.x < movementTarget.x)
-        {
-            _spriteRenderer.flipX = false;
-        }
-        animator.SetBool("IsMoving", State == UnitState.Moving);
-    }
 
-    /// <summary>
-    /// Resets a units turn values to their defaults 
-    /// </summary>
-    public void ResetUnitTurnValues()
-    {
-        State = UnitState.Idle;
-        SetMovementAnimation(transform.position);
-        _spriteRenderer.color = DefaultSpriteColor;
+        /// <summary>
+        /// Resets a units turn values to their defaults 
+        /// </summary>
+        public void ResetUnitTurnValues()
+        {
+            state = UnitState.Idle;
+            SpriteRenderer.color = DefaultSpriteColor;
+        }
     }
 }

@@ -1,28 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using Enums;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
-namespace Scripts
+namespace Code.Scripts
 {
     public class GridManager : MonoBehaviour
     {
         [SerializeField]
-        private Vector2Int GridSize = new Vector2Int();
+        private Vector2Int gridSize = new Vector2Int();
         [SerializeField]
-        private GameObject GridOutlinePrefab = null;
+        private GameObject tilePrefab = null;
         [SerializeField]
-        private Tilemap ImpassableTerrainTilemap = null;
+        private Tilemap impassableTerrainTilemap = null;
         [SerializeField]
-        private Tilemap DifficultTerrainTilemap = null;
+        private Tilemap difficultTerrainTilemap = null;
         public Tile[,] TileGrid { get; private set; }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-            TileGrid = new Tile[GridSize.x, GridSize.y];
+            TileGrid = new Tile[gridSize.x, gridSize.y];
             GenerateGrid();
         }
 
@@ -31,21 +29,17 @@ namespace Scripts
         /// </summary>
         private void GenerateGrid()
         {
-
-            AddTileInGridListFromTilemap(DifficultTerrainTilemap,TerrainType.Difficult);
-            AddTileInGridListFromTilemap(ImpassableTerrainTilemap, TerrainType.Impassable);
-
-
-            for (int i = 0; i < GridSize.x; i++)
+            AddTilesInGrid(difficultTerrainTilemap,TerrainType.Difficult);
+            AddTilesInGrid(impassableTerrainTilemap, TerrainType.Impassable);
+            for (var i = 0; i < gridSize.x; i++)
             {
-                for (int j = 0; j < GridSize.y; j++)
+                for (var j = 0; j < gridSize.y; j++)
                 {
-                    Vector3 nextTilePosition = new Vector3(i,j,0);
+                    var nextTilePosition = new Vector3(i,j,0);
                     if(TileGrid[i,j]==null)
                     {
-                        AddTileInGridList(nextTilePosition, TerrainType.Normal);
+                        AddTileInGrid(nextTilePosition, TerrainType.Normal);
                     }
-
                 }
             }
         }
@@ -53,14 +47,14 @@ namespace Scripts
         /// <summary>
         /// For every tile of the tilemap, adds a tile in the grid with the selected type
         /// </summary>
-        public void AddTileInGridListFromTilemap(Tilemap tilemap, TerrainType tilesType)
+        private void AddTilesInGrid(Tilemap tilemap, TerrainType tilesType)
         {
             foreach (var position in tilemap.cellBounds.allPositionsWithin)
             {
-                Vector3 place = tilemap.GetCellCenterWorld(position);
+                var place = tilemap.GetCellCenterWorld(position);
                 if (tilemap.HasTile(position))
                 {
-                    AddTileInGridList(place, tilesType);
+                    AddTileInGrid(place, tilesType);
                 }
             }
         }
@@ -68,20 +62,20 @@ namespace Scripts
 
 
         /// <summary>
-        /// Instantiates a grid gameobject and it adds the tile to the tileGrid
+        /// Instantiates a grid GameObject and adds it to the tileGrid
         /// </summary>
-        public void AddTileInGridList(Vector3 tilePosition, TerrainType tileType)
+        private void AddTileInGrid(Vector3 tilePosition, TerrainType tileType)
         {
-            var newTile = Instantiate(GridOutlinePrefab, tilePosition, new Quaternion()).GetComponent<Tile>();
-            newTile.TerrainType = tileType;
-            newTile.PositionInGrid = newTile.transform.position;
+            var newTile = Instantiate(tilePrefab, tilePosition, new Quaternion()).GetComponent<Tile>();
+            newTile.terrainType = tileType;
+            newTile.positionInGrid = newTile.transform.position;
             TileGrid[(int)tilePosition.x, (int)tilePosition.y] = newTile;
         }
 
         /// <summary>
-        /// Changes the sprite of every tile in the list
+        /// Changes the sprite of every tile in a list
         /// </summary>
-        public void ChangeTileListSprites(IEnumerable<Tile> tileList, Sprite newSprite)
+        public static void ChangeTilesSprites(IEnumerable<Tile> tileList, Sprite newSprite)
         {
             foreach (var tile in tileList)
             {

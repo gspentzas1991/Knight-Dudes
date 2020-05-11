@@ -594,11 +594,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244827184f566f9469ac7ea4c1e995eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSize: {x: 25, y: 22}
-  GridOutlinePrefab: {fileID: 6668036854654392178, guid: 3a4fb040342e2da4592f75ba4df54a1b,
+  gridSize: {x: 25, y: 22}
+  tilePrefab: {fileID: 6668036854654392178, guid: 3a4fb040342e2da4592f75ba4df54a1b,
     type: 3}
-  ImpassableTerrainTilemap: {fileID: 1412718641}
-  DifficultTerrainTilemap: {fileID: 1694065012}
+  impassableTerrainTilemap: {fileID: 1412718641}
+  difficultTerrainTilemap: {fileID: 1694065012}
 --- !u!4 &593352159
 Transform:
   m_ObjectHideFlags: 0
@@ -1968,6 +1968,37 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 4ae724b723016a2458a643a77dfac25c,
         type: 3}
+    - target: {fileID: 4662568198603162486, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: movementSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4662568198603162486, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: movement
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4662568198603162486, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: unitName
+      value: Ike
+      objectReference: {fileID: 0}
+    - target: {fileID: 4662568198603162486, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: currentHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4662568198603162486, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4662568198603162486, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: profileImage
+      value: 
+      objectReference: {fileID: 21300000, guid: 4ae724b723016a2458a643a77dfac25c,
+        type: 3}
     - target: {fileID: 4662568198603162487, guid: b56aba10ce44c9340b5528f9332d2857,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2121,11 +2152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16fad94270b032b46829f6e1ecfd5e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraMovementSpeed: 10
-  ZoomSpeed: 10
-  EdgeScrollingOffset: 10
-  MaximumPosition: {x: 30, y: 20, z: -4}
-  MinimumPosition: {x: -5, y: -7, z: -15}
+  cameraMovementSpeed: 10
+  zoomSpeed: 10
+  edgeScrollingOffset: 10
+  maximumPosition: {x: 30, y: 20, z: -4}
+  minimumPosition: {x: -5, y: -7, z: -15}
 --- !u!1 &1185046692
 GameObject:
   m_ObjectHideFlags: 0
@@ -10748,13 +10779,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82fde64bdc5228940ab18109e0569943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 3
-  Movement: 5
-  State: 0
-  ProfileImage: {fileID: 21300000, guid: 4f0c815e6eee2484db450404319ee9d9, type: 3}
-  Name: Gremlin 2
-  CurrentHealth: 15
-  MaxHealth: 20
+  movementSpeed: 3
+  movement: 5
+  state: 0
+  profileImage: {fileID: 21300000, guid: 4f0c815e6eee2484db450404319ee9d9, type: 3}
+  unitName: Gremlin 2
+  currentHealth: 15
+  maxHealth: 20
 --- !u!95 &1436574273
 Animator:
   serializedVersion: 3
@@ -10933,19 +10964,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881bb89f04f1a664ca71640ae8ef706a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _GridManager: {fileID: 593352158}
-  SelectedGridTileSprite: {fileID: 21300000, guid: 13f54d74d3a56a04db45b05e6d111b71,
+  gridManager: {fileID: 593352158}
+  selectedGridTileSprite: {fileID: 21300000, guid: 13f54d74d3a56a04db45b05e6d111b71,
     type: 3}
-  GridCursorSprite: {fileID: 21300000, guid: 3f55535a369ed6447af7478a8d82000d, type: 3}
-  UnitPathGridTileSprite: {fileID: 21300000, guid: 3f2bbd35785a5cc4f96d926ac2056394,
+  unitPathGridTileSprite: {fileID: 21300000, guid: 3f2bbd35785a5cc4f96d926ac2056394,
     type: 3}
-  PlayerUnits:
+  playerUnits:
   - {fileID: 1989579951}
   - {fileID: 1954028136}
-  EnemyUnits:
+  enemyUnits:
   - {fileID: 1896191314}
   - {fileID: 1436574272}
-  UnitProfile: {fileID: 2061813427}
+  unitProfile: {fileID: 2061813427}
+  mainCamera: {fileID: 963194227}
 --- !u!4 &1548520753
 Transform:
   m_ObjectHideFlags: 0
@@ -11352,7 +11383,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -99.5, y: -0.17}
-  m_SizeDelta: {x: 77.1, y: 83.04}
+  m_SizeDelta: {x: 77.1, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1833989636
 MonoBehaviour:
@@ -11372,8 +11403,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: caf67da8362f3f44e8fa5edcaa59206a, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -11512,13 +11543,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82fde64bdc5228940ab18109e0569943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 3
-  Movement: 5
-  State: 0
-  ProfileImage: {fileID: 21300000, guid: 4f0c815e6eee2484db450404319ee9d9, type: 3}
-  Name: Gremlin 1
-  CurrentHealth: 20
-  MaxHealth: 20
+  movementSpeed: 3
+  movement: 5
+  state: 0
+  profileImage: {fileID: 21300000, guid: 4f0c815e6eee2484db450404319ee9d9, type: 3}
+  unitName: Gremlin 1
+  currentHealth: 20
+  maxHealth: 20
 --- !u!95 &1896191315
 Animator:
   serializedVersion: 3
@@ -11685,8 +11716,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -11715,9 +11746,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d342dc3ede273de43b689b855c304b12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitName: {fileID: 1887188308}
-  UnitImage: {fileID: 1833989636}
-  UnitHealth: {fileID: 181414324}
+  unitName: {fileID: 1887188308}
+  unitImage: {fileID: 1833989636}
+  unitHealth: {fileID: 181414324}
 --- !u!1001 &4662568198360586201
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11777,6 +11808,37 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 4ae724b723016a2458a643a77dfac25c,
         type: 3}
+    - target: {fileID: 4662568198603162486, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: movementSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4662568198603162486, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: movement
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4662568198603162486, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: profileImage
+      value: 
+      objectReference: {fileID: 21300000, guid: 4ae724b723016a2458a643a77dfac25c,
+        type: 3}
+    - target: {fileID: 4662568198603162486, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: unitName
+      value: Hector
+      objectReference: {fileID: 0}
+    - target: {fileID: 4662568198603162486, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: currentHealth
+      value: 78
+      objectReference: {fileID: 0}
+    - target: {fileID: 4662568198603162486, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 4662568198603162487, guid: b56aba10ce44c9340b5528f9332d2857,
         type: 3}
       propertyPath: m_LocalPosition.x
