@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Code.Scripts
 {
@@ -8,10 +7,10 @@ namespace Code.Scripts
         public TerrainType terrainType;
         public Unit currentUnit;
         public Vector3 positionInGrid;
-        [SerializeField]
-        private SpriteRenderer gridSpriteRenderer = null;
-        [SerializeField]
-        private SpriteRenderer gridCursorSpriteRenderer = null;
+        #pragma warning disable 0649
+        [SerializeField] private SpriteRenderer gridSpriteRenderer;
+        [SerializeField] private SpriteRenderer gridCursorSpriteRenderer;
+        #pragma warning restore 0649
 
         public void ChangeGridSprite(Sprite newGridSprite)
         {

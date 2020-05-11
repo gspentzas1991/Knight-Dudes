@@ -1,21 +1,18 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 namespace Code.Scripts
 {
     public class GridManager : MonoBehaviour
     {
-        [SerializeField]
-        private Vector2Int gridSize = new Vector2Int();
-        [SerializeField]
-        private GameObject tilePrefab = null;
-        [SerializeField]
-        private Tilemap impassableTerrainTilemap = null;
-        [SerializeField]
-        private Tilemap difficultTerrainTilemap = null;
         public Tile[,] TileGrid { get; private set; }
+        #pragma warning disable 0649
+        [SerializeField] private Vector2Int gridSize;
+        [SerializeField] private GameObject tilePrefab;
+        [SerializeField] private Tilemap impassableTerrainTilemap;
+        [SerializeField] private Tilemap difficultTerrainTilemap;
+        #pragma warning restore 0649
 
         // Start is called before the first frame update
         private void Start()

@@ -1,20 +1,16 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Code.Scripts
 {
     public class CameraMovement : MonoBehaviour
     {
-        [SerializeField]
-        private float cameraMovementSpeed = 0f;
-        [SerializeField]
-        private float zoomSpeed = 0f;
-        [SerializeField]
-        private float edgeScrollingOffset = 0f;
-        [SerializeField]
-        private Vector3 maximumPosition = new Vector3();
-        [SerializeField]
-        private Vector3 minimumPosition = new Vector3();
+        #pragma warning disable 0649
+        [SerializeField] private float cameraMovementSpeed;
+        [SerializeField] private float zoomSpeed;
+        [SerializeField] private float edgeScrollingOffset;
+        [SerializeField] private Vector3 maximumPosition;
+        [SerializeField] private Vector3 minimumPosition;
+        #pragma warning restore 0649
 
         // Update is called once per frame
         private void LateUpdate()

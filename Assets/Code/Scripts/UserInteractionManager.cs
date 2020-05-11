@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Code.Helpers;
 using Code.Models;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
-using UnityEngine.Assertions;
 
 namespace Code.Scripts
 {
@@ -15,26 +12,21 @@ namespace Code.Scripts
     {
         private const int MaxRaycastHits = 2;
         private Unit SelectedUnit;
-        [SerializeField]
-        private GridManager gridManager = null;
         private List<TilePathfindingData> SelectedUnitPathfindingData;
-        [SerializeField]
-        private Sprite selectedGridTileSprite = null;
-        [SerializeField]
-        private Sprite unitPathGridTileSprite = null;
-        [SerializeField]
-        private List<Unit> playerUnits = new List<Unit>();
-        [SerializeField]
-        private List<Unit> enemyUnits = new List<Unit>();
-        private int TurnCounter = 1;
-        [SerializeField]
-        private UnitProfileGui unitProfile = null;
-        private Unit HoveredUnit = null;
-        private Tile HoveredTile = null;
-        [SerializeField] 
-        private Camera mainCamera = null;
-
         private IEnumerable<Unit> AllUnits;
+        private int TurnCounter = 1;
+        private Tile PreviousHoveredTile;
+        #pragma warning disable 0649
+        [SerializeField] private GridManager gridManager;
+        [SerializeField] private Sprite selectedGridTileSprite;
+        [SerializeField] private Sprite unitPathGridTileSprite ;
+        [SerializeField] private List<Unit> playerUnits;
+        [SerializeField] private List<Unit> enemyUnits;
+        [SerializeField] private UnitProfileGui unitProfile;
+        [SerializeField] private Camera mainCamera;
+        #pragma warning restore 0649
+
+
 
         private void Start()
         {
@@ -46,88 +38,88 @@ namespace Code.Scripts
                 gridManager.TileGrid[(int)position.x, (int)position.y].currentUnit=unit;
             }
         }
-        private async void Update()
+        private void Update()
         {
             //fires a raycast from the camera to the mouse position to detect hits
-            var hitTile = DetectHoveredTile();
-            Unit hitUnit = null;
-            if (!ReferenceEquals(hitTile,null))
+            var hoveredTile = DetectHoveredTile();
+            Unit hoveredUnit = null;
+            if (!ReferenceEquals(hoveredTile,null))
             {
-                hitUnit = hitTile.currentUnit;
+                hoveredUnit = hoveredTile.currentUnit;
             }
 
-            //click gameobject detection
-            if (Input.GetMouseButtonDown(0))
+            //Hovers over tile
+            if (!ReferenceEquals(hoveredTile,null))
             {
-                //clicked on a new unit
-                if (!ReferenceEquals(hitUnit,null))
-                {
-                    if (hitUnit.state==UnitState.Idle && playerUnits.Any(x=>x==hitUnit))
+                if (hoveredTile != PreviousHoveredTile)
+                {                        
+                    // Changes the hoveredTile to be the cursor, and the previous hovered tile to not be
+                    // ReSharper disable once UseNullPropagation
+                    if (!ReferenceEquals(PreviousHoveredTile,null))
                     {
-                        if (SelectedUnit!=null)
-                        {
-                            ResetSelectedUnit();
-                        }
-                        SelectUnit(hitUnit);
-                        SelectedUnitPathfindingData = await CalculateUnitAvailablePathsAsync(SelectedUnit);
-                        GridManager.ChangeTilesSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), selectedGridTileSprite);
-                    }
-                }
-                //clicked on a tile to move selected unit
-                else if (SelectedUnit!=null && SelectedUnit.state == UnitState.Selected && hitTile!=null && hitTile.transform.position != SelectedUnit.transform.position)
-                {
-                    MoveUnitToTile(hitTile,SelectedUnit,SelectedUnitPathfindingData);
-                    GridManager.ChangeTilesSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), null);
-                    ResetSelectedUnit();
-                }
-            }
-            //right click detection
-            else if (Input.GetMouseButtonDown(1))
-            {
-                StartEnemyTurnAsync();
-            }
-            //hover on tile
-            if (hitTile!=null)
-            {
-                if (hitTile != HoveredTile)
-                {
-                    var previousHoveredTile = HoveredTile;
-                    HoveredTile = hitTile;
-                    //changes the hoveredTile to be the cursor, and the previous tile to not be
-                    if (previousHoveredTile!=null)
+                        PreviousHoveredTile.ChangeCursorRendererState(false);
+                    }      
+                    hoveredTile.ChangeCursorRendererState(true);      
+                    if (SelectedUnitPathfindingData!=null)
                     {
-                        previousHoveredTile.ChangeCursorRendererState(false);
+                        var hoveredTilePathData = SelectedUnitPathfindingData.FirstOrDefault(x => x.DestinationTile == hoveredTile);
+                        //If hovering within the selected unit's movement, renders the path, otherwise removes the rendered path
+                        RenderPathForUnitToTile(hoveredTilePathData,SelectedUnitPathfindingData);
                     }
-                    HoveredTile.ChangeCursorRendererState(true);
-                    //hovered over a tile within the unit's movement
-                    if (SelectedUnit != null && SelectedUnit.state == UnitState.Selected && SelectedUnitPathfindingData != null && SelectedUnitPathfindingData.Any(x => x.DestinationTile == HoveredTile))
-                    {
-                        RenderPathForUnitToTile(hitTile.gameObject, SelectedUnitPathfindingData);
-
-                    }
-                    //if we hover outside the units movement area, we stop rendering paths
-                    else if (SelectedUnitPathfindingData!=null && !SelectedUnitPathfindingData.Any(x => x.DestinationTile == HoveredTile))
-                    {
-                        GridManager.ChangeTilesSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), selectedGridTileSprite);
-                    }
+                    PreviousHoveredTile = hoveredTile;
                 }
 
             }
             
-            //hover over a unit
-            if (hitUnit!=null)
+            //Hovers over a unit
+            if (!ReferenceEquals(hoveredUnit,null))
             {
-                if (hitUnit != HoveredUnit)
+                if (!unitProfile.gameObject.activeSelf)
                 {
-                    ShowUnitProfile(hitUnit);
+                    ShowUnitProfile(hoveredUnit);
                 }
             }
-            //stopped hovering over a unit
-            else if (HoveredUnit!=null)
+            //Stopped hovering over a unit
+            else if (unitProfile.gameObject.activeSelf)
             {
-                HideUnitProfile();
+                unitProfile.gameObject.SetActive(false);
             }
+            
+            //Left click detection
+            if (Input.GetMouseButtonDown(0))
+            {
+                //Clicked on a unit
+                if (!ReferenceEquals(hoveredUnit,null))
+                {
+                    ChangeSelectedUnitAsync(hoveredUnit);
+                }
+                //Clicked on an empty tile
+                else if (!ReferenceEquals(hoveredTile,null))
+                {
+                    MoveUnitToTile(hoveredTile,SelectedUnit,SelectedUnitPathfindingData);
+                }
+            }
+            //Right click detection
+            else if (Input.GetMouseButtonDown(1))
+            {
+                StartEnemyTurnAsync();
+            }
+        }
 
+        private async void ChangeSelectedUnitAsync(Unit unitToSelect)
+        {
+            //Clicked on an idle player unit
+            if (unitToSelect.state != UnitState.Idle || SelectedUnit==unitToSelect || playerUnits.All(x => x != unitToSelect))
+            {
+                return;
+            }
+            if (!ReferenceEquals(SelectedUnit,null))
+            {
+                ResetSelectedUnit();
+            }
+            SelectUnit(unitToSelect);
+            SelectedUnitPathfindingData = await CalculateUnitAvailablePathsAsync(SelectedUnit);
+            GridManager.ChangeTilesSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), selectedGridTileSprite);
         }
         
         /// <summary>
@@ -138,7 +130,7 @@ namespace Code.Scripts
             var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             var raycastHits = new RaycastHit[MaxRaycastHits];
             Physics.RaycastNonAlloc(ray, raycastHits);
-            var hitTileTransform = raycastHits.FirstOrDefault(x=>x.transform.CompareTag("Tile")).transform;
+            var hitTileTransform = raycastHits.FirstOrDefault(x=>!ReferenceEquals(x.transform, null) && x.transform.CompareTag("Tile")).transform;
             if (ReferenceEquals(hitTileTransform, null))
             {
                 return null;
@@ -146,16 +138,19 @@ namespace Code.Scripts
             var position = hitTileTransform.position;
             return gridManager.TileGrid[(int)position.x,(int)position.y];
         }
-
-        private void RenderPathForUnitToTile(GameObject hoveredTile, List<TilePathfindingData> unitPathfindingdata)
+        
+        /// <summary>
+        /// Renders a path from the unit to the selected tile
+        /// </summary>
+        private void RenderPathForUnitToTile(TilePathfindingData selectedTilePathfindingData, IReadOnlyCollection<TilePathfindingData> unitPathfindingData)
         {
-            GridManager.ChangeTilesSprites(unitPathfindingdata.Select(x => x.DestinationTile), selectedGridTileSprite);
-            var selectedTilePathfindingData = unitPathfindingdata.FirstOrDefault(x => x.DestinationTile.gameObject == hoveredTile);
-            if (selectedTilePathfindingData != null)
+            GridManager.ChangeTilesSprites(unitPathfindingData.Select(x => x.DestinationTile), selectedGridTileSprite);
+            if (selectedTilePathfindingData == null)
             {
-                var pathfindingDataList = PathfindingHelper.GetPathToTile(unitPathfindingdata, selectedTilePathfindingData.DestinationTile).Select(x => x.DestinationTile);
-                GridManager.ChangeTilesSprites(pathfindingDataList, unitPathGridTileSprite);
+                return;
             }
+            var pathfindingDataList = PathfindingHelper.GetPathToTile(unitPathfindingData, selectedTilePathfindingData.DestinationTile).Select(x => x.DestinationTile);
+            GridManager.ChangeTilesSprites(pathfindingDataList, unitPathGridTileSprite);
         }
 
         /// <summary>
@@ -186,53 +181,47 @@ namespace Code.Scripts
         /// </summary>
         private void ShowUnitProfile(Unit hoveredUnit)
         {
-            HoveredUnit = hoveredUnit;
             unitProfile.gameObject.SetActive(true);
             unitProfile.SetUnitToDisplay(hoveredUnit);
         }
 
         /// <summary>
-        /// Hides the unit profile on the UI
-        /// </summary>
-        private void HideUnitProfile()
-        {
-            HoveredUnit = null;
-            unitProfile.gameObject.SetActive(false);
-        }
-
-        /// <summary>
-        /// Calculates asyncronously the unit's pathfinding data
+        /// Calculates asynchronously the unit's pathfinding data
         /// </summary>
         private async Task<List<TilePathfindingData>> CalculateUnitAvailablePathsAsync(Unit selectedUnit)
         {
             var selectedUnitPosition = selectedUnit.transform.position;
             var unitTile = gridManager.TileGrid[(int)selectedUnitPosition.x, (int)selectedUnitPosition.y];
-            #if UNITY_WEBGL
+            #if UNITY_WEBGL && !UNITY_EDITOR 
                 var unitPathfindingData = PathfindingHelper.CalculatePathfindingForAvailableMoves(gridManager.TileGrid, unitTile, selectedUnit.movement);
             #else
-                var unitPathfindingData = await Task.Run(() => PathfindingHelper.CalculatePathfindingForAvailableMoves(_GridManager.TileGrid, selectedUnitPosition, selectedUnit.Movement));
+                var unitPathfindingData = await Task.Run(() => PathfindingHelper.CalculatePathfindingForAvailableMoves(gridManager.TileGrid, unitTile, selectedUnit.movement));
             #endif
             return unitPathfindingData;
         }
 
         /// <summary>
-        /// Moves the selectedUnit to the selectedTile
+        /// Moves the selectedUnit to the selectedTile, if the selected tile is a valid move for that unit
         /// </summary>
-        private void MoveUnitToTile(Tile selectedTile,Unit selectedUnit, List<TilePathfindingData> unitPathfindingData)
+        private void MoveUnitToTile(Tile selectedTile,Unit selectedUnit, IReadOnlyList<TilePathfindingData> unitPathfindingData)
         {
-            if (selectedTile.terrainType != TerrainType.Impassable && unitPathfindingData != null)
+            if (selectedTile.terrainType == TerrainType.Impassable || unitPathfindingData == null || ReferenceEquals(selectedUnit, null))
             {
-                var selectedTilePathfindingData = unitPathfindingData.FirstOrDefault(x => x.DestinationTile.gameObject == selectedTile.gameObject);
-                if (selectedTilePathfindingData != null && selectedTilePathfindingData.MoveCost <= selectedUnit.movement)
-                {
-                    var pathfindingDataList = PathfindingHelper.GetPathToTile(unitPathfindingData, selectedTile).Select(x => x.DestinationTile);
-                    //we move the unit reference from the starting tile to the selected tile
-                    unitPathfindingData[0].DestinationTile.currentUnit = null;
-                    selectedTile.currentUnit = SelectedUnit;
-                    StartCoroutine(selectedUnit.FollowTilePath(pathfindingDataList));
-                }
-
+                return;
             }
+            //checks that the selected tile is a valid move for the unit
+            var selectedTilePathfindingData = unitPathfindingData.FirstOrDefault(x => x.DestinationTile == selectedTile);
+            if (selectedTilePathfindingData == null || selectedTilePathfindingData.MoveCost > selectedUnit.movement)
+            {
+                return;
+            }
+            var pathfindingDataList = PathfindingHelper.GetPathToTile(unitPathfindingData, selectedTile).Select(x => x.DestinationTile);
+            //we move the unit reference from the starting tile to the selected tile
+            unitPathfindingData[0].DestinationTile.currentUnit = null;
+            selectedTile.currentUnit = SelectedUnit;
+            StartCoroutine(selectedUnit.FollowTilePath(pathfindingDataList));
+            GridManager.ChangeTilesSprites(SelectedUnitPathfindingData.Select(x => x.DestinationTile), null);
+            ResetSelectedUnit();
         }
 
         private void EndTurn()
@@ -245,8 +234,8 @@ namespace Code.Scripts
             {
                 unit.ResetUnitTurnValues();
             }
+            Debug.Log("finished turn "+TurnCounter);
             TurnCounter++;
-            Debug.Log("Round " + TurnCounter + " ended!");
         }
 
         /// <summary>
@@ -254,14 +243,12 @@ namespace Code.Scripts
         /// </summary>
         private async void StartEnemyTurnAsync()
         {
-            Debug.Log("Enemy Turn for round" + TurnCounter + " started!");
             foreach (var enemy in enemyUnits)
             {
                 SelectUnit(enemy);
                 SelectedUnitPathfindingData=await CalculateUnitAvailablePathsAsync(enemy);
                 var randomTile = SelectedUnitPathfindingData[Random.Range(0, SelectedUnitPathfindingData.Count)].DestinationTile;
                 MoveUnitToTile(randomTile,enemy, SelectedUnitPathfindingData);
-                ResetSelectedUnit();
             }
             EndTurn();
         }

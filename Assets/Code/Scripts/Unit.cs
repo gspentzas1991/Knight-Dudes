@@ -1,25 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Code.Scripts
 {
     public class Unit : MonoBehaviour
     {
-        [SerializeField]
-        private float movementSpeed=0;
         private Animator Animator;
-        [SerializeField]public int movement;
         public UnitState state = UnitState.Idle;
         private readonly Color DefaultSpriteColor = Color.white;
         private readonly Color OutOfActionsSpriteColor = Color.grey;
-        private SpriteRenderer SpriteRenderer = null;
-        [SerializeField] public Sprite profileImage = null;
-        [SerializeField]public string unitName = null;
+        private SpriteRenderer SpriteRenderer;
+        private static readonly int IsMoving = Animator.StringToHash("IsMoving");
+        #pragma warning disable 0649
+        [SerializeField] public Sprite profileImage;
+        [SerializeField] public string unitName;
         [SerializeField] public int currentHealth;
         [SerializeField] public int maxHealth;
-        private static readonly int IsMoving = Animator.StringToHash("IsMoving");
+        [SerializeField] public int movement;
+        [SerializeField] private float movementSpeed;
+        #pragma warning restore 0649
 
         private void Awake()
         {
