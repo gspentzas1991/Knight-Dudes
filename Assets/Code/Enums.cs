@@ -14,4 +14,11 @@
         Moving=2,
         OutOfActions=3
     }
+
+    public enum TileState
+    {
+        Idle = 0,
+        Selected = 1,
+        Active =2
+    }
 }

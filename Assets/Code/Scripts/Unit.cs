@@ -28,6 +28,15 @@ namespace Code.Scripts
         }
 
         /// <summary>
+        /// Begins the unit's followTilePath Coroutine
+        /// </summary>
+        /// <param name="tilePath"></param>
+        public void BeginFollowingTilePath(IEnumerable<GridTile> tilePath)
+        {
+            StartCoroutine((FollowTilePath(tilePath)));
+        }
+        
+        /// <summary>
         /// Moves the unit along every tile on the tilePath list
         /// </summary>
         public IEnumerator FollowTilePath(IEnumerable<GridTile> tilePath)
