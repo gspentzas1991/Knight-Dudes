@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Code.Grid;
 using UnityEngine;
 
-namespace Code.Scripts
+namespace Code.Units
 {
     public class Unit : MonoBehaviour
     {
@@ -39,9 +40,8 @@ namespace Code.Scripts
         /// <summary>
         /// Moves the unit along every tile on the tilePath list
         /// </summary>
-        public IEnumerator FollowTilePath(IEnumerable<GridTile> tilePath)
+        private IEnumerator FollowTilePath(IEnumerable<GridTile> tilePath)
         {
-            state = UnitState.Moving;
             Animator.SetBool(IsMoving,true);
             foreach (var tile in tilePath)
             {
@@ -55,7 +55,6 @@ namespace Code.Scripts
                     }
                 } while (transform.position != tile.transform.position);
             }
-            state = UnitState.OutOfActions;
             Animator.SetBool(IsMoving,false);
             SpriteRenderer.color = OutOfActionsSpriteColor;
         }

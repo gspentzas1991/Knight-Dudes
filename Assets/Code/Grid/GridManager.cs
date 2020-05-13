@@ -1,5 +1,4 @@
-﻿using Code.Scripts;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Code.Grid

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Code.Grid;
 using Code.Helpers;
 using Code.Models;
-using Code.Scripts;
 using UnityEngine;
 
 namespace Code.Units
@@ -17,8 +17,6 @@ namespace Code.Units
         {
             foreach (var enemy in enemyUnits)
             {
-                //temporary solution to fix bug
-                enemy.state = UnitState.Idle;
                 await unitSelector.ChangeSelectedUnitAsync(enemy, tileGrid);
                 var randomTile = unitSelector.SelectedUnitPathfindingData[Random.Range(0, unitSelector.SelectedUnitPathfindingData.Count)].DestinationGridTile;
                 MoveUnitToTile(randomTile,enemy, unitSelector.SelectedUnitPathfindingData,unitSelector);
@@ -45,6 +43,7 @@ namespace Code.Units
             unitPathfindingData[0].DestinationGridTile.currentUnit = null;
             selectedGridTile.currentUnit = selectedUnit;
             selectedUnit.BeginFollowingTilePath(pathfindingDataList);
+            selectedUnit.state = UnitState.OutOfActions;
             TileRenderingHelper.ChangeTileSprites(unitSelector.SelectedUnitPathfindingData.Select(x => x.DestinationGridTile), TileState.Idle);
             unitSelector.DeselectUnit();
         }

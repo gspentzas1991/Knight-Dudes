@@ -7,7 +7,7 @@ using Code.Turns;
 using Code.Units;
 using UnityEngine;
 
-namespace Code.Scripts
+namespace Code.UserInput
 {
     /// <summary>
     /// Handles the user input and calls the appropriate code

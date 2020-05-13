@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Code.Units;
+using UnityEngine;
 
-namespace Code.Scripts
+namespace Code.Grid
 {
     public class GridTile : MonoBehaviour
     {

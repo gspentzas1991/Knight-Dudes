@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Code.Scripts
+namespace Code.UserInput
 {
     public class CameraMovement : MonoBehaviour
     {
@@ -24,26 +24,26 @@ namespace Code.Scripts
         private void MovementDetection()
         {
             var newPositionOffset = new Vector3();
-            if ((Input.GetKey(KeyCode.W) || Input.mousePosition.y>Screen.height+ edgeScrollingOffset ) && transform.position.y<maximumPosition.y)
+            if ((UnityEngine.Input.GetKey(KeyCode.W) || UnityEngine.Input.mousePosition.y>Screen.height+ edgeScrollingOffset ) && transform.position.y<maximumPosition.y)
             {
                 newPositionOffset.y = cameraMovementSpeed * Time.deltaTime;
             }
-            if ((Input.GetKey(KeyCode.S) || Input.mousePosition.y < edgeScrollingOffset) && transform.position.y > minimumPosition.y)
+            if ((UnityEngine.Input.GetKey(KeyCode.S) || UnityEngine.Input.mousePosition.y < edgeScrollingOffset) && transform.position.y > minimumPosition.y)
             {
                 newPositionOffset.y = -cameraMovementSpeed * Time.deltaTime;
             }
-            if ((Input.GetKey(KeyCode.D) || Input.mousePosition.x > Screen.width + edgeScrollingOffset) && transform.position.x < maximumPosition.x)
+            if ((UnityEngine.Input.GetKey(KeyCode.D) || UnityEngine.Input.mousePosition.x > Screen.width + edgeScrollingOffset) && transform.position.x < maximumPosition.x)
             {
                 newPositionOffset.x = cameraMovementSpeed * Time.deltaTime;
             }
-            if ((Input.GetKey(KeyCode.A) || Input.mousePosition.x < edgeScrollingOffset) && transform.position.x > minimumPosition.x)
+            if ((UnityEngine.Input.GetKey(KeyCode.A) || UnityEngine.Input.mousePosition.x < edgeScrollingOffset) && transform.position.x > minimumPosition.x)
             {
                 newPositionOffset.x = -cameraMovementSpeed * Time.deltaTime;
             }
-            if ((Input.mouseScrollDelta.y >0 && transform.position.z < maximumPosition.z) 
-                || (Input.mouseScrollDelta.y < 0 && transform.position.z > minimumPosition.z))
+            if ((UnityEngine.Input.mouseScrollDelta.y >0 && transform.position.z < maximumPosition.z) 
+                || (UnityEngine.Input.mouseScrollDelta.y < 0 && transform.position.z > minimumPosition.z))
             {
-                newPositionOffset.z = Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed;
+                newPositionOffset.z = UnityEngine.Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed;
             }
             transform.position += newPositionOffset;
         }

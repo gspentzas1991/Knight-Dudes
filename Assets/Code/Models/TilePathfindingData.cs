@@ -1,4 +1,4 @@
-﻿using Code.Scripts;
+﻿using Code.Grid;
 
 namespace Code.Models
 {

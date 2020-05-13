@@ -11,6 +11,7 @@
           <e p="Grid" t="Include">
             <e p="GridCursor.cs" t="Include" />
             <e p="GridManager.cs" t="Include" />
+            <e p="GridTile.cs" t="Include" />
           </e>
           <e p="GUI" t="Include">
             <e p="UnitProfileGui.cs" t="Include" />
@@ -22,18 +23,17 @@
           <e p="Models" t="Include">
             <e p="TilePathfindingData.cs" t="Include" />
           </e>
-          <e p="Scripts" t="Include">
-            <e p="CameraMovement.cs" t="Include" />
-            <e p="GridTile.cs" t="Include" />
-            <e p="Unit.cs" t="Include" />
-            <e p="UserInteractionManager.cs" t="Include" />
-          </e>
           <e p="Turns" t="Include">
             <e p="TurnManager.cs" t="Include" />
           </e>
           <e p="Units" t="Include">
+            <e p="Unit.cs" t="Include" />
             <e p="UnitMovement.cs" t="Include" />
             <e p="UnitSelector.cs" t="Include" />
+          </e>
+          <e p="UserInput" t="Include">
+            <e p="CameraMovement.cs" t="Include" />
+            <e p="UserInteractionManager.cs" t="Include" />
           </e>
         </e>
       </e>
