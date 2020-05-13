@@ -2,7 +2,7 @@
 
 namespace Code.Scripts
 {
-    public class Tile : MonoBehaviour
+    public class GridTile : MonoBehaviour
     {
         public TerrainType terrainType;
         public Unit currentUnit;
@@ -17,6 +17,9 @@ namespace Code.Scripts
             gridSpriteRenderer.sprite = newGridSprite;
         }
 
+        /// <summary>
+        /// enables or disables the spriteRenderer of the cursor gameobject
+        /// </summary>
         public void ChangeCursorRendererState(bool rendererState)
         {
             gridCursorSpriteRenderer.enabled = rendererState;

@@ -4,7 +4,7 @@ namespace Code.Models
 {
     public class TilePathfindingData
     {
-        public Tile DestinationTile { get; }
+        public GridTile DestinationGridTile { get; }
         /// <summary>
         /// The pathfinding data of the connected tile with the lowest MoveCost
         /// </summary>
@@ -22,9 +22,9 @@ namespace Code.Models
         /// </summary>
         public float TotalTilePathCost => MoveCost+TransformDistanceFromGoal;
 
-        public TilePathfindingData(Tile destinationTile,TilePathfindingData closestSourceTilePathfindingData, int moveCost, float transformDistanceFromGoal)
+        public TilePathfindingData(GridTile destinationGridTile,TilePathfindingData closestSourceTilePathfindingData, int moveCost, float transformDistanceFromGoal)
         {
-            DestinationTile = destinationTile;
+            DestinationGridTile = destinationGridTile;
             ClosestSourceTilePathfindingData = closestSourceTilePathfindingData;
             MoveCost = moveCost;
             TransformDistanceFromGoal = transformDistanceFromGoal;

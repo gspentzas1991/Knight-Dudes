@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Code.Scripts;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Code.Scripts
+namespace Code.Grid
 {
     public class GridManager : MonoBehaviour
     {
-        public Tile[,] TileGrid { get; private set; }
+        public GridTile[,] TileGrid { get; private set; }
         #pragma warning disable 0649
         [SerializeField] private Vector2Int gridSize;
         [SerializeField] private GameObject tilePrefab;
@@ -17,7 +17,7 @@ namespace Code.Scripts
         // Start is called before the first frame update
         private void Start()
         {
-            TileGrid = new Tile[gridSize.x, gridSize.y];
+            TileGrid = new GridTile[gridSize.x, gridSize.y];
             GenerateGrid();
         }
 
@@ -56,28 +56,15 @@ namespace Code.Scripts
             }
         }
 
-
-
         /// <summary>
         /// Instantiates a grid GameObject and adds it to the tileGrid
         /// </summary>
         private void AddTileInGrid(Vector3 tilePosition, TerrainType tileType)
         {
-            var newTile = Instantiate(tilePrefab, tilePosition, new Quaternion()).GetComponent<Tile>();
+            var newTile = Instantiate(tilePrefab, tilePosition, new Quaternion()).GetComponent<GridTile>();
             newTile.terrainType = tileType;
             newTile.positionInGrid = newTile.transform.position;
             TileGrid[(int)tilePosition.x, (int)tilePosition.y] = newTile;
-        }
-
-        /// <summary>
-        /// Changes the sprite of every tile in a list
-        /// </summary>
-        public static void ChangeTilesSprites(IEnumerable<Tile> tileList, Sprite newSprite)
-        {
-            foreach (var tile in tileList)
-            {
-                tile.ChangeGridSprite(newSprite);
-            }
         }
     }
 }

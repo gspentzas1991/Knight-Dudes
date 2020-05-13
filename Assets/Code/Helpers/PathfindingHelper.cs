@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Code.Models;
 using Code.Scripts;
+using UnityEngine;
 
 namespace Code.Helpers
 {
@@ -22,17 +24,31 @@ namespace Code.Helpers
             (0,-1),
             (0,1)
         };
+        
+        /// <summary>
+        /// Calculates asynchronously the unit's pathfinding data for all its moves
+        /// </summary>
+        public static async Task<List<TilePathfindingData>> CalculateUnitAvailablePathsAsync(Vector3 unitPosition, GridTile[,] tileGrid)
+        {
+            var selectedTile = tileGrid[(int)unitPosition.x, (int)unitPosition.y];
+            #if UNITY_WEBGL && !UNITY_EDITOR 
+                var unitPathfindingData = PathfindingHelper.CalculatePathfindingForAvailableMoves(gridManager.TileGrid, unitTile, selectedUnit.movement);
+            #else
+                var unitPathfindingData = await Task.Run(() => PathfindingHelper.CalculatePathfindingForAvailableMoves(tileGrid, selectedTile, selectedTile.currentUnit.movement));
+            #endif
+            return unitPathfindingData;
+        }
 
         /// <summary>
         /// Takes a tile's pathfinding data, and calculates the adjacent tiles' pathfinding data
         /// </summary>
-        private static IEnumerable<TilePathfindingData> CalculateAdjacentTilePathfindingData(Tile[,] tileGrid,TilePathfindingData sourceTilePathfindingData, IReadOnlyCollection<TilePathfindingData> analyzedTiles)
+        private static IEnumerable<TilePathfindingData> CalculateAdjacentTilePathfindingData(GridTile[,] tileGrid,TilePathfindingData sourceTilePathfindingData, IReadOnlyCollection<TilePathfindingData> analyzedTiles)
         {
             var adjacentTilesPathfindingData = new List<TilePathfindingData>();
             for (var i = 0; i < AdjacentTilesCoordinates.Count; i++)
             {
-                var adjacentTileXCoordinate = (int)sourceTilePathfindingData.DestinationTile.positionInGrid.x + AdjacentTilesCoordinates[i].x;
-                var adjacentTileYCoordinate = (int)sourceTilePathfindingData.DestinationTile.positionInGrid.y + AdjacentTilesCoordinates[i].y;
+                var adjacentTileXCoordinate = (int)sourceTilePathfindingData.DestinationGridTile.positionInGrid.x + AdjacentTilesCoordinates[i].x;
+                var adjacentTileYCoordinate = (int)sourceTilePathfindingData.DestinationGridTile.positionInGrid.y + AdjacentTilesCoordinates[i].y;
                 //we make sure the tile we are checking is inside the grid
                 if (adjacentTileXCoordinate < 0 || adjacentTileXCoordinate > tileGrid.GetLength(0) ||
                     adjacentTileYCoordinate < 0 || adjacentTileYCoordinate > tileGrid.GetLength(1))
@@ -42,7 +58,7 @@ namespace Code.Helpers
                 var tileToAnalyze = tileGrid[adjacentTileXCoordinate, adjacentTileYCoordinate];
                 //we ignore impassable tiles, and tiles that we have already analyzed
                 if (tileToAnalyze.terrainType == TerrainType.Impassable ||
-                    analyzedTiles.Any(x => x.DestinationTile == tileToAnalyze))
+                    analyzedTiles.Any(x => x.DestinationGridTile == tileToAnalyze))
                 {
                     continue;
                 }
@@ -55,13 +71,13 @@ namespace Code.Helpers
         /// <summary>
         /// Calculates and returns the tilePathfindingData of every available move for the selected unit in the grid, using Dijkstra pathfinding algorithm
         /// </summary>
-        public static List<TilePathfindingData> CalculatePathfindingForAvailableMoves(Tile[,] tileGrid, Tile startingTile, int moveCount)
+        private static List<TilePathfindingData> CalculatePathfindingForAvailableMoves(GridTile[,] tileGrid, GridTile startingGridTile, int moveCount)
         {
             var remainingTilesToAnalyze = new List<TilePathfindingData>();
             var analyzedTiles = new List<TilePathfindingData>();
 
             //pathfindingData for the starting tile
-            var startingTilePathfindingData = new TilePathfindingData(startingTile,null,0,0);
+            var startingTilePathfindingData = new TilePathfindingData(startingGridTile,null,0,0);
             remainingTilesToAnalyze.Add(startingTilePathfindingData);
 
             //We check the adjacent tiles of the first tile in remainingTilesToAnalyze, then we remove that tile from the list and then we order the list by totalTilePathCost
@@ -71,7 +87,7 @@ namespace Code.Helpers
                 var adjacentTilesPathfindingData = CalculateAdjacentTilePathfindingData(tileGrid, tileToAnalyze, analyzedTiles);
                 foreach (var tilePathfindingData in adjacentTilesPathfindingData)
                 {
-                    var existingTilePathfindingData = remainingTilesToAnalyze.FirstOrDefault(x => x.DestinationTile == tilePathfindingData.DestinationTile);
+                    var existingTilePathfindingData = remainingTilesToAnalyze.FirstOrDefault(x => x.DestinationGridTile == tilePathfindingData.DestinationGridTile);
                     //If we find a faster way to get to a tile that is already on the remainingTilesToAnalyze, we replace it with the new pathfinding data
                     if (existingTilePathfindingData != null && existingTilePathfindingData.MoveCost > tilePathfindingData.MoveCost)
                     {
@@ -94,9 +110,9 @@ namespace Code.Helpers
         /// <summary>
         /// Returns a list with the fastest tile path a unit can take to reach the selected tile
         /// </summary>
-        public static IEnumerable<TilePathfindingData> GetPathToTile(IEnumerable<TilePathfindingData> pathfindingList, Tile selectedTile)
+        public static IEnumerable<GridTile> GetPathToTile(IEnumerable<TilePathfindingData> pathfindingList, GridTile selectedGridTile)
         {
-            var tileCursorInPathfindingList = pathfindingList.FirstOrDefault(x => x.DestinationTile == selectedTile); //the first tileCursor is our goal selectedTile
+            var tileCursorInPathfindingList = pathfindingList.FirstOrDefault(x => x.DestinationGridTile == selectedGridTile); //the first tileCursor is our goal selectedTile
             if (tileCursorInPathfindingList == null)
             {
                 return null;
@@ -109,7 +125,7 @@ namespace Code.Helpers
                 tileCursorInPathfindingList = tileCursorInPathfindingList.ClosestSourceTilePathfindingData;
             } while (tileCursorInPathfindingList != null); 
             tilePath.Reverse();
-            return tilePath;
+            return tilePath.Select(x=>x.DestinationGridTile);
         }
     }
 }

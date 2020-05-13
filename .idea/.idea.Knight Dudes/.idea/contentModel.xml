@@ -8,18 +8,24 @@
       <e p="Assets" t="Include">
         <e p="Code" t="Include">
           <e p="Enums.cs" t="Include" />
+          <e p="Grid" t="Include">
+            <e p="GridCursor.cs" t="Include" />
+            <e p="GridManager.cs" t="Include" />
+          </e>
+          <e p="GUI" t="Include">
+            <e p="UnitProfileGui.cs" t="Include" />
+          </e>
           <e p="Helpers" t="Include">
             <e p="PathfindingHelper.cs" t="Include" />
+            <e p="TileRenderingHelper.cs" t="Include" />
           </e>
           <e p="Models" t="Include">
             <e p="TilePathfindingData.cs" t="Include" />
           </e>
           <e p="Scripts" t="Include">
             <e p="CameraMovement.cs" t="Include" />
-            <e p="GridManager.cs" t="Include" />
-            <e p="Tile.cs" t="Include" />
+            <e p="GridTile.cs" t="Include" />
             <e p="Unit.cs" t="Include" />
-            <e p="UnitProfileGui.cs" t="Include" />
             <e p="UserInteractionManager.cs" t="Include" />
           </e>
         </e>

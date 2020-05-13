@@ -30,7 +30,7 @@ namespace Code.Scripts
         /// <summary>
         /// Moves the unit along every tile on the tilePath list
         /// </summary>
-        public IEnumerator FollowTilePath(IEnumerable<Tile> tilePath)
+        public IEnumerator FollowTilePath(IEnumerable<GridTile> tilePath)
         {
             state = UnitState.Moving;
             Animator.SetBool(IsMoving,true);
