@@ -2131,9 +2131,10 @@ MonoBehaviour:
   gridCursor: {fileID: 441068689}
   cameraMovementSpeed: 10
   zoomSpeed: 10
-  edgeScrollingOffset: 10
+  edgeScrollingOffset: 20
   maximumPosition: {x: 30, y: 20, z: -4}
   minimumPosition: {x: -5, y: -7, z: -15}
+  mainCamera: {fileID: 963194227}
 --- !u!1 &1185046692
 GameObject:
   m_ObjectHideFlags: 0
@@ -10763,6 +10764,8 @@ MonoBehaviour:
   maxHealth: 20
   movement: 5
   movementSpeed: 3
+  animator: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!95 &1436574273
 Animator:
   serializedVersion: 3
@@ -11471,6 +11474,8 @@ MonoBehaviour:
   maxHealth: 20
   movement: 5
   movementSpeed: 3
+  animator: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!95 &1896191315
 Animator:
   serializedVersion: 3
