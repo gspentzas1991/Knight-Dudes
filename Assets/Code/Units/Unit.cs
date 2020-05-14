@@ -8,11 +8,9 @@ namespace Code.Units
 {
     public class Unit : MonoBehaviour
     {
-        private Animator Animator;
         public UnitState state = UnitState.Idle;
         private readonly Color DefaultSpriteColor = Color.white;
         private readonly Color OutOfActionsSpriteColor = Color.grey;
-        private SpriteRenderer SpriteRenderer;
         private static readonly int IsMoving = Animator.StringToHash("IsMoving");
         /// <summary>
         /// Pathfinding data for all available moves the unit can make from its current position
@@ -25,12 +23,12 @@ namespace Code.Units
         [SerializeField] public int maxHealth;
         [SerializeField] public int movement;
         [SerializeField] private float movementSpeed;
+        [SerializeField] private Animator animator;
+        [SerializeField] private SpriteRenderer spriteRenderer;
         #pragma warning restore 0649
 
         private void Awake()
         {
-            Animator = GetComponent<Animator>();
-            SpriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         /// <summary>
@@ -47,7 +45,7 @@ namespace Code.Units
         /// </summary>
         private IEnumerator FollowTilePath(IEnumerable<GridTile> tilePath)
         {
-            Animator.SetBool(IsMoving,true);
+            animator.SetBool(IsMoving,true);
             foreach (var tile in tilePath)
             {
                 SetSpriteDirection(tile.transform.position);
@@ -60,8 +58,8 @@ namespace Code.Units
                     }
                 } while (transform.position != tile.transform.position);
             }
-            Animator.SetBool(IsMoving,false);
-            SpriteRenderer.color = OutOfActionsSpriteColor;
+            animator.SetBool(IsMoving,false);
+            spriteRenderer.color = OutOfActionsSpriteColor;
         }
 
         /// <summary>
@@ -71,11 +69,11 @@ namespace Code.Units
         {
             if (transform.position.x > movementTarget.x)
             {
-                SpriteRenderer.flipX = true;
+                spriteRenderer.flipX = true;
             }
             else if (transform.position.x < movementTarget.x)
             {
-                SpriteRenderer.flipX = false;
+                spriteRenderer.flipX = false;
             }
         }
 
@@ -85,7 +83,7 @@ namespace Code.Units
         public void ResetUnitTurnValues()
         {
             state = UnitState.Idle;
-            SpriteRenderer.color = DefaultSpriteColor;
+            spriteRenderer.color = DefaultSpriteColor;
             pathfindingData = null;
         }
     }

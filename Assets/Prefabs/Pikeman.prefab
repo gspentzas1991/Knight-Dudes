@@ -115,13 +115,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82fde64bdc5228940ab18109e0569943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 6
-  Movement: 0
-  State: 0
-  ProfileImage: {fileID: 0}
-  Name: 
-  CurrentHealth: 0
-  MaxHealth: 0
+  state: 0
+  profileImage: {fileID: 0}
+  unitName: 
+  currentHealth: 0
+  maxHealth: 0
+  movement: 0
+  movementSpeed: 0
+  animator: {fileID: 4662568198603162485}
+  spriteRenderer: {fileID: 4662568198603162484}
 --- !u!65 &4662568198603162473
 BoxCollider:
   m_ObjectHideFlags: 0

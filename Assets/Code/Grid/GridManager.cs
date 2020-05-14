@@ -14,7 +14,7 @@ namespace Code.Grid
         #pragma warning restore 0649
 
         // Start is called before the first frame update
-        private void Start()
+        private void Awake()
         {
             TileGrid = new GridTile[gridSize.x, gridSize.y];
             GenerateGrid();

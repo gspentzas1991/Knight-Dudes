@@ -517,6 +517,30 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &441068685 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 778171248601289819, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
+    type: 3}
+  m_PrefabInstance: {fileID: 4685797751283420934}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 244827184f566f9469ac7ea4c1e995eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &441068689 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4685797750013297203, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
+    type: 3}
+  m_PrefabInstance: {fileID: 4685797751283420934}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a41cbcd876564eff9b9ff4e20a11c3b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &534901741
 GameObject:
   m_ObjectHideFlags: 0
@@ -2104,6 +2128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16fad94270b032b46829f6e1ecfd5e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridCursor: {fileID: 441068689}
   cameraMovementSpeed: 10
   zoomSpeed: 10
   edgeScrollingOffset: 10
@@ -11823,6 +11848,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SceneInitializer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685797750013297203, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
+        type: 3}
+      propertyPath: gridManager
+      value: 
+      objectReference: {fileID: 441068685}
+    - target: {fileID: 4685797750013297203, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 963194227}
+    - target: {fileID: 4685797750013297203, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
+        type: 3}
+      propertyPath: controlWithMouse
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4685797750013297206, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
         type: 3}
