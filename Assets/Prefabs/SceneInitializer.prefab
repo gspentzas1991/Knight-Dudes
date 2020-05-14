@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4685797750013297193
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4685797750013297207}
+  - component: {fileID: 4685797750013297206}
+  - component: {fileID: 4685797750013297203}
+  - component: {fileID: 4685797750013297202}
+  - component: {fileID: 4685797750013297205}
+  - component: {fileID: 4685797750013297204}
+  - component: {fileID: 778171248601289819}
+  m_Layer: 0
+  m_Name: SceneInitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4685797750013297207
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4685797750013297193}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4685797750013297206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4685797750013297193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 881bb89f04f1a664ca71640ae8ef706a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridManager: {fileID: 778171248601289819}
+  playerUnits:
+  - {fileID: 0}
+  - {fileID: 0}
+  enemyUnits:
+  - {fileID: 0}
+  - {fileID: 0}
+  unitProfile: {fileID: 0}
+  mainCamera: {fileID: 0}
+  gridCursor: {fileID: 4685797750013297203}
+  unitSelector: {fileID: 4685797750013297202}
+  unitMovementHandler: {fileID: 4685797750013297205}
+  turnManager: {fileID: 4685797750013297204}
+--- !u!114 &4685797750013297203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4685797750013297193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a41cbcd876564eff9b9ff4e20a11c3b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4685797750013297202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4685797750013297193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d867d0a6e094cbb986265d847080a47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4685797750013297205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4685797750013297193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93a4fd6f0f614d5ab47ed1586fb3003c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitSelector: {fileID: 4685797750013297202}
+--- !u!114 &4685797750013297204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4685797750013297193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c16c639f6e534b909ba17bf890b521a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitSelector: {fileID: 4685797750013297202}
+--- !u!114 &778171248601289819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4685797750013297193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 244827184f566f9469ac7ea4c1e995eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridSize: {x: 25, y: 22}
+  tilePrefab: {fileID: 6668036854654392178, guid: 3a4fb040342e2da4592f75ba4df54a1b,
+    type: 3}
+  impassableTerrainTilemap: {fileID: 0}
+  difficultTerrainTilemap: {fileID: 0}

@@ -15,10 +15,6 @@ namespace Code.UserInput
     public class UserInteractionManager : MonoBehaviour
     {
         private IEnumerable<Unit> AllUnits;
-        private readonly GridCursor GridCursor = new GridCursor();
-        private readonly UnitSelector UnitSelector = new UnitSelector();
-        private readonly UnitMovement UnitMovement = new UnitMovement();
-        private readonly TurnManager TurnManager = new TurnManager();
         private const int MaxRaycastHits = 2;
         #pragma warning disable 0649
         [SerializeField] private GridManager gridManager;
@@ -26,9 +22,11 @@ namespace Code.UserInput
         [SerializeField] private List<Unit> enemyUnits;
         [SerializeField] private UnitProfileGui unitProfile;
         [SerializeField] private Camera mainCamera;
+        [SerializeField] private GridCursor gridCursor;
+        [SerializeField] private UnitSelector unitSelector;
+        [SerializeField] private UnitMovementHandler unitMovementHandler;
+        [SerializeField] private TurnManager turnManager;
         #pragma warning restore 0649
-
-
 
         private void Start()
         {
@@ -53,12 +51,13 @@ namespace Code.UserInput
             //Hovers over tile
             if (!ReferenceEquals(hoveredTile, null))
             {
-                var tileChanged = GridCursor.HoveredTileChanged(hoveredTile);   
-                if (tileChanged && UnitSelector.SelectedUnitPathfindingData!=null)
+                var tileChanged = gridCursor.HoveredTileChanged(hoveredTile);
+                if (tileChanged && !ReferenceEquals(unitSelector.SelectedUnit, null))
                 {
+                    var selectedUnitPathfindingData = unitSelector.SelectedUnit.pathfindingData;
                     //If hovering within the selected unit's movement, renders the path, otherwise removes the rendered path  
-                    var hoveredTilePathData = UnitSelector.SelectedUnitPathfindingData.FirstOrDefault(x => x.DestinationGridTile == hoveredTile);
-                    TileRenderingHelper.RenderPathForUnitToTile(hoveredTilePathData,UnitSelector.SelectedUnitPathfindingData);
+                    var hoveredTilePathData = selectedUnitPathfindingData.FirstOrDefault(x => x.DestinationGridTile == hoveredTile);
+                    TileRenderingHelper.RenderPathToTile(hoveredTilePathData,selectedUnitPathfindingData);
                 }
             }
             //Hovers over a unit
@@ -74,20 +73,20 @@ namespace Code.UserInput
                 {
                     if (playerUnits.All(x => x != hoveredUnit)) return;
                     //clicked on a player unit
-                    await UnitSelector.ChangeSelectedUnitAsync(hoveredUnit,gridManager.TileGrid);
-                    TileRenderingHelper.ChangeTileSprites(UnitSelector.SelectedUnitPathfindingData.Select(x => x.DestinationGridTile), TileState.Selected);
+                    await unitSelector.ChangeSelectedUnitAsync(hoveredUnit,gridManager.TileGrid);
+                    TileRenderingHelper.RenderUnitAvailablePaths(hoveredUnit);
                 }
                 //Clicked on an empty tile
                 else if (!ReferenceEquals(hoveredTile,null))
                 {
-                    UnitMovement.MoveUnitToTile(hoveredTile,UnitSelector.SelectedUnit,UnitSelector.SelectedUnitPathfindingData,UnitSelector);
+                    unitMovementHandler.MoveUnitToTile(hoveredTile,unitSelector.SelectedUnit);
                 }
             }
             //Right click detection
             else if (Input.GetMouseButtonDown(1))
             {
-                await UnitMovement.MoveEnemyUnitsAsync(enemyUnits,gridManager.TileGrid,UnitSelector);
-                TurnManager.EndTurn(AllUnits,UnitSelector);
+                await unitMovementHandler.MoveEnemyUnitsAsync(enemyUnits,gridManager.TileGrid);
+                turnManager.EndTurn(AllUnits);
             }
         }
         

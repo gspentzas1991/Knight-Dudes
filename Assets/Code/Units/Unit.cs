@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Code.Grid;
+using Code.Models;
 using UnityEngine;
 
 namespace Code.Units
@@ -13,6 +14,10 @@ namespace Code.Units
         private readonly Color OutOfActionsSpriteColor = Color.grey;
         private SpriteRenderer SpriteRenderer;
         private static readonly int IsMoving = Animator.StringToHash("IsMoving");
+        /// <summary>
+        /// Pathfinding data for all available moves the unit can make from its current position
+        /// </summary>
+        public List<TilePathfindingData> pathfindingData;
         #pragma warning disable 0649
         [SerializeField] public Sprite profileImage;
         [SerializeField] public string unitName;
@@ -81,6 +86,7 @@ namespace Code.Units
         {
             state = UnitState.Idle;
             SpriteRenderer.color = DefaultSpriteColor;
+            pathfindingData = null;
         }
     }
 }

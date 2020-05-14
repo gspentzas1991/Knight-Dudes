@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Code.Grid;
 using Code.Models;
+using Code.Units;
 using UnityEngine;
 
 namespace Code.Helpers
@@ -15,7 +16,7 @@ namespace Code.Helpers
         /// <summary>
         /// Changes the sprite of every tile in a list
         /// </summary>
-        public static void ChangeTileSprites(IEnumerable<GridTile> tileList, TileState state)
+        private static void ChangeTileSprites(IEnumerable<GridTile> tileList, TileState state)
         {
             var tileSprite = GetSpriteFromTileState(state);
             foreach (var tile in tileList)
@@ -43,18 +44,31 @@ namespace Code.Helpers
         }
             
         /// <summary>
-        /// Renders a path from the unit to the selected tile
+        /// Renders a path from the unit to the selected tile with active tile sprites
         /// </summary>
-        public static void RenderPathForUnitToTile(TilePathfindingData selectedTilePathfindingData, IEnumerable<TilePathfindingData> unitPathfindingData)
+        public static void RenderPathToTile(TilePathfindingData selectedTilePathfindingData, IEnumerable<TilePathfindingData> unitPathfindingData)
         {
             var tilePathfindingData = unitPathfindingData.ToList();
             ChangeTileSprites(tilePathfindingData.Select(x => x.DestinationGridTile), TileState.Selected);
-            if (selectedTilePathfindingData == null)
-            {
-                return;
-            }
+            if (selectedTilePathfindingData == null) return;
             var pathfindingDataList = PathfindingHelper.GetPathToTile(tilePathfindingData, selectedTilePathfindingData.DestinationGridTile);
             ChangeTileSprites(pathfindingDataList, TileState.Active);
+        }
+
+        /// <summary>
+        /// Renderers every tile the unit can move to, as a selected tile
+        /// </summary>
+        public static void RenderUnitAvailablePaths(Unit selectedUnit)
+        {
+            ChangeTileSprites(selectedUnit.pathfindingData.Select(x => x.DestinationGridTile), TileState.Selected);
+        }
+
+        /// <summary>
+        /// UnRenders all the tiles that a unit could move to
+        /// </summary>
+        public static void UnRenderUnitPaths(Unit selectedUnit)
+        {
+            ChangeTileSprites(selectedUnit.pathfindingData.Select(x => x.DestinationGridTile), TileState.Idle);
         }
     }
 }

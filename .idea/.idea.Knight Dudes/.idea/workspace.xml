@@ -20,32 +20,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eab0b23f-af5d-44b6-8729-bc0a0c61ba00" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Code/UserInput.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/UserInput/CameraMovement.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/UserInput/CameraMovement.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/SceneInitializer.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/SceneInitializer.prefab.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/GUI/UnitProfileGui.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/GUI/UnitProfileGui.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/Grid/GridCursor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Grid/GridCursor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Grid/GridManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Grid/GridManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/Helpers/PathfindingHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Helpers/PathfindingHelper.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/Helpers/TileRenderingHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Helpers/TileRenderingHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Models/TilePathfindingData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Models/TilePathfindingData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/CameraMovement.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/CameraMovement.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/GridTile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Grid/GridTile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/GridTile.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Grid/GridTile.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Units/Unit.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/Unit.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Units/Unit.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/UserInteractionManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/UserInteractionManager.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/Turns/TurnManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Turns/TurnManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Units/UnitMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Units/UnitMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Units/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Units/Unit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Units/UnitMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Units/UnitMovementHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Units/UnitMovement.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Units/UnitMovementHandler.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/Units/UnitSelector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Units/UnitSelector.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +47,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Code/Helpers/PathfindingHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Helpers/TileRenderingHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/94C5F4C3-8CDC-42D2-B006-F8BADEF04394/35/d189c835/Object.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/Units/UnitMovement.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/Units/UnitMovementHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/94C5F4C3-8CDC-42D2-B006-F8BADEF04394/b1/251b41f0/UnitySynchronizationContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/94C5F4C3-8CDC-42D2-B006-F8BADEF04394/f2/934bc13a/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Enums.cs" root0="FORCE_HIGHLIGHTING" />
@@ -89,22 +77,25 @@
         <option value="$PROJECT_DIR$/Assets/Code/Grid/GridManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Scripts/GridTile.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Grid/GridCursorSelector.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Grid/GridCursor.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/GUI/UnitProfileGui.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Helpers/PathfindingHelper.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Enums.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Helpers/TileRenderingHelper.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Units/UnitSelector.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Turns/TurnManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Scripts/UserInteractionManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Scripts/Unit.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Units/UnitMovement.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Units/Unit.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Grid/GridTile.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Input/CameraMovement.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Input/UserInteractionManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/UserInput/CameraMovement.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/SceneManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Units/UnitMovement.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Turns/TurnManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/SceneInitializer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Grid/GridCursor.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Helpers/TileRenderingHelper.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Helpers/PathfindingHelper.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Units/UnitSelector.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Units/UnitMovementHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Units/Unit.cs" />
       </list>
     </option>
   </component>
@@ -162,7 +153,10 @@
       <workItem from="1589227297340" duration="3655000" />
       <workItem from="1589230977666" duration="2624000" />
       <workItem from="1589398500266" duration="13520000" />
-      <workItem from="1589412477678" duration="270000" />
+      <workItem from="1589412477678" duration="324000" />
+      <workItem from="1589471601079" duration="913000" />
+      <workItem from="1589472564697" duration="1823000" />
+      <workItem from="1589485922017" duration="3977000" />
     </task>
     <servers />
   </component>

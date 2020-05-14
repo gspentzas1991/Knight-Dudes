@@ -1,17 +1,17 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Code.Grid
 {
     /// <summary>
     /// Keeps track of the currently hovered gridTile, and shows the cursor sprite that tile
     /// </summary>
-    public class GridCursor
+    public class GridCursor : MonoBehaviour
     {
         private GridTile PreviousHoveredGridTile;
         
         /// <summary>
         /// Hides the cursor on the previous GridTile, and shows it on the hoveredTile
+        /// Returns true if the hoveredTile changed from the previous tile
         /// </summary>
         public bool HoveredTileChanged(GridTile hoveredTile)
         {

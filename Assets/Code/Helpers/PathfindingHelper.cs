@@ -34,7 +34,7 @@ namespace Code.Helpers
             #if UNITY_WEBGL && !UNITY_EDITOR 
                 var unitPathfindingData = PathfindingHelper.CalculatePathfindingForAvailableMoves(gridManager.TileGrid, unitTile, selectedUnit.movement);
             #else
-                var unitPathfindingData = await Task.Run(() => PathfindingHelper.CalculatePathfindingForAvailableMoves(tileGrid, selectedTile, selectedTile.currentUnit.movement));
+                var unitPathfindingData = await Task.Run(() => CalculatePathfindingForAvailableMoves(tileGrid, selectedTile, selectedTile.currentUnit.movement));
             #endif
             return unitPathfindingData;
         }
