@@ -19,7 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eab0b23f-af5d-44b6-8729-bc0a0c61ba00" name="Default Changelist" comment="" />
+    <list default="true" id="eab0b23f-af5d-44b6-8729-bc0a0c61ba00" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/TileMapMaterial.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/TileMapMaterial.mat.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Grid/GridCursor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Grid/GridCursor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/UserInput/CameraMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/UserInput/CameraMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -78,9 +85,9 @@
         <option value="$PROJECT_DIR$/Assets/Code/Grid/GridManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Grid/GridTile.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Grid/GridCursor.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/UserInput/CameraMovement.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Units/Unit.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/UserInput/CameraMovement.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Grid/GridCursor.cs" />
       </list>
     </option>
   </component>
@@ -143,6 +150,7 @@
       <workItem from="1589472564697" duration="1823000" />
       <workItem from="1589485922017" duration="3977000" />
       <workItem from="1589491340697" duration="8874000" />
+      <workItem from="1589575957100" duration="8279000" />
     </task>
     <servers />
   </component>

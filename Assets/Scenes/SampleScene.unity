@@ -169,12 +169,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 960, y: 540}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -347,7 +347,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9f08321a0c6d2ee4f9e5d39572a1ae59, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -639,7 +639,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9f08321a0c6d2ee4f9e5d39572a1ae59, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2131,7 +2131,7 @@ MonoBehaviour:
   gridCursor: {fileID: 441068689}
   cameraMovementSpeed: 10
   zoomSpeed: 10
-  edgeScrollingOffset: 20
+  edgeScrollingOffset: 0.1
   maximumPosition: {x: 30, y: 20, z: -4}
   minimumPosition: {x: -5, y: -7, z: -15}
   mainCamera: {fileID: 963194227}
@@ -2185,7 +2185,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9f08321a0c6d2ee4f9e5d39572a1ae59, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10764,8 +10764,8 @@ MonoBehaviour:
   maxHealth: 20
   movement: 5
   movementSpeed: 3
-  animator: {fileID: 0}
-  spriteRenderer: {fileID: 0}
+  animator: {fileID: 1436574273}
+  spriteRenderer: {fileID: 1436574274}
 --- !u!95 &1436574273
 Animator:
   serializedVersion: 3
@@ -11474,8 +11474,8 @@ MonoBehaviour:
   maxHealth: 20
   movement: 5
   movementSpeed: 3
-  animator: {fileID: 0}
-  spriteRenderer: {fileID: 0}
+  animator: {fileID: 1896191315}
+  spriteRenderer: {fileID: 1896191316}
 --- !u!95 &1896191315
 Animator:
   serializedVersion: 3
@@ -11619,10 +11619,10 @@ RectTransform:
   m_Father: {fileID: 92449674}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -261.5, y: 210.3}
-  m_SizeDelta: {x: 283.2, y: 85.2}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 155, y: -50}
+  m_SizeDelta: {x: 283.2, y: 85.20001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2061813425
 MonoBehaviour:

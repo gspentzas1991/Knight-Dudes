@@ -32,18 +32,22 @@ namespace Code.Grid
         /// </summary>
         private void ChangeCursorFromInput()
         {
-            if (controlWithMouse)
+            //fires a raycast from the camera to the mouse position to detect hits
+            var screenPointRaySource = Input.mousePosition;
+            if (!controlWithMouse)
             {
-                //fires a raycast from the camera to the mouse position to detect hits
-                var hoveredTile = DetectHoveredTile(gridManager.TileGrid);
-                //Hovers over tile
-                if (!ReferenceEquals(hoveredTile, null))
-                {
-                    cursorTileChanged = ChangeCursorTile(hoveredTile);
-
-                }
+                var cameraPosition = mainCamera.transform.position;
+                cameraPosition.z = -cameraPosition.z;
+                screenPointRaySource = mainCamera.WorldToScreenPoint(cameraPosition);
             }
-            else
+            var hoveredTile = DetectHoveredTile(gridManager.TileGrid,screenPointRaySource);
+            //Hovers over tile
+            if (!ReferenceEquals(hoveredTile, null))
+            {
+                cursorTileChanged = ChangeCursorTile(hoveredTile);
+
+            }
+            if(!controlWithMouse)
             {
                 var newCursorPosition = new Vector2Int((int) cursorTile.positionInGrid.x, (int) cursorTile.positionInGrid.y);
                 if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -63,6 +67,10 @@ namespace Code.Grid
                     newCursorPosition.x -= 1;
                 }
                 cursorTileChanged = ChangeCursorTile(gridManager.TileGrid[newCursorPosition.x,newCursorPosition.y]);
+                var cursorTilePosition = cursorTile.transform.position;
+                cursorTilePosition.z = mainCamera.transform.position.z;
+                mainCamera.transform.position = cursorTilePosition;
+
             }
         }
         
@@ -70,9 +78,9 @@ namespace Code.Grid
         /// <summary>
         /// Returns the tile the mouse is currently hovering over
         /// </summary>
-        private GridTile DetectHoveredTile(GridTile[,] tileGrid)
+        private GridTile DetectHoveredTile(GridTile[,] tileGrid, Vector3 screenPointRaySource)
         {
-            var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            var ray = mainCamera.ScreenPointToRay(screenPointRaySource);
             var raycastHits = new RaycastHit[MaxRaycastHits];
             Physics.RaycastNonAlloc(ray, raycastHits);
             var hitTileTransform = raycastHits.FirstOrDefault(x=>!ReferenceEquals(x.transform, null) && x.transform.CompareTag("Tile")).transform;

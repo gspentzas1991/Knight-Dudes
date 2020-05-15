@@ -26,13 +26,13 @@ namespace Code.UserInput
         /// </summary>
         private void MovementDetection()
         {
-            var cursorPosition = Input.mousePosition;
+            var cursorPosition = mainCamera.ScreenToViewportPoint(Input.mousePosition);
             if (!gridCursor.controlWithMouse)
             {
-                cursorPosition = mainCamera.WorldToScreenPoint(gridCursor.cursorTile.transform.position);
+                cursorPosition = mainCamera.WorldToViewportPoint(gridCursor.cursorTile.transform.position);
             }
             var newPositionOffset = new Vector3();
-            if ((Input.GetKey(KeyCode.W) || cursorPosition.y>Screen.height+ edgeScrollingOffset ) && transform.position.y<maximumPosition.y)
+            if ((Input.GetKey(KeyCode.W) || cursorPosition.y>1-edgeScrollingOffset ) && transform.position.y<maximumPosition.y)
             {
                 newPositionOffset.y = cameraMovementSpeed * Time.deltaTime;
             }
@@ -40,7 +40,7 @@ namespace Code.UserInput
             {
                 newPositionOffset.y = -cameraMovementSpeed * Time.deltaTime;
             }
-            if ((Input.GetKey(KeyCode.D) || cursorPosition.x > Screen.width + edgeScrollingOffset) && transform.position.x < maximumPosition.x)
+            if ((Input.GetKey(KeyCode.D) || cursorPosition.x > 1 - edgeScrollingOffset) && transform.position.x < maximumPosition.x)
             {
                 newPositionOffset.x = cameraMovementSpeed * Time.deltaTime;
             }
