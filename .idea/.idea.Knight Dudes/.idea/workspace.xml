@@ -20,8 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eab0b23f-af5d-44b6-8729-bc0a0c61ba00" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/TileMapMaterial.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/TileMapMaterial.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Art/GameCursors.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Art/GameCursors/gameCursor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Art/GameCursors/gameCursor.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/UserInput/GameCursor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/Grid/GridCursor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Grid/GridCursor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/UserInput/CameraMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/UserInput/CameraMovement.cs" afterDir="false" />
@@ -44,6 +48,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/94C5F4C3-8CDC-42D2-B006-F8BADEF04394/f2/934bc13a/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Enums.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/437BA245-D840-4784-B9FB-AB9B439AC908/7c/c5a10600/Task.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/UserInput/GameCursor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Models/TilePathfindingData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/GUI/UnitProfileGui.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Grid/GridCursor.cs" root0="FORCE_HIGHLIGHTING" />
@@ -83,11 +88,13 @@
         <option value="$PROJECT_DIR$/Assets/Code/Units/UnitSelector.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Units/UnitMovementHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Grid/GridManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Grid/GridTile.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Units/Unit.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/GameCursor.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/UserInput/CameraMovement.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Grid/GridCursor.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/UserInput/GameCursor.cs" />
       </list>
     </option>
   </component>
@@ -151,6 +158,8 @@
       <workItem from="1589485922017" duration="3977000" />
       <workItem from="1589491340697" duration="8874000" />
       <workItem from="1589575957100" duration="8279000" />
+      <workItem from="1589613862231" duration="7319000" />
+      <workItem from="1589640009316" duration="2063000" />
     </task>
     <servers />
   </component>
@@ -260,5 +269,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="526" y="130" width="644" height="801" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1589500058628" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1589641204132">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1589641204132" />
   </component>
 </project>

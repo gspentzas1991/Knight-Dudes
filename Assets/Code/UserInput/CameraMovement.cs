@@ -13,6 +13,7 @@ namespace Code.UserInput
         [SerializeField] private Vector3 maximumPosition;
         [SerializeField] private Vector3 minimumPosition;
         [SerializeField] private Camera mainCamera;
+        [SerializeField] private Transform gameCursorTransform;
         #pragma warning restore 0649
 
         // Update is called once per frame
@@ -26,25 +27,21 @@ namespace Code.UserInput
         /// </summary>
         private void MovementDetection()
         {
-            var cursorPosition = mainCamera.ScreenToViewportPoint(Input.mousePosition);
-            if (!gridCursor.controlWithMouse)
-            {
-                cursorPosition = mainCamera.WorldToViewportPoint(gridCursor.cursorTile.transform.position);
-            }
+            var cursorPosition = mainCamera.WorldToViewportPoint(gameCursorTransform.position);
             var newPositionOffset = new Vector3();
-            if ((Input.GetKey(KeyCode.W) || cursorPosition.y>1-edgeScrollingOffset ) && transform.position.y<maximumPosition.y)
+            if ((cursorPosition.y>1-edgeScrollingOffset ) && transform.position.y<maximumPosition.y)
             {
                 newPositionOffset.y = cameraMovementSpeed * Time.deltaTime;
             }
-            if ((Input.GetKey(KeyCode.S) || cursorPosition.y < edgeScrollingOffset) && transform.position.y > minimumPosition.y)
+            if ((cursorPosition.y < edgeScrollingOffset) && transform.position.y > minimumPosition.y)
             {
                 newPositionOffset.y = -cameraMovementSpeed * Time.deltaTime;
             }
-            if ((Input.GetKey(KeyCode.D) || cursorPosition.x > 1 - edgeScrollingOffset) && transform.position.x < maximumPosition.x)
+            if ((cursorPosition.x > 1 - edgeScrollingOffset) && transform.position.x < maximumPosition.x)
             {
                 newPositionOffset.x = cameraMovementSpeed * Time.deltaTime;
             }
-            if ((Input.GetKey(KeyCode.A) || cursorPosition.x < edgeScrollingOffset) && transform.position.x > minimumPosition.x)
+            if ((cursorPosition.x < edgeScrollingOffset) && transform.position.x > minimumPosition.x)
             {
                 newPositionOffset.x = -cameraMovementSpeed * Time.deltaTime;
             }

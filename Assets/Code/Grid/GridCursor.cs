@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using Code.Units;
+﻿using System.Linq;
+using Code.UserInput;
 using UnityEngine;
 
 namespace Code.Grid
@@ -16,10 +15,11 @@ namespace Code.Grid
         /// <summary>
         /// Becomes true on the frame that the cursor changes
         /// </summary>
-        public bool cursorTileChanged = false;
+        public bool cursorTileChanged;
         #pragma warning disable 0649
         [SerializeField] private GridManager gridManager;
         [SerializeField] private Camera mainCamera;
+        [SerializeField] private GameCursor gameCursor;
         #pragma warning restore 0649
 
         private void Update()
@@ -33,47 +33,14 @@ namespace Code.Grid
         private void ChangeCursorFromInput()
         {
             //fires a raycast from the camera to the mouse position to detect hits
-            var screenPointRaySource = Input.mousePosition;
-            if (!controlWithMouse)
-            {
-                var cameraPosition = mainCamera.transform.position;
-                cameraPosition.z = -cameraPosition.z;
-                screenPointRaySource = mainCamera.WorldToScreenPoint(cameraPosition);
-            }
+            var screenPointRaySource = mainCamera.WorldToScreenPoint(gameCursor.transform.position);
             var hoveredTile = DetectHoveredTile(gridManager.TileGrid,screenPointRaySource);
             //Hovers over tile
             if (!ReferenceEquals(hoveredTile, null))
             {
                 cursorTileChanged = ChangeCursorTile(hoveredTile);
-
-            }
-            if(!controlWithMouse)
-            {
-                var newCursorPosition = new Vector2Int((int) cursorTile.positionInGrid.x, (int) cursorTile.positionInGrid.y);
-                if (Input.GetKeyDown(KeyCode.UpArrow))
-                {
-                    newCursorPosition.y += 1;
-                }
-                if (Input.GetKeyDown(KeyCode.DownArrow))
-                {
-                    newCursorPosition.y -= 1;
-                }
-                if (Input.GetKeyDown(KeyCode.RightArrow))
-                {
-                    newCursorPosition.x += 1;
-                }
-                if (Input.GetKeyDown(KeyCode.LeftArrow))
-                {
-                    newCursorPosition.x -= 1;
-                }
-                cursorTileChanged = ChangeCursorTile(gridManager.TileGrid[newCursorPosition.x,newCursorPosition.y]);
-                var cursorTilePosition = cursorTile.transform.position;
-                cursorTilePosition.z = mainCamera.transform.position.z;
-                mainCamera.transform.position = cursorTilePosition;
-
             }
         }
-        
                  
         /// <summary>
         /// Returns the tile the mouse is currently hovering over
@@ -96,17 +63,17 @@ namespace Code.Grid
         /// Hides the cursor on the previous GridTile, and shows it on the hoveredTile
         /// Returns true if the hoveredTile changed from the previous tile
         /// </summary>
-        private bool ChangeCursorTile(GridTile newHoveredTile)
+        public bool ChangeCursorTile(GridTile selectedTile)
         {
-            if (newHoveredTile == cursorTile) return false;
+            if (selectedTile == cursorTile) return false;
             // Changes the hoveredTile to be the cursor, and the previous hovered tile to not be
             // ReSharper disable once UseNullPropagation
             if (!ReferenceEquals(cursorTile,null))
             {
                 cursorTile.ChangeCursorRendererState(false);
             }      
-            newHoveredTile.ChangeCursorRendererState(true); 
-            cursorTile = newHoveredTile;
+            selectedTile.ChangeCursorRendererState(true); 
+            cursorTile = selectedTile;
             return true;
         }
         
