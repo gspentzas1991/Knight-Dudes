@@ -7,11 +7,13 @@ namespace Code.Grid
     /// <summary>
     /// Keeps track of the currently hovered gridTile, and shows the cursor sprite that tile
     /// </summary>
-    public class GridCursor : MonoBehaviour
+    public class TileSelector : MonoBehaviour
     {
         private const int MaxRaycastHits = 2;
+        /// <summary>
+        /// The tile that the game cursor is currently hovering over
+        /// </summary>
         public GridTile cursorTile;
-        public bool controlWithMouse = true;
         /// <summary>
         /// Becomes true on the frame that the cursor changes
         /// </summary>
@@ -22,6 +24,11 @@ namespace Code.Grid
         [SerializeField] private GameCursor gameCursor;
         #pragma warning restore 0649
 
+        private void Start()
+        {
+            //initialize selected tile
+            ChangeCursorTile(gridManager.TileGrid[0, 0]);
+        }
         private void Update()
         {
             ChangeCursorFromInput();
@@ -63,17 +70,17 @@ namespace Code.Grid
         /// Hides the cursor on the previous GridTile, and shows it on the hoveredTile
         /// Returns true if the hoveredTile changed from the previous tile
         /// </summary>
-        public bool ChangeCursorTile(GridTile selectedTile)
+        private bool ChangeCursorTile(GridTile tile)
         {
-            if (selectedTile == cursorTile) return false;
+            if (tile == cursorTile) return false;
             // Changes the hoveredTile to be the cursor, and the previous hovered tile to not be
             // ReSharper disable once UseNullPropagation
             if (!ReferenceEquals(cursorTile,null))
             {
                 cursorTile.ChangeCursorRendererState(false);
             }      
-            selectedTile.ChangeCursorRendererState(true); 
-            cursorTile = selectedTile;
+            tile.ChangeCursorRendererState(true); 
+            cursorTile = tile;
             return true;
         }
         

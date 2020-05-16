@@ -20,7 +20,7 @@ namespace Code.UserInput
         [SerializeField] private List<Unit> playerUnits;
         [SerializeField] private List<Unit> enemyUnits;
         [SerializeField] private UnitProfileGui unitProfile;
-        [SerializeField] private GridCursor gridCursor;
+        [SerializeField] private TileSelector tileSelector;
         [SerializeField] private UnitSelector unitSelector;
         [SerializeField] private UnitMovementHandler unitMovementHandler;
         [SerializeField] private TurnManager turnManager;
@@ -38,14 +38,14 @@ namespace Code.UserInput
         }
         private async void Update()
         {
-            var cursorTile = gridCursor.cursorTile;
+            var cursorTile = tileSelector.cursorTile;
             Unit cursorUnit = null;
             if (!ReferenceEquals(cursorTile,null))
             {
                 cursorUnit = cursorTile.currentUnit;
             }
 
-            if (gridCursor.cursorTileChanged)
+            if (tileSelector.cursorTileChanged)
             {
                 //if the cursor is hovering over a unit, show the profile
                 unitProfile.ShowUnitProfile(cursorUnit);
@@ -54,7 +54,7 @@ namespace Code.UserInput
                 {
                     var selectedUnitPathfindingData = unitSelector.SelectedUnit.pathfindingData;
                     //If hovering within the selected unit's movement, renders the path, otherwise removes the rendered path  
-                    var hoveredTilePathData = selectedUnitPathfindingData.FirstOrDefault(x => x.DestinationGridTile == gridCursor.cursorTile);
+                    var hoveredTilePathData = selectedUnitPathfindingData.FirstOrDefault(x => x.DestinationGridTile == tileSelector.cursorTile);
                     TileRenderingHelper.RenderPathToTile(hoveredTilePathData,selectedUnitPathfindingData);
                 }
                 //Hovers over a unit

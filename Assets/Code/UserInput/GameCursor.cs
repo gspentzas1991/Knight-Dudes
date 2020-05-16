@@ -1,29 +1,26 @@
-﻿using System;
-using Code.Grid;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Code.UserInput
 {
     /// <summary>
-    /// This is the object that the user moves with his mouse or keyboard, and it's used to calculate the
-    /// hovered grid tile. The camera should always follow this object
+    /// The game cursor is used to calculate the cursorTile.
+    /// The object follows the camera and stays inside its viewport
     /// </summary>
     public class GameCursor : MonoBehaviour
-    {
+    { 
+        private const float ViewportMargin=0.05f; 
+        public bool controlWithMouse = true;
         #pragma warning disable 0649
-        [SerializeField] private GridCursor gridCursor;
         [SerializeField] private float cursorMovementSpeed;
         [SerializeField] private Camera mainCamera;
-        [SerializeField] private GridManager gridManager;
         #pragma warning restore 0649
 
         private void Start()
         {
             Cursor.visible = false;
         }
-        
-        // Update is called once per frame
-        void Update()
+
+        private void Update()
         {
             MovementDetection();
         }
@@ -33,59 +30,46 @@ namespace Code.UserInput
         /// </summary>
         private void MovementDetection()
         {
+            Vector3 newCursorPosition;
             //When using a mouse, the transform updates along with the mouse
-            if (gridCursor.controlWithMouse)
+            if (controlWithMouse)
             {  
-                var mouseWScreenPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 15f);
-                var mousePos = mainCamera.ScreenToWorldPoint(mouseWScreenPosition);
-                transform.position = mousePos;
+                var mouseScreenPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -mainCamera.transform.position.z);
+                var mousePos = mainCamera.ScreenToWorldPoint(mouseScreenPosition);
+                newCursorPosition = mousePos;
             }
             //When using a keyboard, the transform updates with the WASD
             else
             {
                 var newPositionOffset = new Vector3();
-                if (Input.GetKey(KeyCode.W))
+                if (Input.GetKey(KeyCode.UpArrow))
                 {
                     newPositionOffset.y = cursorMovementSpeed * Time.deltaTime;
                 }
-                if (Input.GetKey(KeyCode.S))
+                if (Input.GetKey(KeyCode.DownArrow))
                 {
                     newPositionOffset.y = -cursorMovementSpeed * Time.deltaTime;
                 }
-                if (Input.GetKey(KeyCode.D))
+                if (Input.GetKey(KeyCode.RightArrow))
                 {
                     newPositionOffset.x = cursorMovementSpeed * Time.deltaTime;
                 }
-                if (Input.GetKey(KeyCode.A))
+                if (Input.GetKey(KeyCode.LeftArrow))
                 {
                     newPositionOffset.x = -cursorMovementSpeed * Time.deltaTime;
                 }
-                transform.position += newPositionOffset;
-                
-                //moves the gridCursor by one ever time a button is clicked
-                /*Vector3 cursorMove = new Vector3();
-                if (Input.GetKey(KeyCode.UpArrow))
-                {
-                    cursorMove.y = 1;
-                }
-                if (Input.GetKey(KeyCode.DownArrow))
-                {
-                    cursorMove.y = -1;
-                }
-                if (Input.GetKey(KeyCode.LeftArrow))
-                {
-                    cursorMove.x = -1;
-                }
-                if (Input.GetKey(KeyCode.RightArrow))
-                {
-                    cursorMove.x = 1;
-                }
-
-                var cursorPosition = cursorMove + gridCursor.cursorTile.transform.position;
-                var tile = gridManager.TileGrid[(int)cursorPosition.x,(int)cursorPosition.y];
-                gridCursor.ChangeCursorTile(tile);
-                transform.position = gridCursor.cursorTile.transform.position;*/
+                newCursorPosition = transform.position + newPositionOffset;
             }
+            transform.position = KeepPositionWithinViewport(newCursorPosition,ViewportMargin);
+        }
+
+        private Vector3 KeepPositionWithinViewport(Vector3 position,float margin)
+        {
+            var viewPortCursorPosition = mainCamera.WorldToViewportPoint(position);
+            //keeps the cursor within a margin of the viewPort
+            viewPortCursorPosition.x = Mathf.Clamp(viewPortCursorPosition.x, margin, 1-margin);
+            viewPortCursorPosition.y = Mathf.Clamp(viewPortCursorPosition.y, margin, 1-margin);
+            return mainCamera.ViewportToWorldPoint(viewPortCursorPosition);
         }
     }
 }

@@ -27,9 +27,6 @@ namespace Code.Units
         [SerializeField] private SpriteRenderer spriteRenderer;
         #pragma warning restore 0649
 
-        private void Awake()
-        {
-        }
 
         /// <summary>
         /// Begins the unit's followTilePath Coroutine

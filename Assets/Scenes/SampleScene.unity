@@ -190,7 +190,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20000
+  m_SortingOrder: 32767
   m_Sprite: {fileID: 21300000, guid: 7ea55628751a3444ca381ce1cdfd24e8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2193,7 +2193,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10, y: 4, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1168757297}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2209,7 +2210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16fad94270b032b46829f6e1ecfd5e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridCursor: {fileID: 441068689}
+  tileSelector: {fileID: 0}
   cameraMovementSpeed: 10
   zoomSpeed: 10
   edgeScrollingOffset: 0.1
@@ -2241,13 +2242,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168757296}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 4, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 77881061}
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_Father: {fileID: 963194228}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1168757298
 MonoBehaviour:
@@ -2261,10 +2262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19074e9644835274b9a5a1627f0a7b54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridCursor: {fileID: 441068689}
+  controlWithMouse: 0
   cursorMovementSpeed: 10
   mainCamera: {fileID: 963194227}
-  gridManager: {fileID: 441068685}
 --- !u!1 &1185046692
 GameObject:
   m_ObjectHideFlags: 0
@@ -11997,7 +11997,7 @@ PrefabInstance:
     - target: {fileID: 4685797750013297203, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
         type: 3}
       propertyPath: controlWithMouse
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4685797750013297203, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
         type: 3}
@@ -12039,6 +12039,11 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 4685797750013297206, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
+        type: 3}
+      propertyPath: tileSelector
+      value: 
+      objectReference: {fileID: 441068689}
     - target: {fileID: 4685797750013297207, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
         type: 3}
       propertyPath: m_LocalPosition.x

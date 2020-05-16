@@ -9,9 +9,9 @@
         <e p="Code" t="Include">
           <e p="Enums.cs" t="Include" />
           <e p="Grid" t="Include">
-            <e p="GridCursor.cs" t="Include" />
             <e p="GridManager.cs" t="Include" />
             <e p="GridTile.cs" t="Include" />
+            <e p="TileSelector.cs" t="Include" />
           </e>
           <e p="GUI" t="Include">
             <e p="UnitProfileGui.cs" t="Include" />

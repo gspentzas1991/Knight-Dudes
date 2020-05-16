@@ -1,12 +1,10 @@
-﻿using Code.Grid;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Code.UserInput
 {
     public class CameraMovement : MonoBehaviour
     {
         #pragma warning disable 0649
-        [SerializeField] private GridCursor gridCursor;
         [SerializeField] private float cameraMovementSpeed;
         [SerializeField] private float zoomSpeed;
         [SerializeField] private float edgeScrollingOffset;
@@ -29,28 +27,40 @@ namespace Code.UserInput
         {
             var cursorPosition = mainCamera.WorldToViewportPoint(gameCursorTransform.position);
             var newPositionOffset = new Vector3();
-            if ((cursorPosition.y>1-edgeScrollingOffset ) && transform.position.y<maximumPosition.y)
+            if (Input.GetKey(KeyCode.W) || cursorPosition.y>1-edgeScrollingOffset )
             {
                 newPositionOffset.y = cameraMovementSpeed * Time.deltaTime;
             }
-            if ((cursorPosition.y < edgeScrollingOffset) && transform.position.y > minimumPosition.y)
+            else if (Input.GetKey(KeyCode.S) || cursorPosition.y < edgeScrollingOffset )
             {
                 newPositionOffset.y = -cameraMovementSpeed * Time.deltaTime;
             }
-            if ((cursorPosition.x > 1 - edgeScrollingOffset) && transform.position.x < maximumPosition.x)
+            if (Input.GetKey(KeyCode.D) || cursorPosition.x > 1 - edgeScrollingOffset)
             {
                 newPositionOffset.x = cameraMovementSpeed * Time.deltaTime;
             }
-            if ((cursorPosition.x < edgeScrollingOffset) && transform.position.x > minimumPosition.x)
+            else if (Input.GetKey(KeyCode.A) || cursorPosition.x < edgeScrollingOffset)
             {
                 newPositionOffset.x = -cameraMovementSpeed * Time.deltaTime;
             }
-            if ((Input.mouseScrollDelta.y >0 && transform.position.z < maximumPosition.z) 
-                || (Input.mouseScrollDelta.y < 0 && transform.position.z > minimumPosition.z))
+            if (Input.mouseScrollDelta.y >0  
+                || Input.mouseScrollDelta.y < 0)
             {
                 newPositionOffset.z = Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed;
             }
-            transform.position += newPositionOffset;
+
+            transform.position = ClampPosition(transform.position + newPositionOffset);
+        }
+
+        /// <summary>
+        /// Keeps the vector3 position between the minimum and maximum values
+        /// </summary>
+        private Vector3 ClampPosition(Vector3 position)
+        {
+            position.x = Mathf.Clamp(position.x, minimumPosition.x, maximumPosition.x);
+            position.y = Mathf.Clamp(position.y, minimumPosition.y, maximumPosition.y);
+            position.z = Mathf.Clamp(position.z, minimumPosition.z, maximumPosition.z);
+            return position;
         }
     }
 }
