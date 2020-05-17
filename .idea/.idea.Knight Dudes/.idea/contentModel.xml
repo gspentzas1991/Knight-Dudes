@@ -37,6 +37,9 @@
             <e p="UserInteractionManager.cs" t="Include" />
           </e>
         </e>
+        <e p="ControlSchemes" t="Include">
+          <e p="Controls.cs" t="Include" />
+        </e>
       </e>
       <e p="Knight Dudes.sln" t="IncludeFlat" />
       <e p="obj" t="ExcludeRecursive" />

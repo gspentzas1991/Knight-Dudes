@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Code.UserInput
 {
     public class CameraMovement : MonoBehaviour
     {
+        private Controls PlayerInputActions;
+        private Vector2 InputCameraControl;
+        private float InputZoom;
         #pragma warning disable 0649
         [SerializeField] private float cameraMovementSpeed;
         [SerializeField] private float zoomSpeed;
@@ -14,6 +19,14 @@ namespace Code.UserInput
         [SerializeField] private Transform gameCursorTransform;
         #pragma warning restore 0649
 
+        private void Awake()
+        {
+            PlayerInputActions = new Controls();
+            PlayerInputActions.Gameplay.CameraControl.performed += ctx => InputCameraControl = ctx.ReadValue<Vector2>();
+            PlayerInputActions.Gameplay.CameraZoomControl.performed += ctx => InputZoom = ctx.ReadValue<float>();
+            PlayerInputActions.Gameplay.CameraControl.canceled += ctx => InputCameraControl = ctx.ReadValue<Vector2>();
+            PlayerInputActions.Gameplay.CameraZoomControl.canceled += ctx => InputZoom = ctx.ReadValue<float>();
+        }
         // Update is called once per frame
         private void LateUpdate()
         {
@@ -26,29 +39,28 @@ namespace Code.UserInput
         private void MovementDetection()
         {
             var cursorPosition = mainCamera.WorldToViewportPoint(gameCursorTransform.position);
-            var newPositionOffset = new Vector3();
-            if (Input.GetKey(KeyCode.W) || cursorPosition.y>1-edgeScrollingOffset )
+            var newPositionOffset = new Vector3
+            {
+                x = InputCameraControl.x * cameraMovementSpeed * Time.deltaTime,
+                y = InputCameraControl.y * cameraMovementSpeed * Time.deltaTime,
+                z = InputZoom * zoomSpeed * Time.deltaTime
+            };
+            if (cursorPosition.y>1-edgeScrollingOffset)
             {
                 newPositionOffset.y = cameraMovementSpeed * Time.deltaTime;
             }
-            else if (Input.GetKey(KeyCode.S) || cursorPosition.y < edgeScrollingOffset )
+            else if (cursorPosition.y < edgeScrollingOffset)
             {
                 newPositionOffset.y = -cameraMovementSpeed * Time.deltaTime;
             }
-            if (Input.GetKey(KeyCode.D) || cursorPosition.x > 1 - edgeScrollingOffset)
+            if (cursorPosition.x > 1 - edgeScrollingOffset)
             {
                 newPositionOffset.x = cameraMovementSpeed * Time.deltaTime;
             }
-            else if (Input.GetKey(KeyCode.A) || cursorPosition.x < edgeScrollingOffset)
+            else if (cursorPosition.x < edgeScrollingOffset)
             {
                 newPositionOffset.x = -cameraMovementSpeed * Time.deltaTime;
             }
-            if (Input.mouseScrollDelta.y >0  
-                || Input.mouseScrollDelta.y < 0)
-            {
-                newPositionOffset.z = Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed;
-            }
-
             transform.position = ClampPosition(transform.position + newPositionOffset);
         }
 
@@ -61,6 +73,15 @@ namespace Code.UserInput
             position.y = Mathf.Clamp(position.y, minimumPosition.y, maximumPosition.y);
             position.z = Mathf.Clamp(position.z, minimumPosition.z, maximumPosition.z);
             return position;
+        }
+        private void OnEnable()
+        {
+            PlayerInputActions.Enable();
+        }
+
+        private void OnDisable()
+        {
+            PlayerInputActions.Disable();
         }
     }
 }
