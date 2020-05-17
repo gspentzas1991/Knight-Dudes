@@ -8,10 +8,10 @@ using UnityEngine.InputSystem.Utilities;
 
 public class @Controls : IInputActionCollection, IDisposable
 {
-    public InputActionAsset asset { get; }
+    public InputActionAsset Asset { get; }
     public @Controls()
     {
-        asset = InputActionAsset.FromJson(@"{
+        Asset = InputActionAsset.FromJson(@"{
     ""name"": ""Controls"",
     ""maps"": [
         {
@@ -43,6 +43,14 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Navigate Grid"",
+                    ""type"": ""Value"",
+                    ""id"": ""c851832d-4bcf-4f48-aa43-02823f069163"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Select"",
                     ""type"": ""Button"",
                     ""id"": ""14e383d7-41b8-4bab-b67d-fb81d3e39e3e"",
@@ -63,14 +71,6 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""4f8a3dcc-49bd-4306-a7bc-c872d1682b5e"",
                     ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Navigate Grid"",
-                    ""type"": ""Value"",
-                    ""id"": ""c851832d-4bcf-4f48-aa43-02823f069163"",
-                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -253,6 +253,50 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""Triggers"",
+                    ""id"": ""27bea0b2-f2db-43c9-a811-3a5b95634955"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=60)"",
+                    ""groups"": """",
+                    ""action"": ""Camera Zoom Control"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""38f7f779-d7c9-4215-aba7-ee08d24a1c40"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Camera Zoom Control"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""15bd6b8b-50d8-4ca3-b900-379731728bbd"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Camera Zoom Control"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5c73e1b-399b-41ec-b6d8-0f2de841e12f"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse And Keyboard"",
+                    ""action"": ""Camera Zoom Control"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": """",
                     ""id"": ""5a47bf08-5a2a-4485-9b63-d2d416d658ef"",
                     ""path"": ""<Gamepad>/dpad"",
@@ -317,50 +361,6 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""action"": ""Navigate Grid"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Triggers"",
-                    ""id"": ""27bea0b2-f2db-43c9-a811-3a5b95634955"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": ""Scale(factor=60)"",
-                    ""groups"": """",
-                    ""action"": ""Camera Zoom Control"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""38f7f779-d7c9-4215-aba7-ee08d24a1c40"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Camera Zoom Control"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""15bd6b8b-50d8-4ca3-b900-379731728bbd"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Camera Zoom Control"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b5c73e1b-399b-41ec-b6d8-0f2de841e12f"",
-                    ""path"": ""<Mouse>/scroll/y"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mouse And Keyboard"",
-                    ""action"": ""Camera Zoom Control"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -396,43 +396,43 @@ public class @Controls : IInputActionCollection, IDisposable
     ]
 }");
         // Gameplay
-        m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay_CameraControl = m_Gameplay.FindAction("Camera Control", throwIfNotFound: true);
-        m_Gameplay_CameraZoomControl = m_Gameplay.FindAction("Camera Zoom Control", throwIfNotFound: true);
-        m_Gameplay_CursorControl = m_Gameplay.FindAction("Cursor Control", throwIfNotFound: true);
-        m_Gameplay_Select = m_Gameplay.FindAction("Select", throwIfNotFound: true);
-        m_Gameplay_Cancel = m_Gameplay.FindAction("Cancel", throwIfNotFound: true);
-        m_Gameplay_EndTurn = m_Gameplay.FindAction("End Turn", throwIfNotFound: true);
-        m_Gameplay_NavigateGrid = m_Gameplay.FindAction("Navigate Grid", throwIfNotFound: true);
+        _mGameplay = Asset.FindActionMap("Gameplay", throwIfNotFound: true);
+        _mGameplayCameraControl = _mGameplay.FindAction("Camera Control", throwIfNotFound: true);
+        _mGameplayCameraZoomControl = _mGameplay.FindAction("Camera Zoom Control", throwIfNotFound: true);
+        _mGameplayCursorControl = _mGameplay.FindAction("Cursor Control", throwIfNotFound: true);
+        _mGameplayNavigateGrid = _mGameplay.FindAction("Navigate Grid", throwIfNotFound: true);
+        _mGameplaySelect = _mGameplay.FindAction("Select", throwIfNotFound: true);
+        _mGameplayCancel = _mGameplay.FindAction("Cancel", throwIfNotFound: true);
+        _mGameplayEndTurn = _mGameplay.FindAction("End Turn", throwIfNotFound: true);
     }
 
     public void Dispose()
     {
-        UnityEngine.Object.Destroy(asset);
+        UnityEngine.Object.Destroy(Asset);
     }
 
     public InputBinding? bindingMask
     {
-        get => asset.bindingMask;
-        set => asset.bindingMask = value;
+        get => Asset.bindingMask;
+        set => Asset.bindingMask = value;
     }
 
     public ReadOnlyArray<InputDevice>? devices
     {
-        get => asset.devices;
-        set => asset.devices = value;
+        get => Asset.devices;
+        set => Asset.devices = value;
     }
 
-    public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
+    public ReadOnlyArray<InputControlScheme> controlSchemes => Asset.controlSchemes;
 
     public bool Contains(InputAction action)
     {
-        return asset.Contains(action);
+        return Asset.Contains(action);
     }
 
     public IEnumerator<InputAction> GetEnumerator()
     {
-        return asset.GetEnumerator();
+        return Asset.GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -442,67 +442,67 @@ public class @Controls : IInputActionCollection, IDisposable
 
     public void Enable()
     {
-        asset.Enable();
+        Asset.Enable();
     }
 
     public void Disable()
     {
-        asset.Disable();
+        Asset.Disable();
     }
 
     // Gameplay
-    private readonly InputActionMap m_Gameplay;
-    private IGameplayActions m_GameplayActionsCallbackInterface;
-    private readonly InputAction m_Gameplay_CameraControl;
-    private readonly InputAction m_Gameplay_CameraZoomControl;
-    private readonly InputAction m_Gameplay_CursorControl;
-    private readonly InputAction m_Gameplay_Select;
-    private readonly InputAction m_Gameplay_Cancel;
-    private readonly InputAction m_Gameplay_EndTurn;
-    private readonly InputAction m_Gameplay_NavigateGrid;
+    private readonly InputActionMap _mGameplay;
+    private IGameplayActions _mGameplayActionsCallbackInterface;
+    private readonly InputAction _mGameplayCameraControl;
+    private readonly InputAction _mGameplayCameraZoomControl;
+    private readonly InputAction _mGameplayCursorControl;
+    private readonly InputAction _mGameplayNavigateGrid;
+    private readonly InputAction _mGameplaySelect;
+    private readonly InputAction _mGameplayCancel;
+    private readonly InputAction _mGameplayEndTurn;
     public struct GameplayActions
     {
-        private @Controls m_Wrapper;
-        public GameplayActions(@Controls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @CameraControl => m_Wrapper.m_Gameplay_CameraControl;
-        public InputAction @CameraZoomControl => m_Wrapper.m_Gameplay_CameraZoomControl;
-        public InputAction @CursorControl => m_Wrapper.m_Gameplay_CursorControl;
-        public InputAction @Select => m_Wrapper.m_Gameplay_Select;
-        public InputAction @Cancel => m_Wrapper.m_Gameplay_Cancel;
-        public InputAction @EndTurn => m_Wrapper.m_Gameplay_EndTurn;
-        public InputAction @NavigateGrid => m_Wrapper.m_Gameplay_NavigateGrid;
-        public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
+        private @Controls _mWrapper;
+        public GameplayActions(@Controls wrapper) { _mWrapper = wrapper; }
+        public InputAction @CameraControl => _mWrapper._mGameplayCameraControl;
+        public InputAction @CameraZoomControl => _mWrapper._mGameplayCameraZoomControl;
+        public InputAction @CursorControl => _mWrapper._mGameplayCursorControl;
+        public InputAction @NavigateGrid => _mWrapper._mGameplayNavigateGrid;
+        public InputAction @Select => _mWrapper._mGameplaySelect;
+        public InputAction @Cancel => _mWrapper._mGameplayCancel;
+        public InputAction @EndTurn => _mWrapper._mGameplayEndTurn;
+        public InputActionMap Get() { return _mWrapper._mGameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
+        public bool Enabled => Get().enabled;
         public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
         public void SetCallbacks(IGameplayActions instance)
         {
-            if (m_Wrapper.m_GameplayActionsCallbackInterface != null)
+            if (_mWrapper._mGameplayActionsCallbackInterface != null)
             {
-                @CameraControl.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCameraControl;
-                @CameraControl.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCameraControl;
-                @CameraControl.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCameraControl;
-                @CameraZoomControl.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCameraZoomControl;
-                @CameraZoomControl.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCameraZoomControl;
-                @CameraZoomControl.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCameraZoomControl;
-                @CursorControl.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCursorControl;
-                @CursorControl.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCursorControl;
-                @CursorControl.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCursorControl;
-                @Select.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSelect;
-                @Select.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSelect;
-                @Select.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSelect;
-                @Cancel.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCancel;
-                @Cancel.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCancel;
-                @Cancel.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCancel;
-                @EndTurn.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEndTurn;
-                @EndTurn.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEndTurn;
-                @EndTurn.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEndTurn;
-                @NavigateGrid.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNavigateGrid;
-                @NavigateGrid.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNavigateGrid;
-                @NavigateGrid.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNavigateGrid;
+                @CameraControl.started -= _mWrapper._mGameplayActionsCallbackInterface.OnCameraControl;
+                @CameraControl.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnCameraControl;
+                @CameraControl.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnCameraControl;
+                @CameraZoomControl.started -= _mWrapper._mGameplayActionsCallbackInterface.OnCameraZoomControl;
+                @CameraZoomControl.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnCameraZoomControl;
+                @CameraZoomControl.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnCameraZoomControl;
+                @CursorControl.started -= _mWrapper._mGameplayActionsCallbackInterface.OnCursorControl;
+                @CursorControl.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnCursorControl;
+                @CursorControl.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnCursorControl;
+                @NavigateGrid.started -= _mWrapper._mGameplayActionsCallbackInterface.OnNavigateGrid;
+                @NavigateGrid.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnNavigateGrid;
+                @NavigateGrid.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnNavigateGrid;
+                @Select.started -= _mWrapper._mGameplayActionsCallbackInterface.OnSelect;
+                @Select.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnSelect;
+                @Select.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnSelect;
+                @Cancel.started -= _mWrapper._mGameplayActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnCancel;
+                @EndTurn.started -= _mWrapper._mGameplayActionsCallbackInterface.OnEndTurn;
+                @EndTurn.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnEndTurn;
+                @EndTurn.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnEndTurn;
             }
-            m_Wrapper.m_GameplayActionsCallbackInterface = instance;
+            _mWrapper._mGameplayActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @CameraControl.started += instance.OnCameraControl;
@@ -514,6 +514,9 @@ public class @Controls : IInputActionCollection, IDisposable
                 @CursorControl.started += instance.OnCursorControl;
                 @CursorControl.performed += instance.OnCursorControl;
                 @CursorControl.canceled += instance.OnCursorControl;
+                @NavigateGrid.started += instance.OnNavigateGrid;
+                @NavigateGrid.performed += instance.OnNavigateGrid;
+                @NavigateGrid.canceled += instance.OnNavigateGrid;
                 @Select.started += instance.OnSelect;
                 @Select.performed += instance.OnSelect;
                 @Select.canceled += instance.OnSelect;
@@ -523,29 +526,26 @@ public class @Controls : IInputActionCollection, IDisposable
                 @EndTurn.started += instance.OnEndTurn;
                 @EndTurn.performed += instance.OnEndTurn;
                 @EndTurn.canceled += instance.OnEndTurn;
-                @NavigateGrid.started += instance.OnNavigateGrid;
-                @NavigateGrid.performed += instance.OnNavigateGrid;
-                @NavigateGrid.canceled += instance.OnNavigateGrid;
             }
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
-    private int m_GamepadSchemeIndex = -1;
+    private int _mGamepadSchemeIndex = -1;
     public InputControlScheme GamepadScheme
     {
         get
         {
-            if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
-            return asset.controlSchemes[m_GamepadSchemeIndex];
+            if (_mGamepadSchemeIndex == -1) _mGamepadSchemeIndex = Asset.FindControlSchemeIndex("Gamepad");
+            return Asset.controlSchemes[_mGamepadSchemeIndex];
         }
     }
-    private int m_MouseAndKeyboardSchemeIndex = -1;
+    private int _mMouseAndKeyboardSchemeIndex = -1;
     public InputControlScheme MouseAndKeyboardScheme
     {
         get
         {
-            if (m_MouseAndKeyboardSchemeIndex == -1) m_MouseAndKeyboardSchemeIndex = asset.FindControlSchemeIndex("Mouse And Keyboard");
-            return asset.controlSchemes[m_MouseAndKeyboardSchemeIndex];
+            if (_mMouseAndKeyboardSchemeIndex == -1) _mMouseAndKeyboardSchemeIndex = Asset.FindControlSchemeIndex("Mouse And Keyboard");
+            return Asset.controlSchemes[_mMouseAndKeyboardSchemeIndex];
         }
     }
     public interface IGameplayActions
@@ -553,9 +553,9 @@ public class @Controls : IInputActionCollection, IDisposable
         void OnCameraControl(InputAction.CallbackContext context);
         void OnCameraZoomControl(InputAction.CallbackContext context);
         void OnCursorControl(InputAction.CallbackContext context);
+        void OnNavigateGrid(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnEndTurn(InputAction.CallbackContext context);
-        void OnNavigateGrid(InputAction.CallbackContext context);
     }
 }

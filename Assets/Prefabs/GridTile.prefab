@@ -69,7 +69,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20000
+  m_SortingOrder: 40
   m_Sprite: {fileID: 21300000, guid: 3f55535a369ed6447af7478a8d82000d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: -6296542959613165382}
   - component: {fileID: 6982524099360232306}
   m_Layer: 0
-  m_Name: GridOutline
+  m_Name: GridTile
   m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,7 +153,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 200
+  m_SortingOrder: 10
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -177,11 +177,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecc494f6bcb9de46888b53969f40dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TerrainType: 0
-  CurrentUnit: {fileID: 0}
-  PositionInGrid: {x: 0, y: 0, z: 0}
-  gridSpriteRenderer: {fileID: 3733197953646096910}
-  gridCursorSpriteRenderer: {fileID: 5786252790646110210}
+  _terrainType: 1
+  _currentUnit: {fileID: 0}
+  _positionInGrid: {x: 0, y: 0, z: 0}
+  _gridSpriteRenderer: {fileID: 3733197953646096910}
+  _gridCursorSpriteRenderer: {fileID: 5786252790646110210}
 --- !u!65 &6982524099360232306
 BoxCollider:
   m_ObjectHideFlags: 0

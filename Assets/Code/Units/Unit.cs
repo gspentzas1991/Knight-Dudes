@@ -6,25 +6,27 @@ using UnityEngine;
 
 namespace Code.Units
 {
+    /// <summary>
+    /// Represents a Unit on the grid
+    /// </summary>
     public class Unit : MonoBehaviour
     {
-        public UnitState state = UnitState.Idle;
-        private readonly Color DefaultSpriteColor = Color.white;
-        private readonly Color OutOfActionsSpriteColor = Color.grey;
-        private static readonly int IsMoving = Animator.StringToHash("IsMoving");
+        public UnitState State = UnitState.Idle;
+        public Sprite ProfileImage;
+        public string UnitName;
+        public int Movement;
+        public CombatController CombatController;
         /// <summary>
         /// Pathfinding data for all available moves the unit can make from its current position
         /// </summary>
-        public List<TilePathfindingData> pathfindingData;
+        public List<TilePathfindingData> _pathfindingData;
+        private readonly Color _defaultSpriteColor = Color.white;
+        private readonly Color _outOfActionsSpriteColor = Color.grey;
+        private static readonly int IsMoving = Animator.StringToHash("IsMoving");
         #pragma warning disable 0649
-        [SerializeField] public Sprite profileImage;
-        [SerializeField] public string unitName;
-        [SerializeField] public int currentHealth;
-        [SerializeField] public int maxHealth;
-        [SerializeField] public int movement;
-        [SerializeField] private float movementSpeed;
-        [SerializeField] private Animator animator;
-        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private float _movementSpeed;
+        [SerializeField] private Animator _animator;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
         #pragma warning restore 0649
 
 
@@ -42,21 +44,21 @@ namespace Code.Units
         /// </summary>
         private IEnumerator FollowTilePath(IEnumerable<GridTile> tilePath)
         {
-            animator.SetBool(IsMoving,true);
+            _animator.SetBool(IsMoving,true);
             foreach (var tile in tilePath)
             {
                 SetSpriteDirection(tile.transform.position);
                 do
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, tile.transform.position, movementSpeed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, tile.transform.position, _movementSpeed * Time.deltaTime);
                     if (transform.position!=tile.transform.position)
                     {
                         yield return new WaitForEndOfFrame();
                     }
                 } while (transform.position != tile.transform.position);
             }
-            animator.SetBool(IsMoving,false);
-            spriteRenderer.color = OutOfActionsSpriteColor;
+            _animator.SetBool(IsMoving,false);
+            _spriteRenderer.color = _outOfActionsSpriteColor;
         }
 
         /// <summary>
@@ -66,11 +68,11 @@ namespace Code.Units
         {
             if (transform.position.x > movementTarget.x)
             {
-                spriteRenderer.flipX = true;
+                _spriteRenderer.flipX = true;
             }
             else if (transform.position.x < movementTarget.x)
             {
-                spriteRenderer.flipX = false;
+                _spriteRenderer.flipX = false;
             }
         }
 
@@ -79,9 +81,9 @@ namespace Code.Units
         /// </summary>
         public void ResetUnitTurnValues()
         {
-            state = UnitState.Idle;
-            spriteRenderer.color = DefaultSpriteColor;
-            pathfindingData = null;
+            State = UnitState.Idle;
+            _spriteRenderer.color = _defaultSpriteColor;
+            _pathfindingData = null;
         }
     }
 }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4662568198603162482
+--- !u!1 &4934631959127691133
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4662568198603162487}
-  - component: {fileID: 4662568198603162484}
-  - component: {fileID: 4662568198603162485}
-  - component: {fileID: 4662568198603162486}
-  - component: {fileID: 4662568198603162473}
-  - component: {fileID: 8059985636044822173}
+  - component: {fileID: 4934631959127691128}
+  - component: {fileID: 4934631959127691129}
+  - component: {fileID: 4934631959127691134}
+  - component: {fileID: 4934631959127691135}
+  - component: {fileID: 4934631959127691132}
+  - component: {fileID: 5466129523884635276}
   m_Layer: 0
-  m_Name: Pikeman
+  m_Name: Gremlin A
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4662568198603162487
+--- !u!4 &4934631959127691128
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4662568198603162482}
+  m_GameObject: {fileID: 4934631959127691133}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: -6, z: 0}
+  m_LocalPosition: {x: 10, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &4662568198603162484
+--- !u!212 &4934631959127691129
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4662568198603162482}
+  m_GameObject: {fileID: 4934631959127691133}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -74,28 +74,28 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 20
-  m_Sprite: {fileID: 21300000, guid: 180a94f54d7924440be4f7462a803f0a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 345d54dd98855a5449fe037841ef9881, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.31, y: 0.25}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &4662568198603162485
+--- !u!95 &4934631959127691134
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4662568198603162482}
+  m_GameObject: {fileID: 4934631959127691133}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: aa21d3f203b69f346b1acab7967cb0fc, type: 2}
+  m_Controller: {fileID: 9100000, guid: ba184e14d8913ba489eab670ca39f73b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -104,51 +104,51 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4662568198603162486
+--- !u!114 &4934631959127691135
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4662568198603162482}
+  m_GameObject: {fileID: 4934631959127691133}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82fde64bdc5228940ab18109e0569943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   State: 0
-  ProfileImage: {fileID: 0}
-  UnitName: 
-  Movement: 0
-  CombatController: {fileID: 8059985636044822173}
-  _movementSpeed: 0
-  _animator: {fileID: 4662568198603162485}
-  _spriteRenderer: {fileID: 4662568198603162484}
---- !u!65 &4662568198603162473
+  ProfileImage: {fileID: 21300000, guid: ce2ec7caf1ad0414f9dc77e1cceb9bae, type: 3}
+  UnitName: Gremlin A
+  Movement: 3
+  CombatController: {fileID: 5466129523884635276}
+  _movementSpeed: 4
+  _animator: {fileID: 4934631959127691134}
+  _spriteRenderer: {fileID: 4934631959127691129}
+--- !u!65 &4934631959127691132
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4662568198603162482}
+  m_GameObject: {fileID: 4934631959127691133}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8059985636044822173
+--- !u!114 &5466129523884635276
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4662568198603162482}
+  m_GameObject: {fileID: 4934631959127691133}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13240614542e6d9409f109c5c495d3e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AttackRange: 1
-  CurrentHealth: 20
-  MaxHealth: 20
+  CurrentHealth: 10
+  MaxHealth: 10

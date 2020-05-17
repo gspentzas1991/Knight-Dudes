@@ -14,7 +14,7 @@ namespace Code.Units
     {
         #pragma warning disable 0649
         [SerializeField]
-        private UnitSelector unitSelector;
+        private UnitSelector _unitSelector;
         #pragma warning restore 0649
         
         /// <summary>
@@ -24,8 +24,8 @@ namespace Code.Units
         {
             foreach (var enemy in enemyUnits)
             {
-                await unitSelector.ChangeSelectedUnitAsync(enemy, tileGrid);
-                var randomTile = enemy.pathfindingData[Random.Range(0, enemy.pathfindingData.Count)].DestinationGridTile;
+                await _unitSelector.ChangeSelectedUnitAsync(enemy, tileGrid);
+                var randomTile = enemy._pathfindingData[Random.Range(0, enemy._pathfindingData.Count)].DestinationGridTile;
                 MoveUnitToTile(randomTile,enemy);
             }
         }
@@ -35,24 +35,24 @@ namespace Code.Units
         /// </summary>
         public void MoveUnitToTile(GridTile selectedGridTile,Unit selectedUnit)
         {
-            if (selectedGridTile.terrainType == TerrainType.Impassable || ReferenceEquals(selectedUnit, null))
+            if (selectedGridTile.TerrainType == TerrainType.Impassable || ReferenceEquals(selectedUnit, null))
             {
                 return;
             }
             //checks that the selected tile is a valid move for the unit
-            var selectedTilePathfindingData = selectedUnit.pathfindingData.FirstOrDefault(x => x.DestinationGridTile == selectedGridTile);
-            if (selectedTilePathfindingData == null || selectedTilePathfindingData.MoveCost > selectedUnit.movement)
+            var selectedTilePathfindingData = selectedUnit._pathfindingData.FirstOrDefault(x => x.DestinationGridTile == selectedGridTile);
+            if (selectedTilePathfindingData == null || selectedTilePathfindingData.MoveCost > selectedUnit.Movement)
             {
                 return;
             }
-            var pathfindingDataList = PathfindingHelper.GetPathToTile(selectedUnit.pathfindingData, selectedGridTile);
+            var pathfindingDataList = PathfindingHelper.GetPathToTile(selectedUnit._pathfindingData, selectedGridTile);
             //we move the unit reference from the starting tile to the selected tile
-            selectedUnit.pathfindingData[0].DestinationGridTile.currentUnit = null;
-            selectedGridTile.currentUnit = selectedUnit;
+            selectedUnit._pathfindingData[0].DestinationGridTile.CurrentUnit = null;
+            selectedGridTile.CurrentUnit = selectedUnit;
             selectedUnit.BeginFollowingTilePath(pathfindingDataList);
-            unitSelector.DeselectUnit();
-            selectedUnit.state = UnitState.OutOfActions;
-            selectedUnit.pathfindingData = null;
+            _unitSelector.DeselectUnit();
+            selectedUnit.State = UnitState.OutOfActions;
+            selectedUnit._pathfindingData = null;
         }
     }
 }

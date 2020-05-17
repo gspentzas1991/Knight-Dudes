@@ -27,6 +27,7 @@
             <e p="TurnManager.cs" t="Include" />
           </e>
           <e p="Units" t="Include">
+            <e p="CombatController.cs" t="Include" />
             <e p="Unit.cs" t="Include" />
             <e p="UnitMovementHandler.cs" t="Include" />
             <e p="UnitSelector.cs" t="Include" />

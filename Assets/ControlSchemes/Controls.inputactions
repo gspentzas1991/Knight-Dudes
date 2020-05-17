@@ -30,6 +30,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Navigate Grid",
+                    "type": "Value",
+                    "id": "c851832d-4bcf-4f48-aa43-02823f069163",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Select",
                     "type": "Button",
                     "id": "14e383d7-41b8-4bab-b67d-fb81d3e39e3e",
@@ -50,14 +58,6 @@
                     "type": "Button",
                     "id": "4f8a3dcc-49bd-4306-a7bc-c872d1682b5e",
                     "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Navigate Grid",
-                    "type": "Value",
-                    "id": "c851832d-4bcf-4f48-aa43-02823f069163",
-                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 }
@@ -240,6 +240,50 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "Triggers",
+                    "id": "27bea0b2-f2db-43c9-a811-3a5b95634955",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "Scale(factor=60)",
+                    "groups": "",
+                    "action": "Camera Zoom Control",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "38f7f779-d7c9-4215-aba7-ee08d24a1c40",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Camera Zoom Control",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "15bd6b8b-50d8-4ca3-b900-379731728bbd",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Camera Zoom Control",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "b5c73e1b-399b-41ec-b6d8-0f2de841e12f",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse And Keyboard",
+                    "action": "Camera Zoom Control",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "",
                     "id": "5a47bf08-5a2a-4485-9b63-d2d416d658ef",
                     "path": "<Gamepad>/dpad",
@@ -304,50 +348,6 @@
                     "action": "Navigate Grid",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "Triggers",
-                    "id": "27bea0b2-f2db-43c9-a811-3a5b95634955",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "Scale(factor=60)",
-                    "groups": "",
-                    "action": "Camera Zoom Control",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "38f7f779-d7c9-4215-aba7-ee08d24a1c40",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Camera Zoom Control",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "15bd6b8b-50d8-4ca3-b900-379731728bbd",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Camera Zoom Control",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "b5c73e1b-399b-41ec-b6d8-0f2de841e12f",
-                    "path": "<Mouse>/scroll/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Mouse And Keyboard",
-                    "action": "Camera Zoom Control",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         }

@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace Code.Helpers
 {
+    /// <summary>
+    /// Contains methods for pathfinding
+    /// </summary>
     public static class PathfindingHelper 
     {
 
@@ -34,7 +37,7 @@ namespace Code.Helpers
             #if UNITY_WEBGL && !UNITY_EDITOR 
                 var unitPathfindingData = PathfindingHelper.CalculatePathfindingForAvailableMoves(tileGrid, selectedTile, selectedTile.currentUnit.movement);
             #else
-                var unitPathfindingData = await Task.Run(() => CalculatePathfindingForAvailableMoves(tileGrid, selectedTile, selectedTile.currentUnit.movement));
+                var unitPathfindingData = await Task.Run(() => CalculatePathfindingForAvailableMoves(tileGrid, selectedTile, selectedTile.CurrentUnit.Movement));
             #endif
             return unitPathfindingData;
         }
@@ -47,22 +50,22 @@ namespace Code.Helpers
             var adjacentTilesPathfindingData = new List<TilePathfindingData>();
             for (var i = 0; i < AdjacentTilesCoordinates.Count; i++)
             {
-                var adjacentTileXCoordinate = (int)sourceTilePathfindingData.DestinationGridTile.positionInGrid.x + AdjacentTilesCoordinates[i].x;
-                var adjacentTileYCoordinate = (int)sourceTilePathfindingData.DestinationGridTile.positionInGrid.y + AdjacentTilesCoordinates[i].y;
-                //we make sure the tile we are checking is inside the grid
-                if (adjacentTileXCoordinate < 0 || adjacentTileXCoordinate > tileGrid.GetLength(0) ||
-                    adjacentTileYCoordinate < 0 || adjacentTileYCoordinate > tileGrid.GetLength(1))
+                var adjacentTileCoordinates = new Vector2
                 {
-                    continue;
-                }
-                var tileToAnalyze = tileGrid[adjacentTileXCoordinate, adjacentTileYCoordinate];
+                    x = sourceTilePathfindingData.DestinationGridTile.PositionInGrid.x +
+                        AdjacentTilesCoordinates[i].x,
+                    y = sourceTilePathfindingData.DestinationGridTile.PositionInGrid.y +
+                        AdjacentTilesCoordinates[i].y
+                };
+                if (!GridManager.CoordinatesWithinGrid(adjacentTileCoordinates,tileGrid)) continue ;
+                var tileToAnalyze = tileGrid[(int)adjacentTileCoordinates.x, (int)adjacentTileCoordinates.y];
                 //we ignore impassable tiles, and tiles that we have already analyzed
-                if (tileToAnalyze.terrainType == TerrainType.Impassable ||
+                if (tileToAnalyze.TerrainType == TerrainType.Impassable ||
                     analyzedTiles.Any(x => x.DestinationGridTile == tileToAnalyze))
                 {
                     continue;
                 }
-                var tileMoveCost = sourceTilePathfindingData.MoveCost + TerrainMoveCost[tileToAnalyze.terrainType];
+                var tileMoveCost = sourceTilePathfindingData.MoveCost + TerrainMoveCost[tileToAnalyze.TerrainType];
                 adjacentTilesPathfindingData.Add(new TilePathfindingData(tileToAnalyze, sourceTilePathfindingData, tileMoveCost,0));
             }
             return adjacentTilesPathfindingData;

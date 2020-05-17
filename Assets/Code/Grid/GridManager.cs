@@ -7,16 +7,16 @@ namespace Code.Grid
     {
         public GridTile[,] TileGrid { get; private set; }
         #pragma warning disable 0649
-        [SerializeField] private Vector2Int gridSize;
-        [SerializeField] private GameObject tilePrefab;
-        [SerializeField] private Tilemap impassableTerrainTilemap;
-        [SerializeField] private Tilemap difficultTerrainTilemap;
+        [SerializeField] private Vector2Int _gridSize;
+        [SerializeField] private GameObject _tilePrefab;
+        [SerializeField] private Tilemap _impassableTerrainTilemap;
+        [SerializeField] private Tilemap _difficultTerrainTilemap;
         #pragma warning restore 0649
 
         // Start is called before the first frame update
         private void Awake()
         {
-            TileGrid = new GridTile[gridSize.x, gridSize.y];
+            TileGrid = new GridTile[_gridSize.x, _gridSize.y];
             GenerateGrid();
         }
 
@@ -25,11 +25,11 @@ namespace Code.Grid
         /// </summary>
         private void GenerateGrid()
         {
-            AddTilesInGrid(difficultTerrainTilemap,TerrainType.Difficult);
-            AddTilesInGrid(impassableTerrainTilemap, TerrainType.Impassable);
-            for (var i = 0; i < gridSize.x; i++)
+            AddTilesInGrid(_difficultTerrainTilemap,TerrainType.Difficult);
+            AddTilesInGrid(_impassableTerrainTilemap, TerrainType.Impassable);
+            for (var i = 0; i < _gridSize.x; i++)
             {
-                for (var j = 0; j < gridSize.y; j++)
+                for (var j = 0; j < _gridSize.y; j++)
                 {
                     var nextTilePosition = new Vector3(i,j,0);
                     if(TileGrid[i,j]==null)
@@ -60,10 +60,16 @@ namespace Code.Grid
         /// </summary>
         private void AddTileInGrid(Vector3 tilePosition, TerrainType tileType)
         {
-            var newTile = Instantiate(tilePrefab, tilePosition, new Quaternion()).GetComponent<GridTile>();
-            newTile.terrainType = tileType;
-            newTile.positionInGrid = newTile.transform.position;
+            var newTile = Instantiate(_tilePrefab, tilePosition, new Quaternion()).GetComponent<GridTile>();
+            newTile.TerrainType = tileType;
+            newTile.PositionInGrid = newTile.transform.position;
             TileGrid[(int)tilePosition.x, (int)tilePosition.y] = newTile;
+        }
+
+        public static bool CoordinatesWithinGrid(Vector2 coordinates , GridTile[,] tileGrid)
+        {
+            return !((int)coordinates.x < 0) && !((int)coordinates.x > tileGrid.GetLength(0)) 
+                                        && !((int)coordinates.y < 0) && !((int)coordinates.y > tileGrid.GetLength(1));
         }
     }
 }

@@ -2,6 +2,9 @@
 
 namespace Code.Models
 {
+    /// <summary>
+    /// Represents the path data to reach a grid tile
+    /// </summary>
     public class TilePathfindingData
     {
         public GridTile DestinationGridTile { get; }

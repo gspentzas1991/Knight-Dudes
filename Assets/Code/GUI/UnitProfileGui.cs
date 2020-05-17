@@ -6,19 +6,19 @@ namespace Code.GUI
 {
     public class UnitProfileGui : MonoBehaviour
     {
-        private Unit DisplayedUnit;
+        private Unit _displayedUnit;
         #pragma warning disable 0649
-        [SerializeField] private Text unitName;
-        [SerializeField] private Image unitImage;
-        [SerializeField] private Text unitHealth;
+        [SerializeField] private Text _unitName;
+        [SerializeField] private Image _unitImage;
+        [SerializeField] private Text _unitHealth;
         #pragma warning restore 0649
 
         private void SetUnitToDisplay(Unit unitToDisplay)
         {
-            DisplayedUnit = unitToDisplay;
-            unitName.text = unitToDisplay.unitName;
-            unitImage.sprite = unitToDisplay.profileImage;
-            unitHealth.text = $"HP: {unitToDisplay.currentHealth}/{unitToDisplay.maxHealth}";
+            _displayedUnit = unitToDisplay;
+            _unitName.text = unitToDisplay.UnitName;
+            _unitImage.sprite = unitToDisplay.ProfileImage;
+            _unitHealth.text = $"HP: {unitToDisplay.CombatController.CurrentHealth}/{unitToDisplay.CombatController.MaxHealth}";
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Code.GUI
         /// </summary>
         public void ShowUnitProfile(Unit hoveredUnit)
         {
-            if (hoveredUnit==DisplayedUnit) return;
+            if (hoveredUnit==_displayedUnit) return;
             if (!ReferenceEquals(hoveredUnit,null))
             {
                 SetUnitToDisplay(hoveredUnit);
@@ -34,7 +34,7 @@ namespace Code.GUI
             }
             else
             {
-                DisplayedUnit = null;
+                _displayedUnit = null;
                 gameObject.SetActive(false);
             }
         }

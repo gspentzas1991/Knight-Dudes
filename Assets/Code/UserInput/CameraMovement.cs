@@ -6,31 +6,40 @@ namespace Code.UserInput
 {
     public class CameraMovement : MonoBehaviour
     {
-        private Controls PlayerInputActions;
-        private Vector2 InputCameraControl;
-        private float InputZoom;
+        private Controls _playerInputActions;
+        private Vector2 _inputCameraControl;
+        private float _inputZoom;
         #pragma warning disable 0649
-        [SerializeField] private float cameraMovementSpeed;
-        [SerializeField] private float zoomSpeed;
-        [SerializeField] private float edgeScrollingOffset;
-        [SerializeField] private Vector3 maximumPosition;
-        [SerializeField] private Vector3 minimumPosition;
-        [SerializeField] private Camera mainCamera;
-        [SerializeField] private Transform gameCursorTransform;
+        [SerializeField] private float _cameraMovementSpeed;
+        [SerializeField] private float _zoomSpeed;
+        [SerializeField] private float _edgeScrollingOffset;
+        [SerializeField] private Vector3 _maximumPosition;
+        [SerializeField] private Vector3 _minimumPosition;
+        [SerializeField] private Camera _mainCamera;
+        [SerializeField] private Transform _gameCursorTransform;
         #pragma warning restore 0649
 
         private void Awake()
         {
-            PlayerInputActions = new Controls();
-            PlayerInputActions.Gameplay.CameraControl.performed += ctx => InputCameraControl = ctx.ReadValue<Vector2>();
-            PlayerInputActions.Gameplay.CameraZoomControl.performed += ctx => InputZoom = ctx.ReadValue<float>();
-            PlayerInputActions.Gameplay.CameraControl.canceled += ctx => InputCameraControl = ctx.ReadValue<Vector2>();
-            PlayerInputActions.Gameplay.CameraZoomControl.canceled += ctx => InputZoom = ctx.ReadValue<float>();
+            _playerInputActions = new Controls();
+            _playerInputActions.Gameplay.CameraControl.performed += ctx => _inputCameraControl = ctx.ReadValue<Vector2>();
+            _playerInputActions.Gameplay.CameraZoomControl.performed += ctx => _inputZoom = ctx.ReadValue<float>();
+            _playerInputActions.Gameplay.CameraControl.canceled += ctx => _inputCameraControl = ctx.ReadValue<Vector2>();
+            _playerInputActions.Gameplay.CameraZoomControl.canceled += ctx => _inputZoom = ctx.ReadValue<float>();
         }
-        // Update is called once per frame
+        
         private void LateUpdate()
         {
-            MovementDetection();
+            //if the cursor is not a child of the camera, the camera will follow it until it reaches the cursor
+            if (_gameCursorTransform.parent==transform)
+            {
+                MovementDetection();
+            }
+            else
+            {
+                FollowGameCursor();
+            }
+            
         }
 
         /// <summary>
@@ -38,30 +47,28 @@ namespace Code.UserInput
         /// </summary>
         private void MovementDetection()
         {
-            var cursorPosition = mainCamera.WorldToViewportPoint(gameCursorTransform.position);
             var newPositionOffset = new Vector3
             {
-                x = InputCameraControl.x * cameraMovementSpeed * Time.deltaTime,
-                y = InputCameraControl.y * cameraMovementSpeed * Time.deltaTime,
-                z = InputZoom * zoomSpeed * Time.deltaTime
+                x = _inputCameraControl.x * _cameraMovementSpeed * Time.deltaTime,
+                y = _inputCameraControl.y * _cameraMovementSpeed * Time.deltaTime,
+                z = _inputZoom * _zoomSpeed * Time.deltaTime
             };
-            if (cursorPosition.y>1-edgeScrollingOffset)
-            {
-                newPositionOffset.y = cameraMovementSpeed * Time.deltaTime;
-            }
-            else if (cursorPosition.y < edgeScrollingOffset)
-            {
-                newPositionOffset.y = -cameraMovementSpeed * Time.deltaTime;
-            }
-            if (cursorPosition.x > 1 - edgeScrollingOffset)
-            {
-                newPositionOffset.x = cameraMovementSpeed * Time.deltaTime;
-            }
-            else if (cursorPosition.x < edgeScrollingOffset)
-            {
-                newPositionOffset.x = -cameraMovementSpeed * Time.deltaTime;
-            }
+            newPositionOffset = EdgeScrollingHandler(newPositionOffset);
             transform.position = ClampPosition(transform.position + newPositionOffset);
+        }
+
+        /// <summary>
+        /// If the game cursor is not a child of the camera, the camera will
+        /// follow it and make it its child when it reaches the cursor
+        /// </summary>
+        private void FollowGameCursor()
+        {
+            var cameraPosition = transform.position;
+            var cursorPosition = _gameCursorTransform.position;
+            cursorPosition.z = cameraPosition.z;
+            transform.position = Vector3.MoveTowards(cameraPosition, cursorPosition, _cameraMovementSpeed/2 * Time.deltaTime);
+            if (transform.position != cursorPosition) return;
+            _gameCursorTransform.SetParent(transform);
         }
 
         /// <summary>
@@ -69,19 +76,44 @@ namespace Code.UserInput
         /// </summary>
         private Vector3 ClampPosition(Vector3 position)
         {
-            position.x = Mathf.Clamp(position.x, minimumPosition.x, maximumPosition.x);
-            position.y = Mathf.Clamp(position.y, minimumPosition.y, maximumPosition.y);
-            position.z = Mathf.Clamp(position.z, minimumPosition.z, maximumPosition.z);
+            position.x = Mathf.Clamp(position.x, _minimumPosition.x, _maximumPosition.x);
+            position.y = Mathf.Clamp(position.y, _minimumPosition.y, _maximumPosition.y);
+            position.z = Mathf.Clamp(position.z, _minimumPosition.z, _maximumPosition.z);
             return position;
+        }
+
+        /// <summary>
+        /// If the mouse is within the margins of edge scrolling, edge scrolling is applied to the newPositionOffset
+        /// </summary>
+        private Vector3 EdgeScrollingHandler(Vector3 newPositionOffset)
+        {
+            var cursorPosition = _mainCamera.WorldToViewportPoint(_gameCursorTransform.position);
+            if (cursorPosition.y>1-_edgeScrollingOffset)
+            {
+                newPositionOffset.y = _cameraMovementSpeed * Time.deltaTime;
+            }
+            else if (cursorPosition.y < _edgeScrollingOffset)
+            {
+                newPositionOffset.y = -_cameraMovementSpeed * Time.deltaTime;
+            }
+            if (cursorPosition.x > 1 - _edgeScrollingOffset)
+            {
+                newPositionOffset.x = _cameraMovementSpeed * Time.deltaTime;
+            }
+            else if (cursorPosition.x < _edgeScrollingOffset)
+            {
+                newPositionOffset.x = -_cameraMovementSpeed * Time.deltaTime;
+            }
+            return newPositionOffset;
         }
         private void OnEnable()
         {
-            PlayerInputActions.Enable();
+            _playerInputActions.Enable();
         }
 
         private void OnDisable()
         {
-            PlayerInputActions.Disable();
+            _playerInputActions.Disable();
         }
     }
 }

@@ -14,58 +14,55 @@ namespace Code.UserInput
     /// </summary>
     public class UserInteractionManager : MonoBehaviour
     {
-        private Controls PlayerInputActions;
-        private bool InputSelect;
-        private bool InputEndTurn;
-        private bool InputCancel;
-        private IEnumerable<Unit> AllUnits;
+        private Controls _playerInputActions;
+        private IEnumerable<Unit> _allUnits;
         #pragma warning disable 0649
-        [SerializeField] private GridManager gridManager;
-        [SerializeField] private List<Unit> playerUnits;
-        [SerializeField] private List<Unit> enemyUnits;
-        [SerializeField] private UnitProfileGui unitProfile;
-        [SerializeField] private TileSelector tileSelector;
-        [SerializeField] private UnitSelector unitSelector;
-        [SerializeField] private UnitMovementHandler unitMovementHandler;
-        [SerializeField] private TurnManager turnManager;
+        [SerializeField] private GridManager _gridManager;
+        [SerializeField] private List<Unit> _playerUnits;
+        [SerializeField] private List<Unit> _enemyUnits;
+        [SerializeField] private UnitProfileGui _unitProfile;
+        [SerializeField] private TileSelector _tileSelector;
+        [SerializeField] private UnitSelector _unitSelector;
+        [SerializeField] private UnitMovementHandler _unitMovementHandler;
+        [SerializeField] private TurnManager _turnManager;
         #pragma warning restore 0649
 
         private void Awake()
         {
-            PlayerInputActions=new Controls();
-            PlayerInputActions.Gameplay.Select.started  += ctx => SelectButtonPressed();
-            PlayerInputActions.Gameplay.EndTurn.started  += ctx => EndTurnButtonPressed();
-            PlayerInputActions.Gameplay.Cancel.started += ctx => CancelButtonPressed(); 
+            _playerInputActions=new Controls();
+            _playerInputActions.Gameplay.Select.started  += ctx => SelectButtonPressed();
+            _playerInputActions.Gameplay.EndTurn.started  += ctx => EndTurnButtonPressed();
+            _playerInputActions.Gameplay.Cancel.started += ctx => CancelButtonPressed(); 
         }
         private void Start()
         {
-            AllUnits= playerUnits.Concat(enemyUnits);
+            _allUnits= _playerUnits.Concat(_enemyUnits);
             //currentUnit initialization in tiles
-            foreach (var unit in AllUnits)
+            foreach (var unit in _allUnits)
             {
                 var position = unit.transform.position;
-                gridManager.TileGrid[(int)position.x, (int)position.y].currentUnit=unit;
+                _gridManager.TileGrid[(int)position.x, (int)position.y].CurrentUnit=unit;
             }
         }
         private void Update()
         {
-            var cursorTile = tileSelector.cursorTile;
+            var cursorTile = _tileSelector.CursorTile;
             Unit cursorUnit = null;
             if (!ReferenceEquals(cursorTile,null))
             {
-                cursorUnit = cursorTile.currentUnit;
+                cursorUnit = cursorTile.CurrentUnit;
             }
 
-            if (tileSelector.cursorTileChanged)
+            if (_tileSelector.CursorTileChanged)
             {
                 //if the cursor is hovering over a unit, show the profile
-                unitProfile.ShowUnitProfile(cursorUnit);
+                _unitProfile.ShowUnitProfile(cursorUnit);
                 //cursor hovered over a tile within the selected units available moves
-                if (!ReferenceEquals(unitSelector.SelectedUnit, null))
+                if (!ReferenceEquals(_unitSelector.SelectedUnit, null))
                 {
-                    var selectedUnitPathfindingData = unitSelector.SelectedUnit.pathfindingData;
+                    var selectedUnitPathfindingData = _unitSelector.SelectedUnit._pathfindingData;
                     //If hovering within the selected unit's movement, renders the path, otherwise removes the rendered path  
-                    var hoveredTilePathData = selectedUnitPathfindingData.FirstOrDefault(x => x.DestinationGridTile == tileSelector.cursorTile);
+                    var hoveredTilePathData = selectedUnitPathfindingData.FirstOrDefault(x => x.DestinationGridTile == _tileSelector.CursorTile);
                     TileRenderingHelper.RenderPathToTile(hoveredTilePathData,selectedUnitPathfindingData);
                 }
                 //Hovers over a unit
@@ -81,24 +78,24 @@ namespace Code.UserInput
         /// </summary>
         private async void SelectButtonPressed()
         {
-            var cursorTile = tileSelector.cursorTile;
+            var cursorTile = _tileSelector.CursorTile;
             Unit cursorUnit = null;
             if (!ReferenceEquals(cursorTile,null))
             {
-                cursorUnit = cursorTile.currentUnit;
+                cursorUnit = cursorTile.CurrentUnit;
             }
             //Clicked on a unit
             if (!ReferenceEquals(cursorUnit,null))
             {
-                if (playerUnits.All(x => x != cursorUnit)) return;
+                if (_playerUnits.All(x => x != cursorUnit)) return;
                 //clicked on a player unit
-                await unitSelector.ChangeSelectedUnitAsync(cursorUnit,gridManager.TileGrid);
+                await _unitSelector.ChangeSelectedUnitAsync(cursorUnit,_gridManager.TileGrid);
                 TileRenderingHelper.RenderUnitAvailablePaths(cursorUnit);
             }
             //Clicked on an empty tile
             else if (!ReferenceEquals(cursorTile,null))
             {
-                unitMovementHandler.MoveUnitToTile(cursorTile,unitSelector.SelectedUnit);
+                _unitMovementHandler.MoveUnitToTile(cursorTile,_unitSelector.SelectedUnit);
             }
         }
         
@@ -107,8 +104,8 @@ namespace Code.UserInput
         /// </summary>
         private async void EndTurnButtonPressed()
         {
-            await unitMovementHandler.MoveEnemyUnitsAsync(enemyUnits,gridManager.TileGrid);
-            turnManager.EndTurn(AllUnits);
+            await _unitMovementHandler.MoveEnemyUnitsAsync(_enemyUnits,_gridManager.TileGrid);
+            _turnManager.EndTurn(_allUnits);
         }
         
         /// <summary>
@@ -120,12 +117,12 @@ namespace Code.UserInput
         }
         private void OnEnable()
         {
-            PlayerInputActions.Enable();
+            _playerInputActions.Enable();
         }
 
         private void OnDisable()
         {
-            PlayerInputActions.Disable();
+            _playerInputActions.Disable();
         }
 
     }

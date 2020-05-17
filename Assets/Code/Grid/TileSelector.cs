@@ -5,48 +5,80 @@ using UnityEngine;
 namespace Code.Grid
 {
     /// <summary>
-    /// Keeps track of the currently hovered gridTile, and shows the cursor sprite that tile
+    /// Detects and keeps track of the currently hovered gridTile, and shows the cursor sprite on that tile
     /// </summary>
     public class TileSelector : MonoBehaviour
     {
+        public GridTile CursorTile;
+        /// <summary>
+        /// Becomes true on the frame that the cursor changes
+        /// </summary>
+        public bool CursorTileChanged;
+        private Controls _playerInputActions;
         private const int MaxRaycastHits = 2;
         /// <summary>
         /// The tile that the game cursor is currently hovering over
         /// </summary>
-        public GridTile cursorTile;
-        /// <summary>
-        /// Becomes true on the frame that the cursor changes
-        /// </summary>
-        public bool cursorTileChanged;
         #pragma warning disable 0649
-        [SerializeField] private GridManager gridManager;
-        [SerializeField] private Camera mainCamera;
-        [SerializeField] private GameCursor gameCursor;
+        [SerializeField] private GridManager _gridManager;
+        [SerializeField] private Camera _mainCamera;
+        [SerializeField] private GameCursor _gameCursor;
         #pragma warning restore 0649
 
+        private void Awake()
+        {
+            
+            _playerInputActions=new Controls();
+            _playerInputActions.Gameplay.NavigateGrid.started  += ctx => MoveCursorTile(ctx.ReadValue<Vector2>());
+        }
         private void Start()
         {
             //initialize selected tile
-            ChangeCursorTile(gridManager.TileGrid[0, 0]);
+            ChangeCursorTile(_gridManager.TileGrid[0, 0]);
         }
         private void Update()
         {
-            ChangeCursorFromInput();
+            DetectCursorTile();
         }
 
         /// <summary>
         /// Reads user inputs and changes the cursor position accordingly
         /// </summary>
-        private void ChangeCursorFromInput()
+        private void DetectCursorTile()
         {
             //fires a raycast from the camera to the mouse position to detect hits
-            var screenPointRaySource = mainCamera.WorldToScreenPoint(gameCursor.transform.position);
-            var hoveredTile = DetectHoveredTile(gridManager.TileGrid,screenPointRaySource);
+            var screenPointRaySource = _mainCamera.WorldToScreenPoint(_gameCursor.transform.position);
+            var hoveredTile = DetectHoveredTile(_gridManager.TileGrid,screenPointRaySource);
             //Hovers over tile
             if (!ReferenceEquals(hoveredTile, null))
             {
-                cursorTileChanged = ChangeCursorTile(hoveredTile);
+                CursorTileChanged = ChangeCursorTile(hoveredTile);
             }
+        }
+
+        /// <summary>
+        /// Moves the cursor in the direction of the move input
+        /// </summary>
+        private void MoveCursorTile(Vector2 moveInput)
+        {
+            if (ReferenceEquals(CursorTile,null))
+            {
+                return;
+            }
+
+            var newTilePosition = new Vector2
+            {
+                x = CursorTile.PositionInGrid.x + (int)moveInput.x,
+                y = CursorTile.PositionInGrid.y + (int)moveInput.y
+            };
+            if (!GridManager.CoordinatesWithinGrid(newTilePosition,_gridManager.TileGrid)) return;
+            var newCursorTile = _gridManager.TileGrid[(int)newTilePosition.x,(int)newTilePosition.y];
+            CursorTileChanged = ChangeCursorTile(newCursorTile);
+            if (CursorTileChanged)
+            {
+                _gameCursor.MoveCursorOverTile(CursorTile);
+            }
+            
         }
                  
         /// <summary>
@@ -54,7 +86,7 @@ namespace Code.Grid
         /// </summary>
         private GridTile DetectHoveredTile(GridTile[,] tileGrid, Vector3 screenPointRaySource)
         {
-            var ray = mainCamera.ScreenPointToRay(screenPointRaySource);
+            var ray = _mainCamera.ScreenPointToRay(screenPointRaySource);
             var raycastHits = new RaycastHit[MaxRaycastHits];
             Physics.RaycastNonAlloc(ray, raycastHits);
             var hitTileTransform = raycastHits.FirstOrDefault(x=>!ReferenceEquals(x.transform, null) && x.transform.CompareTag("Tile")).transform;
@@ -72,18 +104,26 @@ namespace Code.Grid
         /// </summary>
         private bool ChangeCursorTile(GridTile tile)
         {
-            if (tile == cursorTile) return false;
+            if (tile == CursorTile) return false;
             // Changes the hoveredTile to be the cursor, and the previous hovered tile to not be
             // ReSharper disable once UseNullPropagation
-            if (!ReferenceEquals(cursorTile,null))
+            if (!ReferenceEquals(CursorTile,null))
             {
-                cursorTile.ChangeCursorRendererState(false);
+                CursorTile.ChangeCursorRendererState(false);
             }      
             tile.ChangeCursorRendererState(true); 
-            cursorTile = tile;
+            CursorTile = tile;
             return true;
         }
-        
 
+        private void OnEnable()
+        {
+            _playerInputActions.Enable();
+        }
+
+        private void OnDisable()
+        {
+            _playerInputActions.Disable();
+        }
     }
 }

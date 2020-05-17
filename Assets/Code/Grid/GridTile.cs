@@ -1,22 +1,24 @@
-﻿using System;
-using Code.Units;
+﻿using Code.Units;
 using UnityEngine;
 
 namespace Code.Grid
 {
+    /// <summary>
+    /// Represents a single tile on the grid
+    /// </summary>
     public class GridTile : MonoBehaviour
     {
-        public TerrainType terrainType;
-        public Unit currentUnit;
-        public Vector3 positionInGrid;
+        public TerrainType TerrainType;
+        public Unit CurrentUnit;
+        public Vector3 PositionInGrid;
         #pragma warning disable 0649
-        [SerializeField] private SpriteRenderer gridSpriteRenderer;
-        [SerializeField] private SpriteRenderer gridCursorSpriteRenderer;
+        [SerializeField] private SpriteRenderer _gridSpriteRenderer;
+        [SerializeField] private SpriteRenderer _gridCursorSpriteRenderer;
         #pragma warning restore 0649
 
         public void ChangeGridSprite(Sprite newGridSprite)
         {
-            gridSpriteRenderer.sprite = newGridSprite;
+            _gridSpriteRenderer.sprite = newGridSprite;
         }
 
         /// <summary>
@@ -24,7 +26,7 @@ namespace Code.Grid
         /// </summary>
         public void ChangeCursorRendererState(bool rendererState)
         {
-            gridCursorSpriteRenderer.enabled = rendererState;
+            _gridCursorSpriteRenderer.enabled = rendererState;
         }
     }
 }

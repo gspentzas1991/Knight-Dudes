@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace Code.Helpers
 {
+    /// <summary>
+    /// Contains methods for rendering sprites on tiles
+    /// </summary>
     public static class TileRenderingHelper
     {
         private static readonly Sprite SelectedTileSprite =  Resources.Load<Sprite>("GridTileSprites/AvailableMoveTileSprite");
@@ -60,7 +63,7 @@ namespace Code.Helpers
         /// </summary>
         public static void RenderUnitAvailablePaths(Unit selectedUnit)
         {
-            ChangeTileSprites(selectedUnit.pathfindingData.Select(x => x.DestinationGridTile), TileState.Selected);
+            ChangeTileSprites(selectedUnit._pathfindingData.Select(x => x.DestinationGridTile), TileState.Selected);
         }
 
         /// <summary>
@@ -68,7 +71,7 @@ namespace Code.Helpers
         /// </summary>
         public static void UnRenderUnitPaths(Unit selectedUnit)
         {
-            ChangeTileSprites(selectedUnit.pathfindingData.Select(x => x.DestinationGridTile), TileState.Idle);
+            ChangeTileSprites(selectedUnit._pathfindingData.Select(x => x.DestinationGridTile), TileState.Idle);
         }
     }
 }

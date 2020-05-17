@@ -15,12 +15,12 @@ namespace Code.Units
         public async Task ChangeSelectedUnitAsync(Unit unitToSelect, GridTile[,] tileGrid)
         {
             //Clicked on an idle player unit
-            if (unitToSelect.state != UnitState.Idle || SelectedUnit==unitToSelect) return;
+            if (unitToSelect.State != UnitState.Idle || SelectedUnit==unitToSelect) return;
             DeselectUnit();
             SelectedUnit = unitToSelect;
-            if (SelectedUnit.pathfindingData==null)
+            if (SelectedUnit._pathfindingData==null)
             {
-                SelectedUnit.pathfindingData = await PathfindingHelper.CalculateUnitAvailablePathsAsync(SelectedUnit.transform.position,tileGrid);
+                SelectedUnit._pathfindingData = await PathfindingHelper.CalculateUnitAvailablePathsAsync(SelectedUnit.transform.position,tileGrid);
             }
         }
         
@@ -30,7 +30,7 @@ namespace Code.Units
         public void DeselectUnit()
         {
             if (ReferenceEquals(SelectedUnit, null)) return;
-            SelectedUnit.state = UnitState.Idle;
+            SelectedUnit.State = UnitState.Idle;
             TileRenderingHelper.UnRenderUnitPaths(SelectedUnit);
             SelectedUnit = null;
         }
