@@ -95,7 +95,7 @@ namespace Code.UserInput
                 var selectedUnit = _unitSelector.SelectedUnit;
                 _unitMovementHandler.MoveUnitToTile(cursorTile,selectedUnit);
                 //to be moved to other class
-                selectedUnit.CombatController.AttackableTiles = await PathfindingHelper.CalculateUnitAttackableTilesAsync(cursorTile.transform.position,selectedUnit,_gridManager.TileGrid);
+                selectedUnit.CombatController.AttackableTiles = _gridManager.TileGrid.GetGridTilesOfRange(cursorTile,selectedUnit.CombatController.AttackRanges);
                 TileRenderingHelper.RenderUnitAttackTiles(selectedUnit);
             }
         }

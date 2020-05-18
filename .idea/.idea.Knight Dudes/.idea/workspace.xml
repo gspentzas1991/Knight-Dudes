@@ -20,25 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eab0b23f-af5d-44b6-8729-bc0a0c61ba00" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/GridTileSprites/AttackTileSprite.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/GridTileSprites/AttackTileSprite.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/Helpers/TileGridExtender.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/Helpers/TileGridExtender.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Knight Dudes/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Enums.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Enums.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/Grid/GridManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Grid/GridManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Grid/TileSelector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Grid/TileSelector.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/Helpers/PathfindingHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Helpers/PathfindingHelper.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/Helpers/TileRenderingHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Helpers/TileRenderingHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Units/CombatController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Units/CombatController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Units/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Units/Unit.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Units/UnitMovementHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Units/UnitMovementHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Units/UnitSelector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Units/UnitSelector.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ControlSchemes/Controls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ControlSchemes/Controls.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ControlSchemes/Controls.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ControlSchemes/Controls.inputactions" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Gremlin A.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Gremlin A.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Pikeman.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Pikeman.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/GridTileSprites/AvailableMoveTileSprite.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/GridTileSprites/AvailableMoveTileSprite.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/GridTileSprites/PathTileSprite.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/GridTileSprites/PathTileSprite.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,30 +40,31 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Code/Helpers/PathfindingHelper.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/Helpers/TileRenderingHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/94C5F4C3-8CDC-42D2-B006-F8BADEF04394/35/d189c835/Object.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/Units/UnitMovementHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/94C5F4C3-8CDC-42D2-B006-F8BADEF04394/b1/251b41f0/UnitySynchronizationContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Enums.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/94C5F4C3-8CDC-42D2-B006-F8BADEF04394/f2/934bc13a/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/437BA245-D840-4784-B9FB-AB9B439AC908/7c/c5a10600/Task.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/UserInput/GameCursor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Models/TilePathfindingData.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/GUI/UnitProfileGui.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/Grid/TileSelector.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/73D8EE94-18E5-417C-8557-C00B56481F26/07/027ab6c9/UnitState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/ControlSchemes/Controls.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.0/InputSystem/Plugins/HID/HID.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/Turns/TurnManager.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Units/UnitSelector.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Units/Unit.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/UserInput/CameraMovement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/73D8EE94-18E5-417C-8557-C00B56481F26/74/2f515fc5/TerrainType.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/Units/CombatController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Grid/GridTile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Grid/GridManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/Helpers/PathfindingHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/Helpers/TileRenderingHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/Helpers/TileGridExtender.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/Units/UnitMovementHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/94C5F4C3-8CDC-42D2-B006-F8BADEF04394/f2/934bc13a/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/437BA245-D840-4784-B9FB-AB9B439AC908/7c/c5a10600/Task.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/UserInput/GameCursor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/GUI/UnitProfileGui.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/Grid/TileSelector.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/Turns/TurnManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/UserInput/CameraMovement.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/Units/CombatController.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -98,18 +90,19 @@
         <option value="$PROJECT_DIR$/Assets/Code/Units/UnitCombatController.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/GUI/UnitProfileGui.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Grid/GridTile.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Grid/TileSelector.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Models/TilePathfindingData.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Turns/TurnManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Enums.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Units/Unit.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Units/CombatController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Grid/GridManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Helpers/TileRenderingHelper.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Units/UnitSelector.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Units/UnitMovementHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Helpers/TileRenderingHelper.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Grid/GridManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Grid/TileSelector.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Helpers/PathfindingHelper.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/UserInput/UserInteractionManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Helpers/TileGridExtender.cs" />
       </list>
     </option>
   </component>
@@ -185,6 +178,7 @@
       <workItem from="1589748736661" duration="3583000" />
       <workItem from="1589760685396" duration="2572000" />
       <workItem from="1589827261184" duration="9828000" />
+      <workItem from="1589838404154" duration="2594000" />
     </task>
     <servers />
   </component>

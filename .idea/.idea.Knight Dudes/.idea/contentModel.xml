@@ -18,6 +18,7 @@
           </e>
           <e p="Helpers" t="Include">
             <e p="PathfindingHelper.cs" t="Include" />
+            <e p="TileGridExtender.cs" t="Include" />
             <e p="TileRenderingHelper.cs" t="Include" />
           </e>
           <e p="Models" t="Include">

@@ -74,18 +74,6 @@ namespace Code.Helpers
         /// </summary>
         public static void RenderUnitAttackTiles(Unit selectedUnit)
         {
-            /*//finds all the last move tiles
-            var adjacentUnitTiles = new List<GridTile>();
-            var unitGridTiles = selectedUnit.PathfindingData.Select(x => x.DestinationGridTile);
-            foreach(var tile in selectedUnit.PathfindingData.Select(x=>x.DestinationGridTile))
-            {
-                adjacentUnitTiles.AddRange(GridManager.GetAdjacentGridTiles(tileGrid, tile).Where(x =>
-                    !unitGridTiles.Contains(x)));
-            }
-
-            var attackableTiles =
-                adjacentUnitTiles.Where(x =>
-                    selectedUnit.PathfindingData.All(y => y.DestinationGridTile != x));*/
             ChangeTileSprites(selectedUnit.CombatController.AttackableTiles, TileState.Attackable);
         }
 

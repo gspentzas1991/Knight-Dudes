@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Code.Helpers;
 using Code.UserInput;
 using UnityEngine;
 
@@ -71,7 +72,7 @@ namespace Code.Grid
                 x = CursorTile.PositionInGrid.x + (int)moveInput.x,
                 y = CursorTile.PositionInGrid.y + (int)moveInput.y
             };
-            if (!GridManager.CoordinatesWithinGrid(newTilePosition,_gridManager.TileGrid)) return;
+            if (!_gridManager.TileGrid.CoordinatesWithinGrid(newTilePosition)) return;
             var newCursorTile = _gridManager.TileGrid[(int)newTilePosition.x,(int)newTilePosition.y];
             CursorTileChanged = ChangeCursorTile(newCursorTile);
             if (CursorTileChanged)

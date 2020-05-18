@@ -11966,12 +11966,17 @@ PrefabInstance:
     - target: {fileID: 8059985636044822173, guid: b56aba10ce44c9340b5528f9332d2857,
         type: 3}
       propertyPath: AttackRanges.Array.data[1]
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8059985636044822173, guid: b56aba10ce44c9340b5528f9332d2857,
         type: 3}
       propertyPath: AttackRanges.Array.data[2]
-      value: 3
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8059985636044822173, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: AttackRanges.Array.data[0]
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b56aba10ce44c9340b5528f9332d2857, type: 3}
