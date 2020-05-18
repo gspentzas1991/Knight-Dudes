@@ -1,10 +1,20 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Code.Grid
 {
     public class GridManager : MonoBehaviour
     {
+        //The relative x-y coordinates for the 4 adjacent tiles of any tile
+        public static readonly List<(int x, int y)> AdjacentTilesCoordinates = new List<(int x, int y)>()
+        {
+            (-1,0),
+            (1,0),
+            (0,-1),
+            (0,1)
+        };
         public GridTile[,] TileGrid { get; private set; }
         #pragma warning disable 0649
         [SerializeField] private Vector2Int _gridSize;
@@ -70,6 +80,18 @@ namespace Code.Grid
         {
             return !((int)coordinates.x < 0) && !((int)coordinates.x > tileGrid.GetLength(0)) 
                                         && !((int)coordinates.y < 0) && !((int)coordinates.y > tileGrid.GetLength(1));
+        }
+
+        public static IEnumerable<GridTile> GetAdjacentGridTiles(GridTile[,] tileGrid,GridTile selectedTile)
+        {
+            return
+                from adjacentTileCoordinates in AdjacentTilesCoordinates.Select((t, i) => new Vector2
+                {
+                    x = selectedTile.PositionInGrid.x + AdjacentTilesCoordinates[i].x,
+                    y = selectedTile.PositionInGrid.y + AdjacentTilesCoordinates[i].y
+                })
+                where CoordinatesWithinGrid(adjacentTileCoordinates, tileGrid)
+                select tileGrid[(int) adjacentTileCoordinates.x, (int) adjacentTileCoordinates.y];
         }
     }
 }

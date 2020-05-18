@@ -11958,6 +11958,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8059985636044822173, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: AttackRanges.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8059985636044822173, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: AttackRanges.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8059985636044822173, guid: b56aba10ce44c9340b5528f9332d2857,
+        type: 3}
+      propertyPath: AttackRanges.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b56aba10ce44c9340b5528f9332d2857, type: 3}
 --- !u!1001 &4685797751283420934
@@ -12070,6 +12085,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4685797750013297206, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
         type: 3}
+      propertyPath: _unitList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685797750013297206, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
+        type: 3}
       propertyPath: playerUnits.Array.data[0]
       value: 
       objectReference: {fileID: 1989579951}
@@ -12153,6 +12173,26 @@ PrefabInstance:
       propertyPath: _turnManager
       value: 
       objectReference: {fileID: 1232018790}
+    - target: {fileID: 4685797750013297206, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
+        type: 3}
+      propertyPath: _unitList.Array.data[0]
+      value: 
+      objectReference: {fileID: 1989579951}
+    - target: {fileID: 4685797750013297206, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
+        type: 3}
+      propertyPath: _unitList.Array.data[1]
+      value: 
+      objectReference: {fileID: 1954028136}
+    - target: {fileID: 4685797750013297206, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
+        type: 3}
+      propertyPath: _unitList.Array.data[2]
+      value: 
+      objectReference: {fileID: 1896191314}
+    - target: {fileID: 4685797750013297206, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
+        type: 3}
+      propertyPath: _unitList.Array.data[3]
+      value: 
+      objectReference: {fileID: 1956666802}
     - target: {fileID: 4685797750013297207, guid: 30840b3ab2fad3c4daf6de8ad1a59785,
         type: 3}
       propertyPath: m_LocalPosition.x

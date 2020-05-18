@@ -15,6 +15,7 @@ namespace Code.Helpers
     {
         private static readonly Sprite SelectedTileSprite =  Resources.Load<Sprite>("GridTileSprites/AvailableMoveTileSprite");
         private static readonly Sprite ActiveTileSprite = Resources.Load<Sprite>("GridTileSprites/PathTileSprite") ;
+        private static readonly Sprite AttackTileSprite = Resources.Load<Sprite>("GridTileSprites/AttackTileSprite") ;
         
         /// <summary>
         /// Changes the sprite of every tile in a list
@@ -39,6 +40,8 @@ namespace Code.Helpers
                     return SelectedTileSprite;
                 case TileState.Active:
                     return ActiveTileSprite;
+                case TileState.Attackable:
+                    return AttackTileSprite;
                 case TileState.Idle:
                     return null;
                 default:
@@ -63,7 +66,27 @@ namespace Code.Helpers
         /// </summary>
         public static void RenderUnitAvailablePaths(Unit selectedUnit)
         {
-            ChangeTileSprites(selectedUnit._pathfindingData.Select(x => x.DestinationGridTile), TileState.Selected);
+            ChangeTileSprites(selectedUnit.PathfindingData.Select(x => x.DestinationGridTile), TileState.Selected);
+        }
+        
+        /// <summary>
+        /// Renderers every tile the unit can attack, as an attack tile
+        /// </summary>
+        public static void RenderUnitAttackTiles(Unit selectedUnit)
+        {
+            /*//finds all the last move tiles
+            var adjacentUnitTiles = new List<GridTile>();
+            var unitGridTiles = selectedUnit.PathfindingData.Select(x => x.DestinationGridTile);
+            foreach(var tile in selectedUnit.PathfindingData.Select(x=>x.DestinationGridTile))
+            {
+                adjacentUnitTiles.AddRange(GridManager.GetAdjacentGridTiles(tileGrid, tile).Where(x =>
+                    !unitGridTiles.Contains(x)));
+            }
+
+            var attackableTiles =
+                adjacentUnitTiles.Where(x =>
+                    selectedUnit.PathfindingData.All(y => y.DestinationGridTile != x));*/
+            ChangeTileSprites(selectedUnit.CombatController.AttackableTiles, TileState.Attackable);
         }
 
         /// <summary>
@@ -71,7 +94,8 @@ namespace Code.Helpers
         /// </summary>
         public static void UnRenderUnitPaths(Unit selectedUnit)
         {
-            ChangeTileSprites(selectedUnit._pathfindingData.Select(x => x.DestinationGridTile), TileState.Idle);
+            ChangeTileSprites(selectedUnit.PathfindingData.Select(x => x.DestinationGridTile), TileState.Idle);
         }
+
     }
 }

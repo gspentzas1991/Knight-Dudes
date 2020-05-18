@@ -15,11 +15,9 @@ namespace Code.UserInput
     public class UserInteractionManager : MonoBehaviour
     {
         private Controls _playerInputActions;
-        private IEnumerable<Unit> _allUnits;
         #pragma warning disable 0649
         [SerializeField] private GridManager _gridManager;
-        [SerializeField] private List<Unit> _playerUnits;
-        [SerializeField] private List<Unit> _enemyUnits;
+        [SerializeField] private List<Unit> _unitList;
         [SerializeField] private UnitProfileGui _unitProfile;
         [SerializeField] private TileSelector _tileSelector;
         [SerializeField] private UnitSelector _unitSelector;
@@ -36,9 +34,8 @@ namespace Code.UserInput
         }
         private void Start()
         {
-            _allUnits= _playerUnits.Concat(_enemyUnits);
             //currentUnit initialization in tiles
-            foreach (var unit in _allUnits)
+            foreach (var unit in _unitList)
             {
                 var position = unit.transform.position;
                 _gridManager.TileGrid[(int)position.x, (int)position.y].CurrentUnit=unit;
@@ -60,7 +57,7 @@ namespace Code.UserInput
                 //cursor hovered over a tile within the selected units available moves
                 if (!ReferenceEquals(_unitSelector.SelectedUnit, null))
                 {
-                    var selectedUnitPathfindingData = _unitSelector.SelectedUnit._pathfindingData;
+                    var selectedUnitPathfindingData = _unitSelector.SelectedUnit.PathfindingData;
                     //If hovering within the selected unit's movement, renders the path, otherwise removes the rendered path  
                     var hoveredTilePathData = selectedUnitPathfindingData.FirstOrDefault(x => x.DestinationGridTile == _tileSelector.CursorTile);
                     TileRenderingHelper.RenderPathToTile(hoveredTilePathData,selectedUnitPathfindingData);
@@ -87,7 +84,7 @@ namespace Code.UserInput
             //Clicked on a unit
             if (!ReferenceEquals(cursorUnit,null))
             {
-                if (_playerUnits.All(x => x != cursorUnit)) return;
+                if (cursorUnit.Faction != UnitFaction.Player) return;
                 //clicked on a player unit
                 await _unitSelector.ChangeSelectedUnitAsync(cursorUnit,_gridManager.TileGrid);
                 TileRenderingHelper.RenderUnitAvailablePaths(cursorUnit);
@@ -95,7 +92,11 @@ namespace Code.UserInput
             //Clicked on an empty tile
             else if (!ReferenceEquals(cursorTile,null))
             {
-                _unitMovementHandler.MoveUnitToTile(cursorTile,_unitSelector.SelectedUnit);
+                var selectedUnit = _unitSelector.SelectedUnit;
+                _unitMovementHandler.MoveUnitToTile(cursorTile,selectedUnit);
+                //to be moved to other class
+                selectedUnit.CombatController.AttackableTiles = await PathfindingHelper.CalculateUnitAttackableTilesAsync(cursorTile.transform.position,selectedUnit,_gridManager.TileGrid);
+                TileRenderingHelper.RenderUnitAttackTiles(selectedUnit);
             }
         }
         
@@ -104,8 +105,9 @@ namespace Code.UserInput
         /// </summary>
         private async void EndTurnButtonPressed()
         {
-            await _unitMovementHandler.MoveEnemyUnitsAsync(_enemyUnits,_gridManager.TileGrid);
-            _turnManager.EndTurn(_allUnits);
+            await _unitMovementHandler.MoveEnemyUnitsAsync(_unitList.Where(x => x.Faction == UnitFaction.Monster),
+                _gridManager.TileGrid);
+            _turnManager.EndTurn(_unitList);
         }
         
         /// <summary>
@@ -113,7 +115,7 @@ namespace Code.UserInput
         /// </summary>
         private void CancelButtonPressed()
         {
-            Debug.Log("Pressed Cancel!");
+            _unitSelector.DeselectUnit();
         }
         private void OnEnable()
         {

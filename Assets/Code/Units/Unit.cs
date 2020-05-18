@@ -15,11 +15,12 @@ namespace Code.Units
         public Sprite ProfileImage;
         public string UnitName;
         public int Movement;
+        public UnitFaction Faction;
         public CombatController CombatController;
         /// <summary>
         /// Pathfinding data for all available moves the unit can make from its current position
         /// </summary>
-        public List<TilePathfindingData> _pathfindingData;
+        public List<TilePathfindingData> PathfindingData;
         private readonly Color _defaultSpriteColor = Color.white;
         private readonly Color _outOfActionsSpriteColor = Color.grey;
         private static readonly int IsMoving = Animator.StringToHash("IsMoving");
@@ -83,7 +84,7 @@ namespace Code.Units
         {
             State = UnitState.Idle;
             _spriteRenderer.color = _defaultSpriteColor;
-            _pathfindingData = null;
+            PathfindingData = null;
         }
     }
 }

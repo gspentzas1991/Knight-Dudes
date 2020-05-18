@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Code.Grid;
 using Code.Models;
+using Code.Units;
 using UnityEngine;
 
 namespace Code.Helpers
@@ -19,14 +20,6 @@ namespace Code.Helpers
             { TerrainType.Normal,1 },
             { TerrainType.Difficult,4 }
         };
-        //The relative x-y coordinates for the 4 adjacent tiles of any tile
-        private static readonly List<(int x, int y)> AdjacentTilesCoordinates = new List<(int x, int y)>()
-        {
-            (-1,0),
-            (1,0),
-            (0,-1),
-            (0,1)
-        };
         
         /// <summary>
         /// Calculates asynchronously the unit's pathfinding data for all its moves
@@ -41,31 +34,55 @@ namespace Code.Helpers
             #endif
             return unitPathfindingData;
         }
+        
+        /// <summary>
+        /// Calculates asynchronously all the GridTiles the unit can attack from the selected position
+        /// </summary>
+        public static async Task<List<GridTile>> CalculateUnitAttackableTilesAsync(Vector3 unitPosition,Unit selectedUnit, GridTile[,] tileGrid)
+        {
+            var selectedTile = tileGrid[(int)unitPosition.x, (int)unitPosition.y];
+            #if UNITY_WEBGL && !UNITY_EDITOR 
+                var unitPathfindingData = PathfindingHelper.CalculatePathfindingForAvailableMoves(tileGrid, selectedTile, selectedTile.CurrentUnit.CombatController.AttackRanges.Max(),true);
+            #else
+                var unitPathfindingData = await Task.Run(() => CalculatePathfindingForAvailableMoves(tileGrid, selectedTile, selectedUnit.CombatController.AttackRanges.Max(),true));
+            #endif
+            var attackableTiles = new List<GridTile>();
+            foreach (var attackRange in selectedUnit.CombatController.AttackRanges)
+            {
+                attackableTiles.AddRange(unitPathfindingData.Where(x=>x.MoveCost==attackRange).Select(x=>x.DestinationGridTile));
+            }
+   
+            return attackableTiles;
+        }
 
         /// <summary>
         /// Takes a tile's pathfinding data, and calculates the adjacent tiles' pathfinding data
         /// </summary>
-        private static IEnumerable<TilePathfindingData> CalculateAdjacentTilePathfindingData(GridTile[,] tileGrid,TilePathfindingData sourceTilePathfindingData, IReadOnlyCollection<TilePathfindingData> analyzedTiles)
+        private static IEnumerable<TilePathfindingData> CalculateAdjacentTilePathfindingData(GridTile[,] tileGrid,TilePathfindingData sourceTilePathfindingData, IReadOnlyCollection<TilePathfindingData> analyzedTiles,bool goAroundObstacles)
         {
             var adjacentTilesPathfindingData = new List<TilePathfindingData>();
-            for (var i = 0; i < AdjacentTilesCoordinates.Count; i++)
+            for (var i = 0; i < GridManager.AdjacentTilesCoordinates.Count; i++)
             {
                 var adjacentTileCoordinates = new Vector2
                 {
                     x = sourceTilePathfindingData.DestinationGridTile.PositionInGrid.x +
-                        AdjacentTilesCoordinates[i].x,
+                        GridManager.AdjacentTilesCoordinates[i].x,
                     y = sourceTilePathfindingData.DestinationGridTile.PositionInGrid.y +
-                        AdjacentTilesCoordinates[i].y
+                        GridManager.AdjacentTilesCoordinates[i].y
                 };
                 if (!GridManager.CoordinatesWithinGrid(adjacentTileCoordinates,tileGrid)) continue ;
                 var tileToAnalyze = tileGrid[(int)adjacentTileCoordinates.x, (int)adjacentTileCoordinates.y];
-                //we ignore impassable tiles, and tiles that we have already analyzed
-                if (tileToAnalyze.TerrainType == TerrainType.Impassable ||
-                    analyzedTiles.Any(x => x.DestinationGridTile == tileToAnalyze))
+                //we ignore impassable tiles, enemy tiles and tiles that we have already analyzed
+                if ((!goAroundObstacles && (tileToAnalyze.TerrainType == TerrainType.Impassable ||
+                                           (!ReferenceEquals(tileToAnalyze.CurrentUnit, null) &&
+                                            tileToAnalyze.CurrentUnit.Faction == UnitFaction.Monster))) ||
+                    analyzedTiles.Any(x => x.DestinationGridTile == tileToAnalyze)) continue;
+                var terrainCost = TerrainMoveCost[tileToAnalyze.TerrainType];
+                if (goAroundObstacles)
                 {
-                    continue;
+                    terrainCost =1;
                 }
-                var tileMoveCost = sourceTilePathfindingData.MoveCost + TerrainMoveCost[tileToAnalyze.TerrainType];
+                var tileMoveCost = sourceTilePathfindingData.MoveCost+terrainCost;
                 adjacentTilesPathfindingData.Add(new TilePathfindingData(tileToAnalyze, sourceTilePathfindingData, tileMoveCost,0));
             }
             return adjacentTilesPathfindingData;
@@ -74,7 +91,7 @@ namespace Code.Helpers
         /// <summary>
         /// Calculates and returns the tilePathfindingData of every available move for the selected unit in the grid, using Dijkstra pathfinding algorithm
         /// </summary>
-        private static List<TilePathfindingData> CalculatePathfindingForAvailableMoves(GridTile[,] tileGrid, GridTile startingGridTile, int moveCount)
+        private static List<TilePathfindingData> CalculatePathfindingForAvailableMoves(GridTile[,] tileGrid, GridTile startingGridTile, int moveCount,bool goAroundObstacles = false)
         {
             var remainingTilesToAnalyze = new List<TilePathfindingData>();
             var analyzedTiles = new List<TilePathfindingData>();
@@ -87,7 +104,7 @@ namespace Code.Helpers
             do
             {
                 var tileToAnalyze = remainingTilesToAnalyze[0];
-                var adjacentTilesPathfindingData = CalculateAdjacentTilePathfindingData(tileGrid, tileToAnalyze, analyzedTiles);
+                var adjacentTilesPathfindingData = CalculateAdjacentTilePathfindingData(tileGrid, tileToAnalyze, analyzedTiles,goAroundObstacles);
                 foreach (var tilePathfindingData in adjacentTilesPathfindingData)
                 {
                     var existingTilePathfindingData = remainingTilesToAnalyze.FirstOrDefault(x => x.DestinationGridTile == tilePathfindingData.DestinationGridTile);

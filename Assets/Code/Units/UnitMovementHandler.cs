@@ -25,7 +25,7 @@ namespace Code.Units
             foreach (var enemy in enemyUnits)
             {
                 await _unitSelector.ChangeSelectedUnitAsync(enemy, tileGrid);
-                var randomTile = enemy._pathfindingData[Random.Range(0, enemy._pathfindingData.Count)].DestinationGridTile;
+                var randomTile = enemy.PathfindingData[Random.Range(0, enemy.PathfindingData.Count)].DestinationGridTile;
                 MoveUnitToTile(randomTile,enemy);
             }
         }
@@ -40,19 +40,19 @@ namespace Code.Units
                 return;
             }
             //checks that the selected tile is a valid move for the unit
-            var selectedTilePathfindingData = selectedUnit._pathfindingData.FirstOrDefault(x => x.DestinationGridTile == selectedGridTile);
+            var selectedTilePathfindingData = selectedUnit.PathfindingData.FirstOrDefault(x => x.DestinationGridTile == selectedGridTile);
             if (selectedTilePathfindingData == null || selectedTilePathfindingData.MoveCost > selectedUnit.Movement)
             {
                 return;
             }
-            var pathfindingDataList = PathfindingHelper.GetPathToTile(selectedUnit._pathfindingData, selectedGridTile);
+            var pathfindingDataList = PathfindingHelper.GetPathToTile(selectedUnit.PathfindingData, selectedGridTile);
             //we move the unit reference from the starting tile to the selected tile
-            selectedUnit._pathfindingData[0].DestinationGridTile.CurrentUnit = null;
+            selectedUnit.PathfindingData[0].DestinationGridTile.CurrentUnit = null;
             selectedGridTile.CurrentUnit = selectedUnit;
             selectedUnit.BeginFollowingTilePath(pathfindingDataList);
             _unitSelector.DeselectUnit();
             selectedUnit.State = UnitState.OutOfActions;
-            selectedUnit._pathfindingData = null;
+            selectedUnit.PathfindingData = null;
         }
     }
 }

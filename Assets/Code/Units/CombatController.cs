@@ -6,9 +6,13 @@ namespace Code.Units
 {
     public class CombatController : MonoBehaviour
     {
-        public int AttackRange;
+        public List<int> AttackRanges;
         public int CurrentHealth;
         public int MaxHealth;
+        /// <summary>
+        /// Tiles that are within the unit's attack range
+        /// </summary>
+        public IEnumerable<GridTile> AttackableTiles;
         
     }
 }

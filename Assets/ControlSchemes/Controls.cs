@@ -8,10 +8,10 @@ using UnityEngine.InputSystem.Utilities;
 
 public class @Controls : IInputActionCollection, IDisposable
 {
-    public InputActionAsset Asset { get; }
+    public InputActionAsset asset { get; }
     public @Controls()
     {
-        Asset = InputActionAsset.FromJson(@"{
+        asset = InputActionAsset.FromJson(@"{
     ""name"": ""Controls"",
     ""maps"": [
         {
@@ -158,7 +158,7 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""id"": ""1533ac4a-613f-4a77-a642-f4904f71e00b"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=5,y=5)"",
+                    ""processors"": ""ScaleVector2(x=10,y=10)"",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Cursor Control"",
                     ""isComposite"": false,
@@ -396,43 +396,43 @@ public class @Controls : IInputActionCollection, IDisposable
     ]
 }");
         // Gameplay
-        _mGameplay = Asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        _mGameplayCameraControl = _mGameplay.FindAction("Camera Control", throwIfNotFound: true);
-        _mGameplayCameraZoomControl = _mGameplay.FindAction("Camera Zoom Control", throwIfNotFound: true);
-        _mGameplayCursorControl = _mGameplay.FindAction("Cursor Control", throwIfNotFound: true);
-        _mGameplayNavigateGrid = _mGameplay.FindAction("Navigate Grid", throwIfNotFound: true);
-        _mGameplaySelect = _mGameplay.FindAction("Select", throwIfNotFound: true);
-        _mGameplayCancel = _mGameplay.FindAction("Cancel", throwIfNotFound: true);
-        _mGameplayEndTurn = _mGameplay.FindAction("End Turn", throwIfNotFound: true);
+        m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
+        m_Gameplay_CameraControl = m_Gameplay.FindAction("Camera Control", throwIfNotFound: true);
+        m_Gameplay_CameraZoomControl = m_Gameplay.FindAction("Camera Zoom Control", throwIfNotFound: true);
+        m_Gameplay_CursorControl = m_Gameplay.FindAction("Cursor Control", throwIfNotFound: true);
+        m_Gameplay_NavigateGrid = m_Gameplay.FindAction("Navigate Grid", throwIfNotFound: true);
+        m_Gameplay_Select = m_Gameplay.FindAction("Select", throwIfNotFound: true);
+        m_Gameplay_Cancel = m_Gameplay.FindAction("Cancel", throwIfNotFound: true);
+        m_Gameplay_EndTurn = m_Gameplay.FindAction("End Turn", throwIfNotFound: true);
     }
 
     public void Dispose()
     {
-        UnityEngine.Object.Destroy(Asset);
+        UnityEngine.Object.Destroy(asset);
     }
 
     public InputBinding? bindingMask
     {
-        get => Asset.bindingMask;
-        set => Asset.bindingMask = value;
+        get => asset.bindingMask;
+        set => asset.bindingMask = value;
     }
 
     public ReadOnlyArray<InputDevice>? devices
     {
-        get => Asset.devices;
-        set => Asset.devices = value;
+        get => asset.devices;
+        set => asset.devices = value;
     }
 
-    public ReadOnlyArray<InputControlScheme> controlSchemes => Asset.controlSchemes;
+    public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
 
     public bool Contains(InputAction action)
     {
-        return Asset.Contains(action);
+        return asset.Contains(action);
     }
 
     public IEnumerator<InputAction> GetEnumerator()
     {
-        return Asset.GetEnumerator();
+        return asset.GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -442,67 +442,67 @@ public class @Controls : IInputActionCollection, IDisposable
 
     public void Enable()
     {
-        Asset.Enable();
+        asset.Enable();
     }
 
     public void Disable()
     {
-        Asset.Disable();
+        asset.Disable();
     }
 
     // Gameplay
-    private readonly InputActionMap _mGameplay;
-    private IGameplayActions _mGameplayActionsCallbackInterface;
-    private readonly InputAction _mGameplayCameraControl;
-    private readonly InputAction _mGameplayCameraZoomControl;
-    private readonly InputAction _mGameplayCursorControl;
-    private readonly InputAction _mGameplayNavigateGrid;
-    private readonly InputAction _mGameplaySelect;
-    private readonly InputAction _mGameplayCancel;
-    private readonly InputAction _mGameplayEndTurn;
+    private readonly InputActionMap m_Gameplay;
+    private IGameplayActions m_GameplayActionsCallbackInterface;
+    private readonly InputAction m_Gameplay_CameraControl;
+    private readonly InputAction m_Gameplay_CameraZoomControl;
+    private readonly InputAction m_Gameplay_CursorControl;
+    private readonly InputAction m_Gameplay_NavigateGrid;
+    private readonly InputAction m_Gameplay_Select;
+    private readonly InputAction m_Gameplay_Cancel;
+    private readonly InputAction m_Gameplay_EndTurn;
     public struct GameplayActions
     {
-        private @Controls _mWrapper;
-        public GameplayActions(@Controls wrapper) { _mWrapper = wrapper; }
-        public InputAction @CameraControl => _mWrapper._mGameplayCameraControl;
-        public InputAction @CameraZoomControl => _mWrapper._mGameplayCameraZoomControl;
-        public InputAction @CursorControl => _mWrapper._mGameplayCursorControl;
-        public InputAction @NavigateGrid => _mWrapper._mGameplayNavigateGrid;
-        public InputAction @Select => _mWrapper._mGameplaySelect;
-        public InputAction @Cancel => _mWrapper._mGameplayCancel;
-        public InputAction @EndTurn => _mWrapper._mGameplayEndTurn;
-        public InputActionMap Get() { return _mWrapper._mGameplay; }
+        private @Controls m_Wrapper;
+        public GameplayActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @CameraControl => m_Wrapper.m_Gameplay_CameraControl;
+        public InputAction @CameraZoomControl => m_Wrapper.m_Gameplay_CameraZoomControl;
+        public InputAction @CursorControl => m_Wrapper.m_Gameplay_CursorControl;
+        public InputAction @NavigateGrid => m_Wrapper.m_Gameplay_NavigateGrid;
+        public InputAction @Select => m_Wrapper.m_Gameplay_Select;
+        public InputAction @Cancel => m_Wrapper.m_Gameplay_Cancel;
+        public InputAction @EndTurn => m_Wrapper.m_Gameplay_EndTurn;
+        public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
-        public bool Enabled => Get().enabled;
+        public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
         public void SetCallbacks(IGameplayActions instance)
         {
-            if (_mWrapper._mGameplayActionsCallbackInterface != null)
+            if (m_Wrapper.m_GameplayActionsCallbackInterface != null)
             {
-                @CameraControl.started -= _mWrapper._mGameplayActionsCallbackInterface.OnCameraControl;
-                @CameraControl.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnCameraControl;
-                @CameraControl.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnCameraControl;
-                @CameraZoomControl.started -= _mWrapper._mGameplayActionsCallbackInterface.OnCameraZoomControl;
-                @CameraZoomControl.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnCameraZoomControl;
-                @CameraZoomControl.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnCameraZoomControl;
-                @CursorControl.started -= _mWrapper._mGameplayActionsCallbackInterface.OnCursorControl;
-                @CursorControl.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnCursorControl;
-                @CursorControl.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnCursorControl;
-                @NavigateGrid.started -= _mWrapper._mGameplayActionsCallbackInterface.OnNavigateGrid;
-                @NavigateGrid.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnNavigateGrid;
-                @NavigateGrid.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnNavigateGrid;
-                @Select.started -= _mWrapper._mGameplayActionsCallbackInterface.OnSelect;
-                @Select.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnSelect;
-                @Select.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnSelect;
-                @Cancel.started -= _mWrapper._mGameplayActionsCallbackInterface.OnCancel;
-                @Cancel.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnCancel;
-                @Cancel.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnCancel;
-                @EndTurn.started -= _mWrapper._mGameplayActionsCallbackInterface.OnEndTurn;
-                @EndTurn.performed -= _mWrapper._mGameplayActionsCallbackInterface.OnEndTurn;
-                @EndTurn.canceled -= _mWrapper._mGameplayActionsCallbackInterface.OnEndTurn;
+                @CameraControl.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCameraControl;
+                @CameraControl.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCameraControl;
+                @CameraControl.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCameraControl;
+                @CameraZoomControl.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCameraZoomControl;
+                @CameraZoomControl.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCameraZoomControl;
+                @CameraZoomControl.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCameraZoomControl;
+                @CursorControl.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCursorControl;
+                @CursorControl.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCursorControl;
+                @CursorControl.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCursorControl;
+                @NavigateGrid.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNavigateGrid;
+                @NavigateGrid.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNavigateGrid;
+                @NavigateGrid.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNavigateGrid;
+                @Select.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSelect;
+                @Select.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSelect;
+                @Select.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSelect;
+                @Cancel.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCancel;
+                @EndTurn.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEndTurn;
+                @EndTurn.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEndTurn;
+                @EndTurn.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEndTurn;
             }
-            _mWrapper._mGameplayActionsCallbackInterface = instance;
+            m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @CameraControl.started += instance.OnCameraControl;
@@ -530,22 +530,22 @@ public class @Controls : IInputActionCollection, IDisposable
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
-    private int _mGamepadSchemeIndex = -1;
+    private int m_GamepadSchemeIndex = -1;
     public InputControlScheme GamepadScheme
     {
         get
         {
-            if (_mGamepadSchemeIndex == -1) _mGamepadSchemeIndex = Asset.FindControlSchemeIndex("Gamepad");
-            return Asset.controlSchemes[_mGamepadSchemeIndex];
+            if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
+            return asset.controlSchemes[m_GamepadSchemeIndex];
         }
     }
-    private int _mMouseAndKeyboardSchemeIndex = -1;
+    private int m_MouseAndKeyboardSchemeIndex = -1;
     public InputControlScheme MouseAndKeyboardScheme
     {
         get
         {
-            if (_mMouseAndKeyboardSchemeIndex == -1) _mMouseAndKeyboardSchemeIndex = Asset.FindControlSchemeIndex("Mouse And Keyboard");
-            return Asset.controlSchemes[_mMouseAndKeyboardSchemeIndex];
+            if (m_MouseAndKeyboardSchemeIndex == -1) m_MouseAndKeyboardSchemeIndex = asset.FindControlSchemeIndex("Mouse And Keyboard");
+            return asset.controlSchemes[m_MouseAndKeyboardSchemeIndex];
         }
     }
     public interface IGameplayActions

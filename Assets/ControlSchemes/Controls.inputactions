@@ -145,7 +145,7 @@
                     "id": "1533ac4a-613f-4a77-a642-f4904f71e00b",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=5,y=5)",
+                    "processors": "ScaleVector2(x=10,y=10)",
                     "groups": "Gamepad",
                     "action": "Cursor Control",
                     "isComposite": false,

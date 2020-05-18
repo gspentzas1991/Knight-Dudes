@@ -19,6 +19,14 @@
     {
         Idle = 0,
         Selected = 1,
-        Active =2
+        Active = 2,
+        Attackable = 3
+    }
+
+    public enum UnitFaction
+    {
+        Player = 0,
+        Monster = 1,
+        NPC = 2
     }
 }

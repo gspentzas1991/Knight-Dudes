@@ -120,6 +120,7 @@ MonoBehaviour:
   ProfileImage: {fileID: 0}
   UnitName: 
   Movement: 0
+  Faction: 0
   CombatController: {fileID: 8059985636044822173}
   _movementSpeed: 0
   _animator: {fileID: 4662568198603162485}
@@ -149,6 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13240614542e6d9409f109c5c495d3e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackRange: 1
+  AttackRanges: 01000000
   CurrentHealth: 20
   MaxHealth: 20

@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Code.Grid;
 using Code.Helpers;
 using UnityEngine;
@@ -18,9 +20,10 @@ namespace Code.Units
             if (unitToSelect.State != UnitState.Idle || SelectedUnit==unitToSelect) return;
             DeselectUnit();
             SelectedUnit = unitToSelect;
-            if (SelectedUnit._pathfindingData==null)
+            if (SelectedUnit.PathfindingData==null)
             {
-                SelectedUnit._pathfindingData = await PathfindingHelper.CalculateUnitAvailablePathsAsync(SelectedUnit.transform.position,tileGrid);
+                var unitPosition = SelectedUnit.transform.position;
+                SelectedUnit.PathfindingData = await PathfindingHelper.CalculateUnitAvailablePathsAsync(unitPosition,tileGrid);
             }
         }
         
@@ -34,5 +37,6 @@ namespace Code.Units
             TileRenderingHelper.UnRenderUnitPaths(SelectedUnit);
             SelectedUnit = null;
         }
+
     }
 }
