@@ -115,7 +115,9 @@ namespace Code.UserInput
         /// </summary>
         private void CancelButtonPressed()
         {
+            _unitSelector.SelectedUnit.transform.position = _unitSelector.SelectedUnit.StartTurnPosition;
             _unitSelector.DeselectUnit();
+            
         }
         private void OnEnable()
         {

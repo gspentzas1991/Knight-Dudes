@@ -21,6 +21,7 @@ namespace Code.UserInput
         private void Awake()
         {
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             _playerInputActions= new Controls();
             _playerInputActions.Gameplay.CursorControl.performed += ctx =>_inputCursorMovement=ctx.ReadValue<Vector2>();
             _playerInputActions.Gameplay.CursorControl.canceled += ctx => _inputCursorMovement=ctx.ReadValue<Vector2>();

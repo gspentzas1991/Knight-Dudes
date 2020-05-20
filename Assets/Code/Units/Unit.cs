@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Code.Grid;
 using Code.Models;
@@ -18,6 +19,10 @@ namespace Code.Units
         public UnitFaction Faction;
         public CombatController CombatController;
         /// <summary>
+        /// The position of the unit at the start of the turn
+        /// </summary>
+        public Vector3 StartTurnPosition;
+        /// <summary>
         /// Pathfinding data for all available moves the unit can make from its current position
         /// </summary>
         public List<TilePathfindingData> PathfindingData;
@@ -30,6 +35,10 @@ namespace Code.Units
         [SerializeField] private SpriteRenderer _spriteRenderer;
         #pragma warning restore 0649
 
+        private void Start()
+        {
+            StartTurnPosition = transform.position;
+        }
 
         /// <summary>
         /// Begins the unit's followTilePath Coroutine
@@ -85,6 +94,7 @@ namespace Code.Units
             State = UnitState.Idle;
             _spriteRenderer.color = _defaultSpriteColor;
             PathfindingData = null;
+            StartTurnPosition = transform.position;
         }
     }
 }

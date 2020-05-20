@@ -122,6 +122,7 @@ MonoBehaviour:
   Movement: 0
   Faction: 0
   CombatController: {fileID: 8059985636044822173}
+  StartTurnPosition: {x: 0, y: 0, z: 0}
   _movementSpeed: 0
   _animator: {fileID: 4662568198603162485}
   _spriteRenderer: {fileID: 4662568198603162484}
